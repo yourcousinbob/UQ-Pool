@@ -4,7 +4,7 @@ A carpooling app for UQ students
 ## Enviroment Setup ##
 You can google how to install these for your OS.  
   
-Node v14.7.4 (best to use NVM to manage node version)  
+Node v14.17.4 (best to use NVM to manage node version)  
 Yarn  
 Expo-CLI : ```yarn global add expo-cli```  
   
