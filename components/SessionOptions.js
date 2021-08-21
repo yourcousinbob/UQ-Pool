@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Text, StyleSheet, TouchableOpacity, View, FlatList } from 'react-native';
+import { Icon } from "react-native-elements";
 
 const data = [
     {
@@ -32,6 +33,7 @@ const SessionOptions = () => {
                         <Text style={styles.text}>
                             {item.title}
                         </Text>
+                        <Icon  style={styles.icon} name="arrowright" color="white" type="antdesign" />
                     </View>
                     
                 </TouchableOpacity>
@@ -63,6 +65,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    icon: {
+        backgroundColor: 'grey',
+        borderRadius: 100,
+        marginTop: 5,
+
+
     }
 });
 
