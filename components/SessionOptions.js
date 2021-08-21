@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, Text, StyleSheet, TouchableOpacity, View, FlatList } from 'react-native';
 import { Icon } from "react-native-elements";
@@ -18,13 +19,17 @@ const data = [
 ];
 
 const SessionOptions = () => {
+    const navigation = useNavigation();
+
     return (
         <FlatList
             data={data}
             horizontal
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity 
+                onPress={() => navigation.navigate(item.screen)}
+                style={styles.button}>
                     <View>
                         <Image 
                             style={styles.image}
@@ -70,8 +75,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'grey',
         borderRadius: 100,
         marginTop: 5,
-
-
     }
 });
 

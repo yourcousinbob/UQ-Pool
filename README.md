@@ -20,4 +20,4 @@ When you use a package, ensure that it getts added to the package.json file by r
 
 ### Versions ###
 1. Node v14.17.4 (LTS)
-2. Tested on Android 11.0x86 Pixel 5
+2. Tested on Android 11.0x86 Pixel 4 XL
