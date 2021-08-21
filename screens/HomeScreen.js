@@ -4,7 +4,7 @@ import SessionOptions from '../components/SessionOptions';
 
 const HomeScreen = () => {
     return (
-        <SafeAreaView style={{backgroundColor:"white"}}>
+        <SafeAreaView style={{backgroundColor:"white", height:"100%"}}>
             <View style={{padding:20}}>
                 <Image
                     style={{
