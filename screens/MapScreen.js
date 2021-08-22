@@ -1,12 +1,13 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import Map from '../components/Map'
 
 const MapScreen = () => {
     return (
         <View>
-            <Text>This is the Map Stuff</Text>
-
-            <View style={styles.view}></View>
+            <View style={styles.view}>
+                <Map/>
+            </View>
             <View style={styles.view}></View>
         </View>
     )
