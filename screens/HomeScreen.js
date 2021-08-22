@@ -47,7 +47,7 @@ const HomeScreen = () => {
                         key: GOOGLE_MAPS_API_KEY,
                         language: 'en'
                     }}
-                    placeholder="Where are you going?"
+                    placeholder="Where are you?"
                     nearbyPlacesAPI="GooglePlacesSearch"
                     debounce={400}
                 />
