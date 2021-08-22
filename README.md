@@ -10,6 +10,22 @@ If you haven't used react before, I highly recommend you watchn the first half o
 
 Once you have the correct version of node running, run ```yarn install``` to install the package dependanices.
 
+### Google API Key ###
+To use the google map API's, and the autocomplete, you must have your API
+key installed. This key should stay private.
+
+1. Log in at https://console.cloud.google.com/.
+2. Using the 'Select a project' button in the header, create a new project.
+3. On the sidebar, navigate to 'APIs & Services>Dashboard'. 
+4. You may need to select the project you created. 
+5. On the dashboard, at the top, select 'Enable APIs and Services'
+6. From this API Library page, you can enable all the nessecary APIs you need.
+7. Go to the 'Credentials' page through sidebar and create an API Key. 
+8. Go the the file '.env' in the root folder and paste the following ```GOOGLE_MAPS_API_KEY={Your API Key}```.
+9. You will need to setup billing on your account for this to work.
+
+Nathan currently has Directions, Places and Distance Matrix APIs enabled. 
+
 ## How to run ##
 Ensure you have gone through the steps in enviroment setup. 
 

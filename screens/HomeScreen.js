@@ -1,6 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
 import SessionOptions from '../components/SessionOptions';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GOOGLE_MAPS_API_KEY } from "@env";
 
 const HomeScreen = () => {
     return (
@@ -14,6 +16,25 @@ const HomeScreen = () => {
                         require('../assets/logo.png')
                     }
                 />
+
+                <GooglePlacesAutocomplete 
+                        styles={{
+                            container: {
+                                flex: 0,
+                            },
+                            textInput: {
+                                fontSize:18,
+                            }
+                        }}
+                        query={{
+                            key: GOOGLE_MAPS_API_KEY,
+                            language: 'en'
+                        }}
+                        placeholder="Where are you going?"
+                        nearbyPlacesAPI="GooglePlacesSearch"
+                        debounce={400}
+                />
+
                 <SessionOptions/>
             </View>
         </SafeAreaView>
