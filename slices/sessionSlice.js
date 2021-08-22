@@ -7,9 +7,9 @@ const initialState = {
 }
 
 export const sessionSlice = createSlice({
-    name: 'session', 
+    name: "session", 
     initialState,
-    reducer: {
+    reducers: {
         setOrigin: (state, action) => {
             state.origin = action.payload;
         },
@@ -23,7 +23,7 @@ export const sessionSlice = createSlice({
 });
 
 export const { setOrigin, setDestination, 
-    setTravelTimeInformation} = sessionSlice.actions;
+    setTravelTimeInformation } = sessionSlice.actions;
 
 // Selectors
 export const selectOrigin = (state) => state.session.origin;

@@ -2,6 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, Text, StyleSheet, TouchableOpacity, View, FlatList } from 'react-native';
 import { Icon } from "react-native-elements";
+import { selectOrigin } from '../slices/sessionSlice';
+import { useSelector } from 'react-redux';
 
 const data = [
     {
@@ -20,6 +22,7 @@ const data = [
 
 const SessionOptions = () => {
     const navigation = useNavigation();
+    const origin = useSelector(selectOrigin);
 
     return (
         <FlatList
@@ -28,9 +31,13 @@ const SessionOptions = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
                 <TouchableOpacity 
-                onPress={() => navigation.navigate(item.screen)}
-                style={styles.button}>
-                    <View>
+                    onPress={() => navigation.navigate(item.screen)}
+                    style={styles.button}
+                    disabled={!origin}
+                >
+                    <View 
+                        style={!origin ? styles.cant_press : styles.none}
+                    >
                         <Image 
                             style={styles.image}
                             source={{ uri: item.image }}
@@ -74,7 +81,13 @@ const styles = StyleSheet.create({
     icon: {
         backgroundColor: 'grey',
         borderRadius: 100,
-        marginTop: 5,
+        margin: 5,
+    },
+    cant_press: {
+        opacity: 0.2
+    },
+    none: {
+
     }
 });
 
