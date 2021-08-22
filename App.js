@@ -10,7 +10,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 /* Screens */
 import HomeScreen from './screens/HomeScreen';
 import RiderScreen from './screens/RiderScreen';
-import MapScreen from './screens/MapScreen';
 
 
 export default function App() {
@@ -26,17 +25,11 @@ export default function App() {
               component={HomeScreen}
               options={{headerShown:false}}
             />
-             <Stack.Screen
-              name='MapScreen'
-              component={MapScreen}
-              options={{headerShown:false}}
-            />
             <Stack.Screen 
               name='RiderScreen'
               component={RiderScreen}
               options={{headerShown:false}}
             />
-           
           </Stack.Navigator>
         </SafeAreaProvider>
       </NavigationContainer>
