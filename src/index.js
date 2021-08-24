@@ -51,13 +51,13 @@ app.post('/logUser', async(req, res) => {
     
 });
 
-app.get('/getAllUsers', async(req, res) => {
+app.post('/logoutUser', async(req, res) => {
     
     // await user.
     
 });
 
-app.get('/getUserHistory', async(req, res) => {
+app.get('/getAllUsers', async(req, res) => {
     
     // await user.
     
@@ -67,19 +67,19 @@ app.get('/getUserHistory', async(req, res) => {
 Actions related to updating the dynamic userLocation table
 */
 
-app.post('/updateUserLocation', async(req, res) => {
+app.post('/userLocation', async(req, res) => {
     
     // await navigation.
     
 });
 
-app.post('/getUserLocation', async(req, res) => {
+app.get('/userLocation', async(req, res) => {
     
     // await navigation.
     
 });
 
-app.post('/getAllLocations', async(req, res) => {
+app.get('/userLocations', async(req, res) => {
     
     // await navigation.
     
