@@ -63,25 +63,6 @@ app.delete('/user', async(req, res) => {
             res.send(payload);
         });
 
-/* Navigation section
-Actions related to updating the dynamic userLocation table
-*/
-
-        app.post('/location', async(req, res) => {
-            let payload = await navigation.update(req.body);
-            res.send(payload);
-              io.broadcast.emit({user: req.body.user, location: req.body.location});
-});
-
-app.get('/location', async(req, res) => {
-    // await navigation.
-    
-});
-
-app.get('/locations', async(req, res) => {
-    // await navigation.
-});
-
 /* booking section:
 */
 
@@ -119,15 +100,31 @@ const server = app.listen(port, (err) => {
 const io = require('socket.io')(server);
 
 /* Webhook section
-These methods should provide user connectivity, location update broadcast
-and disconnection notifications to all users
+These are a reflection of the user/location/booking/review methods but for 
+webhooks requiring persistent connections
 */
 
 io.on('connection', (socket) => {
   console.log('a user connected');
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
+// User section
+  // Broadcasting user has logged in or out
+  // New user location to be added to the table
+  
+  socket.on('login', async (body) => {
+
 });
 
+  socket.on('logout', (body) => {
+      
+  });
+
+// Navigation and location management
+
+  socket.on('location', (body) => {
+      let payload = navigation.update(body);
+      io.emit('location', payload);
+        socket.broadcast.emit('location', body);
+    });
+  
+});
