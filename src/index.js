@@ -39,25 +39,42 @@ rewards
 
 // Login/registration section
 
-app.post('/createUser', async(req, res) => {
+app.post('/user', async(req, res) => {
+    console.log(req.body.user);
+    // await user.
+    
+    
+});
+
+app.post('/login', async(req, res) => {
     
     // await user.
     
 });
 
-app.post('/logUser', async(req, res) => {
-    
-    // await user.
-    
-});
-
-app.post('/logoutUser', async(req, res) => {
-    
-    // await user.
-    
-});
-
+<<<<<<< Local Changes
+<<<<<<< Local Changes
+app.post('/logout', async(req, res) => {
+=======
 app.get('/getAllUsers', async(req, res) => {
+>>>>>>> External Changes
+=======
+app.post('/logoutUser', async(req, res) => {
+>>>>>>> External Changes
+    
+    // await user.
+    
+});
+
+<<<<<<< Local Changes
+<<<<<<< Local Changes
+app.get('/users', async(req, res) => {
+=======
+app.get('/getUserHistory', async(req, res) => {
+>>>>>>> External Changes
+=======
+app.get('/getAllUsers', async(req, res) => {
+>>>>>>> External Changes
     
     // await user.
     
@@ -67,19 +84,43 @@ app.get('/getAllUsers', async(req, res) => {
 Actions related to updating the dynamic userLocation table
 */
 
+<<<<<<< Local Changes
+<<<<<<< Local Changes
+app.post('/location', async(req, res) => {
+=======
+app.post('/updateUserLocation', async(req, res) => {
+>>>>>>> External Changes
+=======
 app.post('/userLocation', async(req, res) => {
+>>>>>>> External Changes
     
     // await navigation.
     
 });
 
+<<<<<<< Local Changes
+<<<<<<< Local Changes
+app.get('/location', async(req, res) => {
+=======
+app.post('/getUserLocation', async(req, res) => {
+>>>>>>> External Changes
+=======
 app.get('/userLocation', async(req, res) => {
+>>>>>>> External Changes
     
     // await navigation.
     
 });
 
+<<<<<<< Local Changes
+<<<<<<< Local Changes
+app.get('/locations', async(req, res) => {
+=======
+app.post('/getAllLocations', async(req, res) => {
+>>>>>>> External Changes
+=======
 app.get('/userLocations', async(req, res) => {
+>>>>>>> External Changes
     
     // await navigation.
     
