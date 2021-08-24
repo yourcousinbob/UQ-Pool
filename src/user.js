@@ -62,6 +62,16 @@ module.exports = {
       });
         },
       
+        delete(user, result) {
+            pool.getConnection(function(err, con) {
+        con.query("DELETE FROM user WHERE username='"+body.user+"';", (err,rows) => {
+          if(err) throw err;
+          json.msg = "user successfully deleted";
+        result(json);
+        con.end((err) => {
+        });
+        });
+    });
+          }
       
-    
 }
