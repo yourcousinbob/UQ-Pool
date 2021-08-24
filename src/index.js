@@ -63,7 +63,7 @@ app.post('/logout', async(req, res) => {
         return await user.users(req.body);
     });
 
-        app.get('/userHistory', async(req, res) => {
+        app.get('/history', async(req, res) => {
             return await user.history(req.body.user);
         });
 

@@ -90,6 +90,24 @@ module.exports = {
           });
           });
       });
-            }
+            },
+            
+            history(user, result) {
+                var json = {};
+                var users = [];
+                pool.getConnection(function(err, con) {
+            con.query("SELECT user FROM user;", (err,rows) => {
+              if(err) throw err;
+              for (var i = 0; i < rows.length; i++){
+              users.push(rows[i].user)
+              }
+              json.users = users;
+            result(json);
+            con.end((err) => {
+            });
+            });
+        });
+              }
             
 }
+
