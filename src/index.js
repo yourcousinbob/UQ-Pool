@@ -26,7 +26,6 @@ const book = require('./book');
 const review = require('./review');
 const reward = require('./reward');
 
-
 /* request section:
 These should reflect the state machine's side effects for
 login/registration
@@ -37,34 +36,31 @@ rating/review
 rewards
 */
 
-// Login/registration section
+// registration section
 
 app.post('/user', async(req, res) => {
-    return await user.create(req.body);
+    let payload = await user.create(req.body);
+    res.send(payload);
 });
 
 app.put('/user', async(req, res) => {
-    return await user.update(req.body);
+    let payload = await user.update(req.body);
+    res.send(payload);
 });
 
 app.delete('/user', async(req, res) => {
-    return await user.delete(req.body.user);
-});
-
-app.post('/login', async(req, res) => {
-    //return await user.log(req.body.user);
-});
-
-app.post('/logout', async(req, res) => {
-    //return await user.logout(req.body.user);
+    let payload = await user.delete(req.body.user);
+    res.send(payload);
 });
 
     app.get('/users', async(req, res) => {
-        return await user.users(req.body);
+        let payload = await user.users(req.body);
+        res.send(payload);
     });
 
         app.get('/history', async(req, res) => {
-            return await user.history(req.body.user);
+            let payload = await user.history(req.body.user);
+            res.send(payload);
         });
 
 /* Navigation section
@@ -72,7 +68,9 @@ Actions related to updating the dynamic userLocation table
 */
 
         app.post('/location', async(req, res) => {
-            return await navigation.update(req.body);
+            let payload = await navigation.update(req.body);
+            res.send(payload);
+              io.broadcast.emit({user: req.body.user, location: req.body.location});
 });
 
 app.get('/location', async(req, res) => {
@@ -88,41 +86,48 @@ app.get('/locations', async(req, res) => {
 */
 
 app.post('/requestPool', async(req, res) => {
-    
     // await book.
-    
 });
 
 app.post('/cancelRequest', async(req, res) => {
-    
     // await book.
-    
 });
 
 app.post('/acceptPool', async(req, res) => {
-    
     // await book.
-    
 });
 
 app.post('/rejectPool', async(req, res) => {
-    
     // await book.
-    
 });
 
 /* Review section 
 */
 
 app.post('/reviewDriver', async(req, res) => {
-    
     // await review.
-    
 });
 
-app.listen(port, (err) => {
+const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
   }
   console.log(`server is listening on ${port}`);
 })
+
+// webhook section
+const io = require('socket.io')(server);
+
+/* Webhook section
+These methods should provide user connectivity, location update broadcast
+and disconnection notifications to all users
+*/
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
