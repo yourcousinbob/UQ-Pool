@@ -28,6 +28,8 @@ const reward = require('./reward');
 
 // available users being connected
 var connected = {};
+// Chat rooms for accepted pools 
+var pools = {};
 
 /* request section:
 These should reflect the state machine's side effects for
@@ -96,48 +98,63 @@ io.on('connection', async (socket) => {
   // New user location to be added to the table
   
   socket.on('login', (body) => {
+      
       connected[body.user] = socket;
+      socket.broadcast.emit('login', body);
+      
   });
 
   socket.on('logout', (body) => {
+      
       if (body.user in connected) {
           delete connected[body.user];
           socket.broadcast.emit('logout', body);
       }
+      
   });
 
 // Navigation and location management
 
   socket.on('location', (body) => {
+      
       let payload = navigation.update(body);
       io.emit('location', payload);
         socket.broadcast.emit('location', body);
+        
     });
 
 // Booking section
     
     socket.on('request', (body) => {
+        
         if (body.driver in connected) {
             connected[body.driver].emit('request', body.passenger);
         }
+        
     });
   
     socket.on('cancel', (body) => {
+        
         if (body.driver in connected) {
             connected[body.driver].emit('cancel', body.passenger);
         }
+        
     });
     
     socket.on('accept', (body) => {
+        
         if (body.passenger in connected) {
             connected[body.passenger].emit('accept', body.driver);
         }
+        
     });
     
     socket.on('reject', (body) => {
+        
         if (body.passenger in connected) {
             connected[body.passenger].emit('reject', body.driver);
         }
+        
     });
     
 });
