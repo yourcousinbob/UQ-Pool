@@ -43,7 +43,7 @@ app.post('/user', async(req, res) => {
     return await user.create(req.body);
 });
 
-app.update('/user', async(req, res) => {
+app.put('/user', async(req, res) => {
     return await user.update(req.body);
 });
 

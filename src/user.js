@@ -8,13 +8,13 @@ module.exports = {
     console.log("forbidden character in username");
     json.error = 0;
     json.msg = "illegal character";
-    result(json]);
+    result(json);
     }
-    if (body.email.match([a-zA-Z0-9_\-]*@[a-zA-Z].uq.edu.au/g) !== null) {
+    if (body.email.match(/[a-zA-Z0-9_\-]*@[a-zA-Z].uq.edu.au/g) !== null) {
     console.log("non UQ email");
     json.error = 1;
     json.msg = "not a UQ email";
-    result(json]);
+    result(json);
     }
         pool.getConnection(function(err, con) {
     con.query("SELECT username FROM user WHERE username='"+body.user+"';", (err,rows) => {
@@ -23,7 +23,7 @@ module.exports = {
     console.log("User already exists");
     json.error = 2;
     json.msg = "user already exists";
-     result([json);
+     result(json);
     }else{
     const user = { user: body.user, password: body.password, email: body.email};
     con.query('INSERT INTO USERS  SET ?', user, (err, response) => {
@@ -47,7 +47,7 @@ module.exports = {
       console.log("user doesn't exist");
       json.error = 3;
       json.msg = "user does not exist";
-       result([json);
+       result(json);
       }else{
       const user = { password: body.password, email: body.email};
       con.query('INSERT INTO USERS  SET ?', user, (err, response) => {
@@ -75,7 +75,7 @@ module.exports = {
     });
           },
 
-          users(, result) {
+          users(result) {
               var json = {};
               var users = [];
               pool.getConnection(function(err, con) {
