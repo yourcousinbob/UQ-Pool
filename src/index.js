@@ -44,11 +44,11 @@ app.post('/user', async(req, res) => {
 });
 
 app.update('/user', async(req, res) => {
-    //return await user.update(req.body);
+    return await user.update(req.body);
 });
 
 app.delete('/user', async(req, res) => {
-    //return await user.delete(req.body.user);
+    return await user.delete(req.body.user);
 });
 
 app.post('/login', async(req, res) => {
@@ -60,11 +60,11 @@ app.post('/logout', async(req, res) => {
 });
 
     app.get('/users', async(req, res) => {
-        //return await user.users();
+        return await user.users(req.body);
     });
 
         app.get('/userHistory', async(req, res) => {
-            //return await user.history(req.body.user);
+            return await user.history(req.body.user);
         });
 
 /* Navigation section
