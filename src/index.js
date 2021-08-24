@@ -72,9 +72,7 @@ Actions related to updating the dynamic userLocation table
 */
 
         app.post('/location', async(req, res) => {
-    
-    // await navigation.
-    
+            return await navigation.update(req.body);
 });
 
 app.get('/location', async(req, res) => {
@@ -84,7 +82,6 @@ app.get('/location', async(req, res) => {
 
 app.get('/locations', async(req, res) => {
     // await navigation.
-    
 });
 
 /* booking section:
