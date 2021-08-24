@@ -40,7 +40,7 @@ rewards
 // Login/registration section
 
 app.post('/user', async(req, res) => {
-    //return await user.create(req.body);
+    return await user.create(req.body);
 });
 
 app.update('/user', async(req, res) => {
