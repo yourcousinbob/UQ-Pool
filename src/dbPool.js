@@ -2,10 +2,10 @@ const sql = require('mysql')
 
 var pool      = sql.createPool({
 connectionLimit : 100,
-host: 'local',
+host: '127.0.0.1',
 user : 'root',
-password : 'test',
-database : 'uq_pool'
+password : 'GeN7NoLoBl@ckJ@ck',
+database : 'UQPool'
 });
 
 module.exports = pool;

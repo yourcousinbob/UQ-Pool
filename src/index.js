@@ -44,28 +44,33 @@ rewards
 // registration section
 
 app.post('/user', async(req, res) => {
-    let payload = await user.create(req.body);
-    res.send(payload);
+    await user.create(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
 app.put('/user', async(req, res) => {
-    let payload = await user.update(req.body);
-    res.send(payload);
+    await user.update(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
 app.delete('/user', async(req, res) => {
-    let payload = await user.delete(req.body.user);
-    res.send(payload);
+    await user.delete(req.body.user, function (payload) {
+        res.send(payload);
+    });
 });
 
     app.get('/users', async(req, res) => {
-        let payload = await user.users(req.body);
-        res.send(payload);
+        await user.users(req.body, function (payload) {
+            res.send(payload);
+        });
     });
 
         app.get('/history', async(req, res) => {
-            let payload = await user.history(req.body.user);
-            res.send(payload);
+            await user.history(req.body.user, function (payload) {
+                res.send(payload);
+            });
         });
 
 /* Review section 

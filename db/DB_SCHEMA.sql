@@ -1,8 +1,9 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'GeN7NoLoBl@ckJ@ck';
 DROP TABLE activeDriver;
 DROP TABLE activeRider;
 DROP TABLE destination;
 DROP TABLE history;
-DROP TABLE market;
+#DROP TABLE market;
 DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE user;
