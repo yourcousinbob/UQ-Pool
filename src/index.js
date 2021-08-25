@@ -23,9 +23,13 @@ app.use(morgan('combined'));
 const user = require('./user');
 const navigation = require('./navigation');
 const book = require('./book');
-const review = require('./review');
+const rate = require('./rate');
 const reward = require('./reward');
 
+// available users being connected
+var connected = {};
+// Chat rooms for accepted pools 
+var pools = {};
 
 /* request section:
 These should reflect the state machine's side effects for
@@ -37,93 +41,128 @@ rating/review
 rewards
 */
 
-// Login/registration section
+// registration section
 
-app.post('/createUser', async(req, res) => {
-    
-    // await user.
-    
+app.post('/user', async(req, res) => {
+    await user.create(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
-app.post('/logUser', async(req, res) => {
-    
-    // await user.
-    
+app.put('/user', async(req, res) => {
+    await user.update(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
-app.post('/logoutUser', async(req, res) => {
-    
-    // await user.
-    
+app.delete('/user', async(req, res) => {
+    await user.delete(req.body.user, function (payload) {
+        res.send(payload);
+    });
 });
 
-app.get('/getAllUsers', async(req, res) => {
-    
-    // await user.
-    
-});
+    app.get('/users', async(req, res) => {
+        await user.users(req.body, function (payload) {
+            res.send(payload);
+        });
+    });
 
-/* Navigation section
-Actions related to updating the dynamic userLocation table
-*/
-
-app.post('/userLocation', async(req, res) => {
-    
-    // await navigation.
-    
-});
-
-app.get('/userLocation', async(req, res) => {
-    
-    // await navigation.
-    
-});
-
-app.get('/userLocations', async(req, res) => {
-    
-    // await navigation.
-    
-});
-
-/* booking section:
-*/
-
-app.post('/requestPool', async(req, res) => {
-    
-    // await book.
-    
-});
-
-app.post('/cancelRequest', async(req, res) => {
-    
-    // await book.
-    
-});
-
-app.post('/acceptPool', async(req, res) => {
-    
-    // await book.
-    
-});
-
-app.post('/rejectPool', async(req, res) => {
-    
-    // await book.
-    
-});
+/* History has only timestamp ATM, so not sure how a particular user can retrive a history of chats.
+    Needs rethinking
+    */
+        app.get('/history', async(req, res) => {
+            await user.history(req.body.user, function (payload) {
+                res.send(payload);
+            });
+        });
 
 /* Review section 
 */
 
-app.post('/reviewDriver', async(req, res) => {
-    
-    // await review.
-    
+app.post('/rate', async(req, res) => {
+    await rate.driver(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
-app.listen(port, (err) => {
+const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
   }
   console.log(`server is listening on ${port}`);
 })
+
+// webhook section
+const io = require('socket.io')(server);
+
+/* Webhook section
+These are a reflection of the user/location/booking/review methods but for 
+webhooks requiring persistent connections
+*/
+
+io.on('connection', async (socket) => {
+  console.log('a user connected');
+
+// User section
+  // Broadcasting user has logged in or out
+  // New user location to be added to the table
+  
+  socket.on('login', (body) => {
+      
+      connected[body.user] = socket;
+      socket.broadcast.emit('login', body);
+      
+  });
+
+  socket.on('logout', (body) => {
+      
+      if (body.user in connected) {
+          delete connected[body.user];
+          socket.broadcast.emit('logout', body);
+      }
+      
+  });
+
+// Navigation and location management
+
+  socket.on('location', (body) => {
+      
+        socket.broadcast.emit('location', body);
+        
+    });
+
+// Booking section
+    
+    socket.on('request', (body) => {
+        
+        if (body.driver in connected) {
+            connected[body.driver].emit('request', body.passenger);
+        }
+        
+    });
+  
+    socket.on('cancel', (body) => {
+        
+        if (body.driver in connected) {
+            connected[body.driver].emit('cancel', body.passenger);
+        }
+        
+    });
+    
+    socket.on('accept', (body) => {
+        
+        if (body.passenger in connected) {
+            connected[body.passenger].emit('accept', body.driver);
+        }
+        
+    });
+    
+    socket.on('reject', (body) => {
+        
+        if (body.passenger in connected) {
+            connected[body.passenger].emit('reject', body.driver);
+        }
+        
+    });
+    
+});
