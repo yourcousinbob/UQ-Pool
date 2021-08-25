@@ -41,7 +41,7 @@ PRIMARY KEY (time_stamp));
 CREATE TABLE rating (
 driver_id varchar(8) NOT NULL,
 driver_rating INTEGER NOT NULL,
-PRIMARY KEY (driver_id),
+#PRIMARY KEY (driver_id),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE route (
@@ -62,4 +62,8 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 "I like pancakes and syrup on sunday mornings",
 "https://www.someDomain.com/images/photo.jpg",
 0
+);
+INSERT INTO rating (driver_id, driver_rating) VALUES(
+43211157,
+5
 );

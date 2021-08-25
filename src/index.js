@@ -23,7 +23,7 @@ app.use(morgan('combined'));
 const user = require('./user');
 const navigation = require('./navigation');
 const book = require('./book');
-const review = require('./review');
+const rate = require('./rate');
 const reward = require('./reward');
 
 // available users being connected
@@ -67,6 +67,9 @@ app.delete('/user', async(req, res) => {
         });
     });
 
+/* History has only timestamp ATM, so not sure how a particular user can retrive a history of chats.
+    Needs rethinking
+    */
         app.get('/history', async(req, res) => {
             await user.history(req.body.user, function (payload) {
                 res.send(payload);
@@ -76,8 +79,10 @@ app.delete('/user', async(req, res) => {
 /* Review section 
 */
 
-app.post('/reviewDriver', async(req, res) => {
-    // await review.
+app.post('/rate', async(req, res) => {
+    await rate.driver(req.body, function (payload) {
+        res.send(payload);
+    });
 });
 
 const server = app.listen(port, (err) => {

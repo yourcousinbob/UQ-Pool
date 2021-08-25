@@ -1,0 +1,1 @@
+mysql -u root -p UQPool ./DB_SCHEMA.sql
