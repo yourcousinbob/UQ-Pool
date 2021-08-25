@@ -8,7 +8,7 @@ import { setDestination, setOrigin } from "../slices/sessionSlice"
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
-    
+     
     return (
         <SafeAreaView style={{backgroundColor:"white", height:"100%"}}>
             <View style={{padding:20}}>
@@ -24,10 +24,11 @@ const HomeScreen = () => {
                 <GooglePlacesAutocomplete 
                     styles={{
                         container: {
+                            backgroundColor: "white",
                             flex: 0,
                         },
                         textInput: {
-                            fontSize:18,
+                            fontSize: 18,
                         }
                     }}
                     onPress={(data, details = null) => {

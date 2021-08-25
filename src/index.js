@@ -127,8 +127,6 @@ io.on('connection', async (socket) => {
 
   socket.on('location', (body) => {
       
-      let payload = navigation.update(body);
-      io.emit('location', payload);
         socket.broadcast.emit('location', body);
         
     });
