@@ -89,14 +89,14 @@ module.exports = {
     });
           },
 
-          users(result) {
+          users(body, result) {
               var json = {};
               var users = [];
               pool.getConnection(function(err, con) {
-          con.query("SELECT user FROM user;", (err,rows) => {
+          con.query("SELECT sid, first_name, last_name, phone FROM user;", (err,rows) => {
             if(err) throw err;
             for (var i = 0; i < rows.length; i++){
-            users.push(rows[i].user)
+                users.push({sid: rows[i].sid, first_name: rows[i].first_name, last_name: rows[i].last_name, phone: rows[i].phone});
             }
             json.users = users;
           result(json);
