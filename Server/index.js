@@ -107,6 +107,9 @@ io.on('connection', async (socket) => {
   // Broadcasting user has logged in or out
   // New user location to be added to the table
   
+  // user x logging in
+  // Add to either activeDriver | activRider 
+  // broadcast to all sockets in connected with locaiton
   socket.on('login', (body) => {
       
       connected[body.user] = socket;
@@ -114,6 +117,9 @@ io.on('connection', async (socket) => {
       
   });
 
+// user x logging out
+  // Get rid of user in either activeDriver | activeRider
+  // delete socket connection in connected
   socket.on('logout', (body) => {
       
       if (body.user in connected) {
@@ -125,6 +131,8 @@ io.on('connection', async (socket) => {
 
 // Navigation and location management
 
+// user x has refreshed their location
+  // broadcast new location to all sockets in connected
   socket.on('location', (body) => {
       
         socket.broadcast.emit('location', body);
@@ -132,7 +140,9 @@ io.on('connection', async (socket) => {
     });
 
 // Booking section
-    
+
+// User a requests to user b    
+    // socket searches for user b in connected sockets and sends request
     socket.on('request', (body) => {
         
         if (body.driver in connected) {
@@ -141,6 +151,8 @@ io.on('connection', async (socket) => {
         
     });
   
+  // user a cancels the request to user b
+    // search for user b socket in connected and send cancel message
     socket.on('cancel', (body) => {
         
         if (body.driver in connected) {
@@ -149,6 +161,9 @@ io.on('connection', async (socket) => {
         
     });
     
+    // user b accepts request
+    // add a route if it doesn't exist
+    // Then decrease capacity
     socket.on('accept', (body) => {
         
         if (body.passenger in connected) {
@@ -157,6 +172,8 @@ io.on('connection', async (socket) => {
         
     });
     
+    // user b rejects and sends message to user 
+    // search for user a socket and send rejection notice
     socket.on('reject', (body) => {
         
         if (body.passenger in connected) {

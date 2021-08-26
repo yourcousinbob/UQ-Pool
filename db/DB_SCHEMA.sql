@@ -8,8 +8,9 @@ DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE user;
 
+# Add Password
 CREATE TABLE user (
-sid varchar(8) NOT NULL  UNIQUE,
+sid varchar(8) NOT NULL UNIQUE,
 first_name varchar(50) NOT NULL,
 last_name varchar(50) NOT NULL,
 email varchar(100) NOT NULL,
@@ -20,37 +21,52 @@ tokens INTEGER,
 PRIMARY KEY (sid));
 
 CREATE TABLE activeDriver (
-location varchar(30) NOT NULL UNIQUE,
-capacity INTEGER,
-PRIMARY KEY (location));
+driver_id varchar(8) NOT NULL UNIQUE,
+destination_id INTEGER NOT NULL,
+location_lat FLOAT NOT NULL,
+location_long FLOAT NOT NULL,
+capacity INTEGER NOT NULL);
+FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
+FOREIGN KEY (destination_id) REFERENCES destination(location_id) ON DELETE CASCADE);
 
 CREATE TABLE activeRider (
-pickup_location INTEGER NOT NULL UNIQUE,
-PRIMARY KEY (pickup_location));
+rider_id varchar(8) NOT NULL UNIQUE,
+destination_id INTEGER NOT NULL,
+pickup_lat FLOAT NOT NULL,
+pickup_long FLOAT NOT NULL);
+FOREIGN KEY (rider_id) REFERENCES user(sid) ON DELETE CASCADE,
+FOREIGN KEY (destination_id) REFERENCES destination(location_id) ON DELETE CASCADE);
 
 CREATE TABLE destination (
 location_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-destination text NOT NULL,
-PRIMARY KEY (location_id));
+sid varchar(8) NOT NULL,
+destination varchar(100) NOT NULL,
+PRIMARY KEY (location_id),
+FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE history (
 time_stamp DATE NOT NULL UNIQUE,
-message text NOT NULL,
-PRIMARY KEY (time_stamp));
+route_id INTEGER NOT NULL,
+message TEXT NOT NULL,
+PRIMARY KEY (time_stamp),
+FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
 CREATE TABLE rating (
-driver_id varchar(8) NOT NULL,
-driver_rating INTEGER NOT NULL,
-#PRIMARY KEY (driver_id),
-FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
+sid varchar(8) NOT NULL,
+rating INTEGER NOT NULL,
+FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE route (
-route_id INTEGER NOT NULL  UNIQUE AUTO_INCREMENT,
+route_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+driver_id varchar(8) NOT NULL,
+rider_id varchar(8) NOT NULL,
 route_order INTEGER NOT NULL,
 start_time DATE,
 pickup_time DATE,
 arrive_time DATE,
-PRIMARY KEY (route_id));
+PRIMARY KEY (route_id),
+FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
+FOREIGN KEY (rider_id) REFERENCES user(sid) ON DELETE CASCADE);
 
 
 INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
@@ -63,7 +79,7 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 "https://www.someDomain.com/images/photo.jpg",
 0
 );
-INSERT INTO rating (driver_id, driver_rating) VALUES(
+INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
 );

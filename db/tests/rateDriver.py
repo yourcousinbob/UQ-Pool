@@ -6,14 +6,14 @@ headers = {'content-type': 'application/json'}
 
 # Testing inexistent driver
 data = {
-    "driver_id": 22222222,
-"driver_rating": 5
+    "sid": 22222222,
+    "rating": 5
 }
 
 # Testing successful rating
 data2 = {
-    "driver_id": 43211157,
-"driver_rating": 5
+    "sid": 43211157,
+    "rating": 5
 }
 
 url = 'http://localhost:7777/rate'
