@@ -2,9 +2,9 @@ const sql = require('mysql')
 
 var pool      = sql.createPool({
 connectionLimit : 100,
-host: '127.0.0.1',
+host: 'localhost',
 user : 'root',
-password : 'GeN7NoLoBl@ckJ@ck',
+password : 'WilsonLOVE',
 database : 'UQPool',
     multipleStatements: true
 });
