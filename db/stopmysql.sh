@@ -1,1 +1,1 @@
-sudo /usr/local/mysql/support-files/mysql.server stop
+sudo systemctl stop mysql

@@ -1,1 +1,1 @@
-/usr/local/mysql/bin/mysql -u root -p
+/usr/bin/mysql -u production -p

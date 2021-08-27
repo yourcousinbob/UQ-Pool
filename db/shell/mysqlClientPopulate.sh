@@ -1,1 +1,1 @@
-mysql -u root -p UQPool ./DB_SCHEMA.sql
+mysql -u production -p WilsonLOVE ./DB_SCHEMA.sql
