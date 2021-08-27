@@ -25,6 +25,7 @@ destination_id INTEGER NOT NULL,
 location_lat FLOAT NOT NULL,
 location_long FLOAT NOT NULL,
 capacity INTEGER NOT NULL,
+PRIMARY KEY (driver_id),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
 FOREIGN KEY (destination_id) REFERENCES destination(location_id) ON DELETE CASCADE);
 
@@ -33,6 +34,7 @@ rider_id varchar(8) NOT NULL UNIQUE,
 destination_id INTEGER NOT NULL,
 pickup_lat FLOAT NOT NULL,
 pickup_long FLOAT NOT NULL,
+PRIMARY KEY (rider_id),
 FOREIGN KEY (rider_id) REFERENCES user(sid) ON DELETE CASCADE,
 FOREIGN KEY (destination_id) REFERENCES destination(location_id) ON DELETE CASCADE);
 
