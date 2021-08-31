@@ -3,6 +3,11 @@ const pool = require('./dbPool')
 module.exports = {
 
     //Search for a driver
+    // body requires: 
+    // rider_id, 
+    // location_lat, 
+    // location_long, 
+    // destination,
     requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
@@ -10,14 +15,30 @@ module.exports = {
                 if(err) throw err;
                 if (rows.length > 0){
                     console.log("User already booked"+body.sid);
-                    json.error = 4;
+                    json.error = 0;
                     json.msg = "user already booked";
                     result(json);
                 } else {
-                    //con.query("SELECT driver_id, location_lat, location_long, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                        // Insert heuristic algorithm return driverid:heuristic
-                    //)};
-                }
+                    con.query("SELECT driver_id, location_lat, location_long, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+                        if (rows.length < 1 || destination != rows.destination) { //Might have to do a proximtiy check
+                            console.log("No available drivers");
+                        } else {
+                            driver_heuristics = {};
+                            for (let i = 0; i < rows.length; i++) {
+                                //Distance calc assuming all entries sound THIS
+                                //IS NOT HOW DISTANCE WORKS BUT FILLER FOR NOW
+                                delta_lat = Math.abs(rows.location_lat - body.location_lat)
+                                delta_long = Math.abs(rows.location_long - body.location_long)
+                                euclidian_distance = Math.sqrt(Math.pow(delta_long, 2) + Math.pow(delta_lat, 2))
+                                driver_heuristics[rows.registration] = euclidian_distance //Add other metrics here with weighting
+                            };
+                            console.log("Successfully parsed drivers");
+                            con.release((err) => {
+                            });
+                            return driver_heuristics
+                        };
+                    });
+                };
             });
             con.release((err) => {
             });

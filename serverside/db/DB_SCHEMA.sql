@@ -83,3 +83,10 @@ INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
 );
+INSERT INTO activeDriver (driver_id, destination, registration, location_lat, location_long, capacity) VALUES(
+43211157,
+"The University of Queensland",
+"BIGD",
+57.122,
+23.214
+);
