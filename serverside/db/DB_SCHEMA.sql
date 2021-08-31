@@ -4,6 +4,7 @@ DROP TABLE destination;
 DROP TABLE history;
 DROP TABLE rating;
 DROP TABLE route;
+DROP TABLE vehicles;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -19,7 +20,7 @@ PRIMARY KEY (sid));
 CREATE TABLE destination (
 location_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
 sid varchar(8) NOT NULL,
-destination varchar(100) NOT NULL,
+location varchar(100) NOT NULL,
 PRIMARY KEY (location_id),
 FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
@@ -32,7 +33,7 @@ location_long FLOAT NOT NULL,
 capacity INTEGER NOT NULL,
 PRIMARY KEY (driver_id),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
-FOREIGN KEY (destination) REFERENCES destination(destination) ON DELETE CASCADE);
+FOREIGN KEY (destination) REFERENCES destination(location) ON DELETE CASCADE);
 
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
