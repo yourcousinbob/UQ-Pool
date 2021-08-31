@@ -36,13 +36,6 @@ destination varchar(100) NOT NULL,
 PRIMARY KEY (location_id),
 FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
-CREATE TABLE history (
-time_stamp DATE NOT NULL UNIQUE,
-route_id INTEGER NOT NULL,
-message TEXT NOT NULL,
-PRIMARY KEY (time_stamp),
-FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
-
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
 rating INTEGER NOT NULL,
@@ -68,6 +61,12 @@ capacity INTEGER NOT NULL,
 PRIMARY KEY (registration),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
 
+CREATE TABLE history (
+time_stamp DATE NOT NULL UNIQUE,
+route_id INTEGER NOT NULL,
+message TEXT NOT NULL,
+PRIMARY KEY (time_stamp),
+FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
 INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
 43211157,

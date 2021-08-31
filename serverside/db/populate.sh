@@ -5,7 +5,7 @@ send "WilsonLOVE\n";
 expect "mysql> "
 send "use UQPool;\n";
 expect "mysql> "
-send "source /home/production/UQ-Pool/db/DB_SCHEMA.sql;\n";
+send "source /home/production/UQ-Pool/serverside/db/DB_SCHEMA.sql;\n";
 expect "mysql> "
 send "exit\n";
 interact
