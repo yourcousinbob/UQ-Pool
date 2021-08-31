@@ -1,11 +1,9 @@
+DROP TABLE user;
 DROP TABLE activeDriver;
-DROP TABLE activeRider;
 DROP TABLE destination;
 DROP TABLE history;
-/*DROP TABLE market;*/
 DROP TABLE rating;
 DROP TABLE route;
-DROP TABLE user;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -18,6 +16,13 @@ image TEXT,
 tokens INTEGER,
 PRIMARY KEY (sid));
 
+CREATE TABLE destination (
+location_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+sid varchar(8) NOT NULL,
+destination varchar(100) NOT NULL,
+PRIMARY KEY (location_id),
+FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
+
 CREATE TABLE activeDriver (
 driver_id varchar(8) NOT NULL UNIQUE,
 destination varchar(100) NOT NULL,
@@ -28,13 +33,6 @@ capacity INTEGER NOT NULL,
 PRIMARY KEY (driver_id),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
 FOREIGN KEY (destination) REFERENCES destination(destination) ON DELETE CASCADE);
-
-CREATE TABLE destination (
-location_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-sid varchar(8) NOT NULL,
-destination varchar(100) NOT NULL,
-PRIMARY KEY (location_id),
-FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
