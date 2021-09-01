@@ -1,10 +1,10 @@
-DROP TABLE user;
 DROP TABLE activeDriver;
 DROP TABLE destination;
 DROP TABLE history;
 DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
+DROP TABLE user;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
