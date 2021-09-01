@@ -12,6 +12,10 @@ module.exports = {
     requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             /*con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
                 if(err) throw err;
                 if (rows.length > 0){
