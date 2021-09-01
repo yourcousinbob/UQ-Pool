@@ -34,8 +34,6 @@ module.exports = {
                             };
                             console.log("Successfully parsed drivers");
                             console.log(driver_heuristics);
-                            con.release((err) => {
-                            });
                             result(driver_heuristics)
                         };
                     });
