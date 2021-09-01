@@ -1,11 +1,10 @@
+DROP TABLE user;
 DROP TABLE activeDriver;
-DROP TABLE activeRider;
 DROP TABLE destination;
 DROP TABLE history;
-/*DROP TABLE market;*/
 DROP TABLE rating;
 DROP TABLE route;
-DROP TABLE user;
+DROP TABLE vehicles;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -18,30 +17,22 @@ image TEXT,
 tokens INTEGER,
 PRIMARY KEY (sid));
 
-CREATE TABLE activeDriver (
-driver_id varchar(8) NOT NULL UNIQUE,
-destination varchar(100) NOT NULL,
-registration varchar(10) NOT NULL,
-location_lat FLOAT NOT NULL,
-location_long FLOAT NOT NULL,
-capacity INTEGER NOT NULL,
-PRIMARY KEY (driver_id),
-FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
-FOREIGN KEY (destination) REFERENCES destination(destination) ON DELETE CASCADE);
-
 CREATE TABLE destination (
 location_id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
 sid varchar(8) NOT NULL,
-destination varchar(100) NOT NULL,
+location varchar(100) NOT NULL,
 PRIMARY KEY (location_id),
 FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
-CREATE TABLE history (
-time_stamp DATE NOT NULL UNIQUE,
-route_id INTEGER NOT NULL,
-message TEXT NOT NULL,
-PRIMARY KEY (time_stamp),
-FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
+CREATE TABLE activeDriver (
+driver_id varchar(8) NOT NULL UNIQUE,
+destination varchar(100) NOT NULL,
+location varchar(100) NOT NULL,
+registration varchar(10) NOT NULL,
+capacity INTEGER NOT NULL,
+PRIMARY KEY (driver_id),
+FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
+FOREIGN KEY (destination) REFERENCES destination(location) ON DELETE CASCADE);
 
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
@@ -68,6 +59,12 @@ capacity INTEGER NOT NULL,
 PRIMARY KEY (registration),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
 
+CREATE TABLE history (
+time_stamp DATE NOT NULL UNIQUE,
+route_id INTEGER NOT NULL,
+message TEXT NOT NULL,
+PRIMARY KEY (time_stamp),
+FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
 INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
 43211157,
@@ -82,4 +79,11 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
+);
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
+43211157,
+"The University of Queensland",
+"Dreamworld",
+"BIGD",
+3
 );

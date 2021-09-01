@@ -143,7 +143,7 @@ io.on('connection', async (socket) => {
             book.requestPickup(body, function (payload) {
                 result.send(payload);
             });
-            connected[body.driver].emit('request', body.passenger);
+            connected[body.driver].emit('request', body.driver);
         }
 
     });
@@ -155,7 +155,7 @@ io.on('connection', async (socket) => {
             book.cancelPickup(body, function (payload) {
                 result.send(payload);
             });
-            connected[body.driver].emit('cancel', body.passenger);
+            connected[body.driver].emit('cancel', {message: "Cancelled ride."});
         }
     });
 
@@ -164,10 +164,10 @@ io.on('connection', async (socket) => {
     // Then decrease capacity
     socket.on('accept', (body, request) => {
         if (body.passenger in connected) {
-            book.acceptPickup(body, function (payload) {
-                result.send(payload);
+            drivers = book.acceptPickup(body, function (payload) {
+                    result.send(payload);
             });
-            connected[body.passenger].emit('accept', body.driver);
+            connected[body.passenger].emit('accept', drivers)
         }
     });
 
@@ -175,7 +175,7 @@ io.on('connection', async (socket) => {
     // search for user a socket and send rejection notice
     socket.on('reject', (body) => {
         if (body.passenger in connected) {
-            connected[body.passenger].emit('reject', body.driver);
+            connected[body.passenger].emit('reject', {message: "Ride rejected."});
         }
     });
     

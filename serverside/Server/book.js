@@ -1,8 +1,15 @@
 const pool = require('./dbPool')
+const navigation = require('./navigation')
+
 
 module.exports = {
 
     //Search for a driver
+    // body requires: 
+    // rider_id, 
+    // location_lat, 
+    // location_long, 
+    // destination,
     requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
@@ -10,14 +17,29 @@ module.exports = {
                 if(err) throw err;
                 if (rows.length > 0){
                     console.log("User already booked"+body.sid);
-                    json.error = 4;
+                    json.error = 0;
                     json.msg = "user already booked";
                     result(json);
                 } else {
-                    //con.query("SELECT driver_id, location_lat, location_long, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                        // Insert heuristic algorithm return driverid:heuristic
-                    //)};
-                }
+                    con.query("SELECT driver_id, location, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+                        if (rows.length < 1) { //Might have to do a proximtiy check
+                            console.log("No available drivers");
+                        } else {
+                            driver_heuristics = {};
+                            for (let i = 0; i < rows.length; i++) {
+                                //Distance calc assuming all entries sound
+                                driverETA = navigation.getTravelTime(rows.location, rows.destination);
+                                pickupETA = navigation.getTravelTime(rows.location, body.location);
+                                detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination);
+                                driver_heuristics[rows.registration] = detourETA //Add other metrics here with weighting
+                            };
+                            console.log("Successfully parsed drivers");
+                            con.release((err) => {
+                            });
+                            return driver_heuristics
+                        };
+                    });
+                };
             });
             con.release((err) => {
             });
