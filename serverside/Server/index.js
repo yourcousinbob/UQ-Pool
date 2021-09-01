@@ -113,7 +113,7 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        connected[body.user] = socket;
+        connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
     });
 
@@ -121,8 +121,8 @@ io.on('connection', async (socket) => {
     // Get rid of user in either activeDriver | activeRider
     // delete socket connection in connected
     socket.on('logout', (body) => {
-        if (body.user in connected) {
-            delete connected[body.user];
+        if (body.sid in connected) {
+            delete connected[body.cwuser];
             socket.broadcast.emit('logout', body);
         }
     });
@@ -140,11 +140,11 @@ io.on('connection', async (socket) => {
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
 
-        if (body.driver in connected) {
+        if (body.sid in connected) {
             book.requestPickup(body, function (payload) {
                 result.send(payload);
             });
-            connected[body.driver].emit('request', body.driver);
+            connected[body.sid].emit('request', body.sid);
         }
 
     });

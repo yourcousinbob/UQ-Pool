@@ -7,8 +7,7 @@ module.exports = {
     //Search for a driver
     // body requires: 
     // rider_id, 
-    // location_lat, 
-    // location_long, 
+    // location, 
     // destination,
     requestPickup(body, result) {
         var json = {};
@@ -34,6 +33,7 @@ module.exports = {
                                 driver_heuristics[rows.registration] = detourETA //Add other metrics here with weighting
                             };
                             console.log("Successfully parsed drivers");
+                            console.log(driver_heuristics);
                             con.release((err) => {
                             });
                             return driver_heuristics
