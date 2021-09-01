@@ -12,14 +12,14 @@ module.exports = {
     requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
-            con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+            /*con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
                 if(err) throw err;
                 if (rows.length > 0){
                     console.log("User already booked"+body.sid);
                     json.error = 0;
                     json.msg = "user already booked";
                     result(json);
-                } else {
+                } else {*/
                     con.query("SELECT driver_id, location, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
                         if (rows.length < 1) { //Might have to do a proximtiy check
                             console.log("No available drivers");
@@ -39,8 +39,8 @@ module.exports = {
                             return driver_heuristics
                         };
                     });
-                };
-            });
+               // };
+            //});
             con.release((err) => {
             });
         });
