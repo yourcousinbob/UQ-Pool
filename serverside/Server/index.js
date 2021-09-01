@@ -7,6 +7,13 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
+//for not import fetch globally
+import fetch from 'node-fetch';
+
+if (!globalThis.fetch) {
+	globalThis.fetch = fetch;
+}
+
 const port = 7777;
 
 // define express

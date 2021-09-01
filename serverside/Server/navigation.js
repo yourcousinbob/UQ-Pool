@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const pool = require('./dbPool');
 
 const getTravelTime = (origin, destination) => {
