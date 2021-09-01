@@ -7,8 +7,6 @@ user : 'root',
 password : 'WilsonLOVE',
 database : 'UQPool',
 multipleStatements: true,
-connectionLimit : 0,
-queueLimit : 0
 });
 
 module.exports = pool;

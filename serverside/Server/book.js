@@ -21,7 +21,10 @@ module.exports = {
                     result(json);
                 } else {*/
                     con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
-                        if(err) throw err;
+                        if(err) {
+                            console.log("Could not pass query")
+                            throw err;
+                        }
                         if (rows.length < 1) { //Might have to do a proximtiy check
                             console.log("No available drivers");
                         } else {
