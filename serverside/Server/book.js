@@ -36,7 +36,7 @@ module.exports = {
                             console.log(driver_heuristics);
                             con.release((err) => {
                             });
-                            return driver_heuristics
+                            result(driver_heuristics)
                         };
                     });
                // };
