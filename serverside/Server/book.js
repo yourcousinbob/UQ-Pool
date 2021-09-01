@@ -20,7 +20,7 @@ module.exports = {
                     json.msg = "user already booked";
                     result(json);
                 } else {*/
-                    con.query("SELECT driver_id, location, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+                    con.query("SELECT driver_id, location, destination FROM activeDriver;", (err,rows) => {
                         if (rows.length < 1) { //Might have to do a proximtiy check
                             console.log("No available drivers");
                         } else {

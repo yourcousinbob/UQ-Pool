@@ -87,23 +87,3 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 "BIGD",
 3
 );
-INSERT INTO route (driver_id, destination, location, registration, capacity) VALUES(
-43211157,
-"The University of Queensland",
-"Dreamworld",
-"BIGD",
-3
-);
-
-CREATE TABLE route (
-route_id INTEGER NOT NULL AUTO_INCREMENT,
-driver_id varchar(8) NOT NULL,
-rider_id varchar(8) NOT NULL,
-route_order INTEGER NOT NULL,
-heuristic INTEGER,
-start_time DATE,
-pickup_time DATE,
-arrive_time DATE,
-PRIMARY KEY (route_id),
-FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
-FOREIGN KEY (rider_id) REFERENCES user(sid) ON DELETE CASCADE);
