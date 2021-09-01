@@ -1,4 +1,6 @@
 const pool = require('./dbPool')
+const navigation = require('./navigation')
+
 
 module.exports = {
 
@@ -19,18 +21,17 @@ module.exports = {
                     json.msg = "user already booked";
                     result(json);
                 } else {
-                    con.query("SELECT driver_id, location_lat, location_long, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                        if (rows.length < 1 || destination != rows.destination) { //Might have to do a proximtiy check
+                    con.query("SELECT driver_id, location, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+                        if (rows.length < 1) { //Might have to do a proximtiy check
                             console.log("No available drivers");
                         } else {
                             driver_heuristics = {};
                             for (let i = 0; i < rows.length; i++) {
-                                //Distance calc assuming all entries sound THIS
-                                //IS NOT HOW DISTANCE WORKS BUT FILLER FOR NOW
-                                delta_lat = Math.abs(rows.location_lat - body.location_lat)
-                                delta_long = Math.abs(rows.location_long - body.location_long)
-                                euclidian_distance = Math.sqrt(Math.pow(delta_long, 2) + Math.pow(delta_lat, 2))
-                                driver_heuristics[rows.registration] = euclidian_distance //Add other metrics here with weighting
+                                //Distance calc assuming all entries sound
+                                driverETA = navigation.getTravelTime(rows.location, rows.destination);
+                                pickupETA = navigation.getTravelTime(rows.location, body.location);
+                                detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination);
+                                driver_heuristics[rows.registration] = detourETA //Add other metrics here with weighting
                             };
                             console.log("Successfully parsed drivers");
                             con.release((err) => {

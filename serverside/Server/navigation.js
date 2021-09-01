@@ -1,8 +1,17 @@
+import { GOOGLE_MAPS_API_KEY } from "@env";
 const pool = require('./dbPool')
 
+const getTravelTime = (origin, destination) => {
+    fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key={GOOGLE_MAPS_API_KEY}')
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data)
+        return parseInt(data.rows[0].elements[0].duration.text)
+    });
+};
 
 module.exports = {
-
+    getTravelTime,
     //Update navigation NOT IMPLEMENTED
     update(user, result) {
         var json = {};

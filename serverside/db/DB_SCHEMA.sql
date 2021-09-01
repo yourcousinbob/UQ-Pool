@@ -27,9 +27,8 @@ FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 CREATE TABLE activeDriver (
 driver_id varchar(8) NOT NULL UNIQUE,
 destination varchar(100) NOT NULL,
+location varchar(100) NOT NULL,
 registration varchar(10) NOT NULL,
-location_lat FLOAT NOT NULL,
-location_long FLOAT NOT NULL,
 capacity INTEGER NOT NULL,
 PRIMARY KEY (driver_id),
 FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
@@ -81,10 +80,10 @@ INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
 );
-INSERT INTO activeDriver (driver_id, destination, registration, location_lat, location_long, capacity) VALUES(
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
 43211157,
 "The University of Queensland",
+"Dreamworld",
 "BIGD",
-57.122,
-23.214
+3
 );
