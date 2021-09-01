@@ -31,8 +31,7 @@ location varchar(100) NOT NULL,
 registration varchar(10) NOT NULL,
 capacity INTEGER NOT NULL,
 PRIMARY KEY (driver_id),
-FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
-FOREIGN KEY (destination) REFERENCES destination(location) ON DELETE CASCADE);
+FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
