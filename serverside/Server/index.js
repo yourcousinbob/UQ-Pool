@@ -115,7 +115,7 @@ io.on('connection', async (socket) => {
     socket.on('login', (body) => {
         connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
-        console.log("User" + body.sid + "added")
+        console.log("User " + body.sid + " added")
     });
 
     // user x logging out
