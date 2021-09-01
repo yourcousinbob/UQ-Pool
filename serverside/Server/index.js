@@ -145,6 +145,8 @@ io.on('connection', async (socket) => {
                 result.send(payload);
             });
             connected[body.sid].emit('request', body.sid);
+        } else {
+            console.log("That user does not exist")
         }
 
     });
@@ -157,7 +159,10 @@ io.on('connection', async (socket) => {
                 result.send(payload);
             });
             connected[body.driver].emit('cancel', {message: "Cancelled ride."});
+        } else {
+            console.log("That user does not exist")
         }
+
     });
 
     // user b accepts request
@@ -169,6 +174,8 @@ io.on('connection', async (socket) => {
                     result.send(payload);
             });
             connected[body.passenger].emit('accept', drivers)
+        } else {
+            console.log("That user does not exist")
         }
     });
 
@@ -177,6 +184,8 @@ io.on('connection', async (socket) => {
     socket.on('reject', (body) => {
         if (body.passenger in connected) {
             connected[body.passenger].emit('reject', {message: "Ride rejected."});
+        } else {
+            console.log("That user does not exist")
         }
     });
     
