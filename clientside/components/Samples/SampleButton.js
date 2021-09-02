@@ -10,12 +10,12 @@ import { useNavigation } from '@react-navigation/native'; //required to move to 
  *  'import SampleButton from '../components/Samples/SampleButton';'
  */
 
-const SampleButton = () => {
+const SampleButton = ( {/* Here you can add input variables and use them in your return method */} ) => {
     const navigation = useNavigation(); //required when moving to another page
     
     return (
         <TouchableOpacity 
-            onPress={() => navigation.navigate("HomeScreen")} // chage this to whatever screen you want and add screen to App.js
+            onPress={() => navigation.navigate("HomeScreen")} // change this to whatever screen you want and add screen to App.js
             style={styles.button}
         >
             <Text>This is a sample touchable opacity button.</Text>
