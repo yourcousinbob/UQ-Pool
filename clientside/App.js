@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 /* Screens */
 import HomeScreen from './screens/HomeScreen';
 import RiderScreen from './screens/RiderScreen';
+import SampleScreen from './screens/SampleScreen';
 // import new screens here
 
 
@@ -34,6 +35,11 @@ export default function App() {
               <Stack.Screen 
                 name='RiderScreen'
                 component={RiderScreen}
+                options={{headerShown:false}}
+              />
+              <Stack.Screen 
+                name='SampleScreen'
+                component={SampleScreen}
                 options={{headerShown:false}}
               />
               {/*You need to add new screens here */}
