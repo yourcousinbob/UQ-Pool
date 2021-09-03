@@ -1,5 +1,8 @@
 // Dependencies
 import fetch from 'node-fetch';
+if (!globalThis.fetch) {
+    globalThis.fetch = fetch;
+}
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const env = require('dotenv').config({path:'../../.env'})
