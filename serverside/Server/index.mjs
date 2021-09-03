@@ -1,18 +1,13 @@
-
 // Dependencies
+import fetch from 'node-fetch';
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 const env = require('dotenv').config({path:'../../.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-
-//for not import fetch globally
-import fetch from 'node-fetch';
-
-if (!globalThis.fetch) {
-	globalThis.fetch = fetch;
-}
 
 const port = 7777;
 

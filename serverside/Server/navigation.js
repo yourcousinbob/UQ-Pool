@@ -1,5 +1,6 @@
 const pool = require('./dbPool');
 
+
 const getTravelTime = (origin, destination) => {
     fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key={process.env.GOOGLE_MAPS_API_KEY}')
     .then((res) => res.json())
