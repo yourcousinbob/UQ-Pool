@@ -36,13 +36,12 @@ module.exports = {
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
                                 // Need to add splitting into requesting single
-                                driverETA = navigation.getTravelTime(rows.location, rows.destination);
-                                pickupETA = navigation.getTravelTime(rows.location, body.location);
+                                driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
+                                pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                                 detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination);
                                 driver_heuristics[rows[i].registration] = detourETA //Add other metrics here with weighting
                             };
                             console.log("Successfully parsed drivers");
-                            console.log(rows);
                             console.log(driver_heuristics);
                             result(driver_heuristics)
                         };
