@@ -3,13 +3,13 @@ import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacit
 import { COLORS, BOX } from '../stylesheets/theme'
 import { useNavigation } from '@react-navigation/core'
   
-const LoginScreen = () => {     
+const RegistrationScreen = () => {     
     const navigation = useNavigation(); //required when moving to another page
 
     return (
         <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
             <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
-                <View style={{height: "55%", width: "100%", padding: 20}}>
+                <View style={{height: "40%", width: "100%", padding: 20}}>
                     <Image
                         style={{
                             resizeMode: 'contain',
@@ -17,12 +17,18 @@ const LoginScreen = () => {
                             width: "100%"
                         }}
                         source={
-                            require('../assets/loginPicture.png')
+                            require('../assets/registrationPicture.png')
                         }
                     />
                 </View>
                
-                <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
+                <View style={{height: "60%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
+                    <View style={styles.input}>
+                        <TextInput
+                            placeholder="Name"
+                        />
+                    </View>
+
                     <View style={styles.input}>
                         <TextInput
                             placeholder="Email"
@@ -35,24 +41,21 @@ const LoginScreen = () => {
                         />
                     </View>
 
-                    <TouchableOpacity 
-                        style={styles.button}
-                    >
-                        <Text
-                            style={styles.buttonText}
-                        >
-                            Log In
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={styles.input}>
+                        <TextInput
+                            placeholder="Confirm Password"
+                        />
+                    </View>
+
 
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate("RegistrationScreen")} // change this to whatever screen you want and add screen to App.js
+                        // onPress={() => navigation.navigate("RegistrationScreen")} // change this to whatever screen you want and add screen to App.js
                         style={styles.button}
                     >
                         <Text
                             style={styles.buttonText}
                         >
-                            Sign Up
+                            Register
                         </Text>
                     </TouchableOpacity>
 
@@ -62,7 +65,7 @@ const LoginScreen = () => {
     );
   }
   
-export default LoginScreen;
+export default RegistrationScreen;
   
 const styles = StyleSheet.create({
     input: {
