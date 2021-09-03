@@ -39,7 +39,7 @@ module.exports = {
                                 driverETA = navigation.getTravelTime(rows.location, rows.destination);
                                 pickupETA = navigation.getTravelTime(rows.location, body.location);
                                 detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination);
-                                driver_heuristics[rows.registration] = detourETA //Add other metrics here with weighting
+                                driver_heuristics[rows[i].registration] = detourETA //Add other metrics here with weighting
                             };
                             console.log("Successfully parsed drivers");
                             console.log(rows);
