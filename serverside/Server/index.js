@@ -42,8 +42,8 @@ rewards
 */
 
 // Registration section
-app.post('/user', async(req, res) => {
-    user.create(req.body, function (payload) {
+app.post('/login', async(req, res) => {
+    user.login(req.body, function (payload) {
         res.send(payload);
     });
 });
@@ -60,8 +60,8 @@ app.delete('/user', async(req, res) => {
     });
 });
 
-app.get('/user', async(req, res) => {
-    user.login(req.body, function (payload) {
+app.post('/user', async(req, res) => {
+    user.create(req.body, function (payload) {
 	res.send(payload);
     });
 });
