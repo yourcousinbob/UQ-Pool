@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import { COLORS, BOX } from '../stylesheets/theme'
 import { useNavigation } from '@react-navigation/core'
+import ValidatedTextInput from '../components/ValidatedTextInput'
 
 
 export class RegistrationScreen extends Component {
@@ -14,7 +15,14 @@ export class RegistrationScreen extends Component {
             email: "",
             phone: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            validSID: false,
+            validFN: false,
+            validLN: false,
+            validEmail: false,
+            validPhone: false, 
+            validPassword: false,
+            validConfirmPassword: false,
         };
     }
 
@@ -25,6 +33,13 @@ export class RegistrationScreen extends Component {
     componentDidMount() {}
 
     async registerUser() {
+
+        // Check that all fields are valid
+        if (!(this.state.validSID && this.state.validFN && this.state.validLN && this.state.validEmail && this.state.validPhone)) {
+            console.log("Invalid signup details");
+            return
+        }
+
         try {
             const response = fetch('http://103.4.234.91:7777/user', {
                 method: 'POST',
@@ -79,65 +94,70 @@ export class RegistrationScreen extends Component {
                     
                     <ScrollView style={{ height: "60%", width: "100%", backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
                         <View style={{ paddingVertical: 25}}>
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={sid => {this.setState({sid})}}
-                                    placeholder="Student ID"
-                                    value={this.state.sid}
-                                />
-                            </View>
-                            
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={firstName => {this.setState({firstName})}}
-                                    placeholder="First Name"
-                                    value={this.state.firstName}
-                                />
-                            </View>
 
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={lastName => {this.setState({lastName})}}
-                                    placeholder="Last Name"
-                                    value={this.state.lastName}
-                                />
-                            </View>
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={sid => this.setState({sid})}
+                                placeholder="Student ID"
+                                value={this.state.sid}
+                                pattern={'^[0-9]{8,8}$'} //8Numbers
+                                onValidation={validSID => this.setState({validSID})}
+                            /> 
 
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={email => {this.setState({email})}}
-                                    placeholder="UQ Email"
-                                    value={this.state.email}
-                                />
-                            </View>
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={firstName => {this.setState({firstName})}}
+                                placeholder="First Name"
+                                value={this.state.firstName}
+                                pattern={'^[a-zA-Z]*'} //at least one char, NEED TO FIX when no chars
+                                onValidation={validFN => this.setState({validFN})}
+                            /> 
 
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={phone => {this.setState({phone})}}
-                                    placeholder="Phone Number"
-                                    value={this.state.phoneNumber}
-                                />
-                            </View>
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={lastName => {this.setState({lastName})}}
+                                placeholder="Last Name"
+                                value={this.state.lastName}
+                                pattern={'^[a-zA-Z]*'} //at least one char, NEED TO FIX when go no chars
+                                onValidation={validLN => this.setState({validLN})}
+                            /> 
 
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={password => {this.setState({password})}}
-                                    placeholder="Password"
-                                    value={this.state.password}
-                                />
-                            </View>
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={email => {this.setState({email})}}
+                                placeholder="UQ Email"
+                                value={this.state.email}
+                                pattern={'^[a-zA-Z0-9_\-]*@uq.edu.au'} //uq domain, NEED TO FIX
+                                onValidation={validEmail => this.setState({validEmail})}
+                            /> 
 
-                            <View style={styles.input}>
-                                <TextInput
-                                    onChangeText={confirmPassword => {this.setState({confirmPassword})}}
-                                    placeholder="Confirm Password"
-                                    value={this.state.confirmPassword}
-                                />
-                            </View>
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={phone => {this.setState({phone})}}
+                                placeholder="Phone Number"
+                                value={this.state.phoneNumber}
+                                pattern={'^04[0-9]{8,8}$'} // 10 numbers starting with 04
+                                onValidation={validPhone => this.setState({validPhone})}
+                            /> 
+
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={password => {this.setState({password})}}
+                                placeholder="Password"
+                                value={this.state.password}
+                                onValidation={validPassword => this.setState({validPassword})}
+                            /> 
+
+                            <ValidatedTextInput
+                                style={styles.input}
+                                onChangeText={password => {this.setState({password})}}
+                                placeholder="Confirm Password"
+                                value={this.state.confirmPassword}
+                                onValidation={validPassword => this.setState({validConfirmPassword})}
+                            /> 
 
                             <TouchableOpacity 
                                 // onPress={() => navigation.navigate("RegistrationScreen")} // change this to whatever screen you want and add screen to App.js
-                                // onPress={() => console.log(this.state)} 
                                 onPress={() => this.registerUser()}
                                 style={styles.button}
                             >

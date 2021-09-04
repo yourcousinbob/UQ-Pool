@@ -29,12 +29,12 @@ export default class ValidatedTextInput extends Component {
     }
 
     onChange(input)  {
-        const { onChangeText, style } = this.props;
+        const { onChangeText, style, onValidation } = this.props;
         const isValid = this.checkValidation(input);
 
         onChangeText(input);
-        console.log(isValid)
-
+        onValidation(isValid);
+        
         if (!isValid) {
             this.state.style = [style, {borderColor: "red"}]
         } else {
