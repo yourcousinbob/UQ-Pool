@@ -1,4 +1,3 @@
-import { GOOGLE_MAPS_API_KEY } from "@env";
 const pool = require('./dbPool')
 
 const getTravelTime = (origin, destination) => {

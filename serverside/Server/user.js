@@ -5,28 +5,6 @@ module.exports = {
     //Creates User
     create(body, result) {
         var json = {};
-        if (JSON.stringify(body.sid).match(/[!@#\$%\|\}\{\]\[]+/g) != null) {
-            console.log("forbidden character in username");
-            json.error = 0;
-            json.msg = "illegal character";
-            result(json);
-            return;
-        }
-        if (JSON.stringify(body.sid).length != 8) {
-            console.log("student ID is not 8 digits");
-            json.error = 3;
-            json.msg = "sid not 8 digits";
-            result(json);
-            return;
-        }
-
-        if (body.email.match(/[a-zA-Z0-9_\-\.]*@[a-zA-Z]*.uq.edu.au/g) == null) {
-            console.log("non UQ email");
-            json.error = 2;
-            json.msg = "not a UQ email";
-            result(json);
-            return;
-        }
 
         pool.getConnection(function(err, con) {
             con.query("SELECT sid FROM user WHERE sid='"+JSON.stringify(body.sid)+"';", (err,rows) => {
@@ -37,6 +15,8 @@ module.exports = {
                     json.msg = "user already exists";
                     result(json);
                 } else {
+		    console.log("Else was run");
+		    console.log(body.sid);
                     const user = { sid: JSON.stringify(body.sid), first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
