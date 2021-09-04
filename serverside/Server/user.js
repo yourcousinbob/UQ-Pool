@@ -5,23 +5,22 @@ module.exports = {
     //Creates User
     create(body, result) {
         var json = {};
-
+	console.log("Attempted User Creation: " + JSON.stringify(body));
         pool.getConnection(function(err, con) {
-            con.query("SELECT sid FROM user WHERE sid='"+JSON.stringify(body.sid)+"';", (err,rows) => {
+            con.query("SELECT sid FROM user WHERE sid='"+ body.sid +"';", (err,rows) => {
                 if(err) throw err;
                 if (rows.length > 0){
-                    console.log("User already exists"+body.sid);
+                    console.log("User already exists with "+body.sid);
                     json.error = 4;
                     json.msg = "user already exists";
                     result(json);
                 } else {
-		    console.log("Else was run");
-		    console.log(body.sid);
-                    const user = { sid: JSON.stringify(body.sid), first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0};
+                    const user = { sid: body.sid, first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
-                        json.msg = "user successfully created";
-                        result(json);
+			console.log("User created with sid: " + body.sid);
+                        json.msg = "User Succesfully Created";
+			result(json);
                     });
                     con.release((err) => {
                     });

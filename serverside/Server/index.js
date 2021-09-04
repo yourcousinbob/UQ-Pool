@@ -60,6 +60,12 @@ app.delete('/user', async(req, res) => {
     });
 });
 
+app.get('/user', async(req, res) => {
+    user.login(req.body, function (payload) {
+	res.send(payload);
+    });
+});
+
 app.get('/users', async(req, res) => {
     user.users(req.body, function (payload) {
         res.send(payload);
