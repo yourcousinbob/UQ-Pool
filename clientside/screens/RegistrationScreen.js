@@ -41,7 +41,7 @@ export class RegistrationScreen extends Component {
         }
 
         try {
-            const response = fetch('http://103.4.234.91:7777/user', {
+            const response = await fetch('http://103.4.234.91:7777/user', {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -52,16 +52,16 @@ export class RegistrationScreen extends Component {
                     first_name: this.state.firstName,
                     last_name: this.state.lastName,
                     email: this.state.email,
-                    phone: this.state.phone
+                    phone: this.state.phone,
+                    password: this.state.password
                 })
             });
 
-            const json = await response.json;
-
-            if (json.error != null) {
+            const json = await response.json();
+            if (json.msg =="Successful Creation") {
                 // alert the user
             } else {
-                console.log(json);
+                console.log(json.msg);
                 // Switch to the initial state of the app
             }
 
@@ -150,10 +150,10 @@ export class RegistrationScreen extends Component {
 
                             <ValidatedTextInput
                                 style={styles.input}
-                                onChangeText={password => {this.setState({password})}}
+                                onChangeText={confirmPassword => {this.setState({confirmPassword})}}
                                 placeholder="Confirm Password"
                                 value={this.state.confirmPassword}
-                                onValidation={validPassword => this.setState({validConfirmPassword})}
+                                onValidation={validConfirmPassword => this.setState({validConfirmPassword})}
                             /> 
 
                             <TouchableOpacity 
