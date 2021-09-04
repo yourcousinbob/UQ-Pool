@@ -23,17 +23,15 @@ const LoginScreen = () => {
                 </View>
                
                 <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
-                    <View style={styles.input}>
-                        <TextInput
-                            placeholder="Email"
-                        />
-                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                    />
 
-                    <View style={styles.input}>
-                        <TextInput
-                            placeholder="Password"
-                        />
-                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                    />
 
                     <TouchableOpacity 
                         style={styles.button}
