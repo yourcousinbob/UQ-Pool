@@ -48,6 +48,8 @@ module.exports = {
                             console.log("Successfully parsed drivers");
                             result(driver_heuristics)
                             console.log(driver_heuristics);
+                            
+                            setTimeout(console.log(driver_heuristics), 4000);
                         };
                     });
                // };
