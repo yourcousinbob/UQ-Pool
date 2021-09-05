@@ -36,11 +36,11 @@ module.exports = {
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
                                 async function getDetour () {
-                                    driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
-                                    pickupETA = navigation.getTravelTime(rows[i].location, body.location);
-                                    return pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
+                                    driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                                    pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
+                                    return pickupETA + await navigation.getTravelTime(body.location, body.destination) - driverETA;
                                 }
-                                const heuristic = await getDetour();
+                                const heuristic = getDetour();
                                 console.log(heuristic)
                                 driver_heuristics.push([rows[i].registration, heuristic])
                             };
