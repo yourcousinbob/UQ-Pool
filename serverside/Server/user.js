@@ -12,21 +12,6 @@ module.exports = {
             result(json);
             return;
         }
-        if (JSON.stringify(body.sid).length != 8) {
-            console.log("student ID is not 8 digits");
-            json.error = 3;
-            json.msg = "sid not 8 digits";
-            result(json);
-            return;
-        }
-
-        if (body.email.match(/[a-zA-Z0-9_\-\.]*@[a-zA-Z]*.uq.edu.au/g) == null) {
-            console.log("non UQ email");
-            json.error = 2;
-            json.msg = "not a UQ email";
-            result(json);
-            return;
-        }
 
         pool.getConnection(function(err, con) {
             con.query("SELECT sid FROM user WHERE sid='"+JSON.stringify(body.sid)+"';", (err,rows) => {

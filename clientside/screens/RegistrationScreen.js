@@ -109,7 +109,7 @@ export class RegistrationScreen extends Component {
                                 onChangeText={firstName => {this.setState({firstName})}}
                                 placeholder="First Name"
                                 value={this.state.firstName}
-                                pattern={'^[a-zA-Z]*'} //at least one char, NEED TO FIX when no chars
+                                pattern={'^[a-zA-Z]+'} //at least one char
                                 onValidation={validFN => this.setState({validFN})}
                             /> 
 
@@ -118,7 +118,7 @@ export class RegistrationScreen extends Component {
                                 onChangeText={lastName => {this.setState({lastName})}}
                                 placeholder="Last Name"
                                 value={this.state.lastName}
-                                pattern={'^[a-zA-Z]*'} //at least one char, NEED TO FIX when go no chars
+                                pattern={'^[a-zA-Z]*'} //at least one char
                                 onValidation={validLN => this.setState({validLN})}
                             /> 
 
@@ -127,7 +127,7 @@ export class RegistrationScreen extends Component {
                                 onChangeText={email => {this.setState({email})}}
                                 placeholder="UQ Email"
                                 value={this.state.email}
-                                pattern={'^[a-zA-Z0-9_\-]*@uq.edu.au'} //uq domain, NEED TO FIX
+                                pattern={'^[a-zA-Z0-9_\-\.]+@(uq uqconnect).edu.au'} 
                                 onValidation={validEmail => this.setState({validEmail})}
                             /> 
 
