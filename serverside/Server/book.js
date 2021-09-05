@@ -42,13 +42,13 @@ module.exports = {
                                 }
                                 const heuristic = getDetour().then(heuristic => {console.log(heuristic); return heuristic});
                                 driver_heuristics.push([rows[i].registration, heuristic])
+                                driver_heuristics.sort((first, second) => {
+                                    return first[1] - second[1];
+                                });
+                                console.log("Successfully parsed drivers");
+                                result(driver_heuristics)
+                                console.log(driver_heuristics);
                             };
-                            driver_heuristics.sort((first, second) => {
-                                return first[1] - second[1];
-                            });
-                            console.log("Successfully parsed drivers");
-                            result(driver_heuristics)
-                            console.log(driver_heuristics);
                         };
                     });
                // };
