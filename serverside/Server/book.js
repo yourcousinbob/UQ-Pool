@@ -35,23 +35,23 @@ module.exports = {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
-                                async function getDetour () {
+                                async function getDetour (driver_heuristics) {
                                     driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                                     pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                                     detourETA = await navigation.getTravelTime(body.location, body.destination) 
                                     console.log(driverETA)
                                     console.log(pickupETA)
                                     console.log(detourETA)
-                                    return pickupETA + detourETA - driverETA;
+                                    heuristic = pickupETA + detourETA - driverETA;
+                                    driver_heuristics.push([rows[i].registration, heuristic])
+                                    driver_heuristics.sort((first, second) => {
+                                        return first[1] - second[1];
+                                    });
+                                    console.log("Successfully parsed drivers");
+                                    console.log(driver_heuristics);
                                 }
-                                const heuristic = getDetour().then(heuristic => {console.log(heuristic); return heuristic});
-                                driver_heuristics.push([rows[i].registration, heuristic])
-                                driver_heuristics.sort((first, second) => {
-                                    return first[1] - second[1];
-                                });
-                                console.log("Successfully parsed drivers");
-                                result(driver_heuristics)
-                                console.log(driver_heuristics);
+                                    getDetour(driver_heuristics).then(result => {console.log(driver_heuristics);});
+                                    result(driver_heuristics)
                             };
                         };
                     });
