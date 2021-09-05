@@ -35,11 +35,10 @@ module.exports = {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
-                                detourETA = navigation.getTravelTime(rows[i].location, rows[i].destination)
-                                .then(pickupETA => navigation.getTravelTime(rows[i].location, rows[i].destination))
-                                .then(extraETA => navigation.getTravelTime(rows[i].location, rows[i].destination))
-                                .then(detourETA => pickupETA + extraETA - driverETA)
-                                .then(console.log(detourETA))
+                                driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
+                                pickupETA = navigation.getTravelTime(rows[i].location, body.location);
+                                detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
+                                console.log(detourETA)
                                 heuristic = detourETA //Add other metrics here with weighting
                                 driver_heuristics.push([rows[i].registration, heuristic])
                             };
@@ -49,8 +48,6 @@ module.exports = {
                             console.log("Successfully parsed drivers");
                             result(driver_heuristics)
                             console.log(driver_heuristics);
-                            
-                            setTimeout(() => {console.log(driver_heuristics)}, 4000);
                         };
                     });
                // };
