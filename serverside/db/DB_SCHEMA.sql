@@ -76,6 +76,16 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 0
 );
 INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+33211157,
+"Ben",
+"Wieser",
+"benny@student.uq.edu.au",
+0444797111,
+"I like ben",
+"https://www.ben.com/images/photo.jpg",
+0
+);
+INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
 43211154,
 "Deece",
 "Figma",
@@ -102,4 +112,11 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 "The University of Queensland",
 "KINO",
 2
+);
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
+33211154,
+"The University of Queensland",
+"Griffith University Brisbane",
+"BEN",
+4
 );

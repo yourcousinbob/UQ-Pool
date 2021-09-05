@@ -16,14 +16,14 @@ module.exports = {
                 console.log("Could not connect to server")
                 throw err;
             }
-            /*con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
+            con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
                 if(err) throw err;
                 if (rows.length > 0){
                     console.log("User already booked"+body.sid);
                     json.error = 0;
                     json.msg = "user already booked";
                     result(json);
-                } else {*/
+                } else {
                     con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
                         if(err) {
                             console.log("Could not pass query")
@@ -48,12 +48,12 @@ module.exports = {
                                     });
                                 };
                                 console.log("Successfully parsed drivers");
-                                getDetour(driver_heuristics, rows).then(result => {console.log(driver_heuristics);});
+                                getDetour(driver_heuristics, rows).then(result => {console.log("Potential drivers for " + body.sid + driver_heuristics);});
                                 result(driver_heuristics)
                         };
                     });
-               // };
-            //});
+                };
+            });
             con.release((err) => {
             });
         });
