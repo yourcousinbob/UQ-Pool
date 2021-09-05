@@ -49,7 +49,7 @@ module.exports = {
                             result(driver_heuristics)
                             console.log(driver_heuristics);
                             
-                            setTimeout(console.log(driver_heuristics), 4000);
+                            setTimeout(() => {console.log(driver_heuristics)}, 4000);
                         };
                     });
                // };
