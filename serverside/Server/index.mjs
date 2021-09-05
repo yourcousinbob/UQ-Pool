@@ -162,7 +162,7 @@ io.on('connection', async (socket) => {
     // search for user b socket in connected and send cancel message
     socket.on('cancel', (body, request) => {
 
-        if (body.driver in connected) {
+        if (body.sid in connected) {
             book.cancelPickup(body, function (payload) {
                 connected[body.driver].emit('cancel', payload);
             });
@@ -176,7 +176,7 @@ io.on('connection', async (socket) => {
     socket.on('accept', (body, request) => {
 
         book.acceptPickup(body, function (payload) {
-            console.log("User accepted driver " + driver_id);
+            console.log("User accepted driver " + body.sid);
         });
 
         //TODO: Validate driver and car wants pickup 

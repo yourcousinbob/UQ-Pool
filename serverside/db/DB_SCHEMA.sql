@@ -86,3 +86,10 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 "BIGD",
 3
 );
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
+43211154,
+"Gallery of Modern Art Brisbane",
+"The University of Queensland",
+"KINO",
+2
+);
