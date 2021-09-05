@@ -75,6 +75,16 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 "https://www.someDomain.com/images/photo.jpg",
 0
 );
+INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+43211154,
+"Deece",
+"Figma",
+"email@student.uq.edu.au",
+0433777111,
+"I like pans",
+"https://www.someDomain.com/images/photo2.jpg",
+0
+);
 INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
