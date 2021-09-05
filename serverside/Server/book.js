@@ -34,8 +34,9 @@ module.exports = {
                         } else {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
-                                //Distance calc assuming all entries sound
-                                async function getDetour (driver_heuristics) {
+                                //Distance calc assuming all entries sound might
+                                //be better way to do async tried lots fix if u can.
+                                async function getDetour (driver_heuristics, i) {
                                     driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                                     pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                                     detourETA = await navigation.getTravelTime(body.location, body.destination) 
@@ -45,9 +46,9 @@ module.exports = {
                                         return first[1] - second[1];
                                     });
                                     console.log("Successfully parsed drivers");
-                                }
-                                    getDetour(driver_heuristics).then(result => {console.log(driver_heuristics);});
+                                    getDetour(driver_heuristics, i).then(result => {console.log(driver_heuristics);});
                                     result(driver_heuristics)
+                                }
                             };
                         };
                     });
