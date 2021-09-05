@@ -21,7 +21,7 @@ module.exports = {
                     console.log("Could not pass query")
                     throw err;
                 }
-                if (rows.length < 1) { //Might have to do a proximtiy check
+                if (rows.length < 1) {
                     console.log("No available drivers");
                 } else {
                     driver_heuristics = [];
@@ -50,9 +50,15 @@ module.exports = {
     },
 
     //Accept a pickup
+    //Body requires:
+    //drive_id,
     acceptPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             con.query("SELECT capacity FROM activeDriver WHERE driver_id='"+JSON.stringify(body.driver_id)+"';", (err,rows) => {
                 if(err) throw err;
                 if (rows.capacity == 0) {
@@ -79,9 +85,16 @@ module.exports = {
     },
 
     //Cancel a pickup
+    //Body requires:
+    //route_id, -- might need to change TODO:
+    //rider_id,
     cancelPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             con.query("DELETE FROM route WHERE route_id='"+body.route_id+"' AND rider_id='"+body.rider_id+"';", (err, row) => {
                 if(err) throw err;
                 json.msg = "pickup successfully cancelled";
