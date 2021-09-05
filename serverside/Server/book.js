@@ -35,12 +35,14 @@ module.exports = {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
-                                driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
-                                pickupETA = navigation.getTravelTime(rows[i].location, body.location);
-                                detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
-                                console.log(detourETA)
-                                heuristic = detourETA //Add other metrics here with weighting
-                                driver_heuristics.push([rows[i].registration, heuristic])
+                                async () => {
+                                    driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                                    pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
+                                    detourETA = await pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
+                                    console.log(detourETA)
+                                    heuristic = detourETA //Add other metrics here with weighting
+                                    driver_heuristics.push([rows[i].registration, heuristic])
+                                }
                             };
                             driver_heuristics.sort((first, second) => {
                                 return first[1] - second[1];
