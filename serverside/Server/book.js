@@ -38,7 +38,7 @@ module.exports = {
                                 driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
                                 pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                                 detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
-                                console.log(driverETA)
+                                console.log(detourETA)
                                 heuristic = detourETA //Add other metrics here with weighting
                                 driver_heuristics.push([rows[i].registration, heuristic])
                             };
