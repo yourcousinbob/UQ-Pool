@@ -35,9 +35,9 @@ module.exports = {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
-                                navigation.getTravelTime(rows[i].location, rows[i].destination).then(driverETA => {driverETA});
-                                navigation.getTravelTime(rows[i].location, rows[i].destination).then(pickupETA => {pickupETA});
-                                navigation.getTravelTime(rows[i].location, rows[i].destination).then(extraETA => {extraETA});
+                                driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination).then(driverETA => {return driverETA});
+                                pickupETA = navigation.getTravelTime(rows[i].location, rows[i].destination).then(pickupETA => {return pickupETA});
+                                extraETA = navigation.getTravelTime(rows[i].location, rows[i].destination).then(extraETA => {return extraETA});
                                 detourETA = pickupETA + extraETA - driverETA;
                                 console.log(detourETA)
                                 heuristic = detourETA //Add other metrics here with weighting
