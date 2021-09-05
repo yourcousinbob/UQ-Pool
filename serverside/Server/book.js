@@ -35,7 +35,6 @@ module.exports = {
                             driver_heuristics = [];
                             for (let i = 0; i < rows.length; i++) {
                                 //Distance calc assuming all entries sound
-                                // Need to add splitting into requesting single
                                 driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
                                 pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                                 detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
