@@ -5,7 +5,7 @@ const getTravelTime = async (origin, destination) => {
     const response = await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&region=au&origins='+origin+'&destinations='+destination+'&key='+key)
     .then((res) => res.json()).then((data) => {
         console.log(data)
-        return resolve(parseInt(data.rows[0].elements[0].duration.text));
+        return response.resolve(parseInt(data.rows[0].elements[0].duration.text));
     }).catch((err) => {
         console.log('rejected', err)
     });
