@@ -36,6 +36,8 @@ const reward = require('./reward');
 var connected = {};
 // Chat rooms for accepted pools 
 var pools = {};
+// Driver priority list
+var drivers = {};
 
 /* Request section:
 These should reflect the state machine's side effects for
@@ -147,14 +149,25 @@ io.on('connection', async (socket) => {
     socket.on('request', (body, result) => {
 
         if (body.sid in connected) {
-            book.requestPickup(body, function (payload) {
-                result.send(payload);
-            });
-            connected[body.sid].emit('request', body.sid);
+            console.log("Requesting pickup for rider " + body.sid)
+            if (body.sid in drivers) {
+                //Handle situatuion with no available drivers left
+                if (drivers[body.sid].length < 1) {
+                    console.log("All available drivers exhausted")
+                    connected[bod.sid].emit('exhausted', {message: "exhausted all available drivers"});
+                }
+            } else {
+                //Handle situation where drivers table needs to be populated
+                book.requestPickup(body, function (payload) {
+                    drivers[body.sid] = payload
+                });
+            }
+            driver_id = drivers[body.sid][0][0];
+            connected[body.sid].emit('request', driver_id);
+            console.log("Requesting driver " + driver_id + " to pickup rider " + body.sid);
         } else {
             console.log("That user does not exist")
-        }
-
+        };
     });
 
     // user a cancels the request to user b
@@ -171,28 +184,22 @@ io.on('connection', async (socket) => {
 
     });
 
-    // user b accepts request
-    // add a route if it doesn't exist
-    // Then decrease capacity
-    socket.on('accept', (body, request) => {
-        if (body.passenger in connected) {
-            drivers = book.acceptPickup(body, function (payload) {
-                    result.send(payload);
-            });
-            connected[body.passenger].emit('accept', drivers)
+    socket.on('accept', () => {
+        book.acceptPickup(body, function (payload) {
+            console.log("User accepted driver " + driver_id);
+        });
+        //TODO: Validate driver and car wants pickup 
+        if (driver_id in pools) {
+            pool[driver_id].push(body.sid)
         } else {
-            console.log("That user does not exist")
-        }
-    });
+            pool[driver_id] = [body.sid]
+        };
+        console.log("New route between driver " + driver_id + " and rider " + body.sid);
+        break;
+   });
 
-    // user b rejects and sends message to user 
-    // search for user a socket and send rejection notice
-    socket.on('reject', (body) => {
-        if (body.passenger in connected) {
-            connected[body.passenger].emit('reject', {message: "Ride rejected."});
-        } else {
-            console.log("That user does not exist")
-        }
-    });
-    
+   socket.on('decline', () => {
+        console.log("User declined driver " + driver_id);
+        continue;
+   });
 });
