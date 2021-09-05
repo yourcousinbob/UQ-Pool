@@ -16,42 +16,32 @@ module.exports = {
                 console.log("Could not connect to server")
                 throw err;
             }
-            con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                if(err) throw err;
-                if (rows.length > 0){
-                    console.log("User already booked"+body.sid);
-                    json.error = 0;
-                    json.msg = "user already booked";
-                    result(json);
+            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
+                if(err) {
+                    console.log("Could not pass query")
+                    throw err;
+                }
+                if (rows.length < 1) { //Might have to do a proximtiy check
+                    console.log("No available drivers");
                 } else {
-                    con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
-                        if(err) {
-                            console.log("Could not pass query")
-                            throw err;
+                    driver_heuristics = [];
+                    //Distance calc assuming all entries sound might
+                    //be better way to do async tried lots fix if u can.
+                    async function getDetour (driver_heuristics, rows) {
+                        for (let i = 0; i < rows.length; i++) {
+                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
+                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
+                            heuristic = pickupETA + detourETA - driverETA;
+                            driver_heuristics.push([rows[i].registration, heuristic])
                         }
-                        if (rows.length < 1) { //Might have to do a proximtiy check
-                            console.log("No available drivers");
-                        } else {
-                            driver_heuristics = [];
-                                //Distance calc assuming all entries sound might
-                                //be better way to do async tried lots fix if u can.
-                                async function getDetour (driver_heuristics, rows) {
-                                    for (let i = 0; i < rows.length; i++) {
-                                        driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
-                                        pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
-                                        detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                                        heuristic = pickupETA + detourETA - driverETA;
-                                        driver_heuristics.push([rows[i].registration, heuristic])
-                                    }
-                                    driver_heuristics.sort((first, second) => {
-                                        return first[1] - second[1];
-                                    });
-                                };
-                                console.log("Successfully parsed drivers");
-                                getDetour(driver_heuristics, rows).then(result => {console.log("Potential drivers for " + body.sid + driver_heuristics);});
-                                result(driver_heuristics)
-                        };
-                    });
+                        driver_heuristics.sort((first, second) => {
+                            return first[1] - second[1];
+                        });
+                    };
+                    console.log("Successfully parsed drivers");
+                    getDetour(driver_heuristics, rows).then(result => {console.log("Potential drivers for " + body.sid + driver_heuristics);});
+                    result(driver_heuristics)
                 };
             });
             con.release((err) => {
