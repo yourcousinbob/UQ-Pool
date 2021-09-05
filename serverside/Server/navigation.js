@@ -6,9 +6,9 @@ const getTravelTime = async (origin, destination) => {
     .catch((err) => {
         console.log('rejected', err)
     });
-    const data = await response.json()
-    console.log(data)
-    return parseInt(data.rows[0].elements[0].duration.text);
+    console.log(response.json())
+    const data = await response.json().rows[0].elements[0].duration.text;
+    return parseInt(data);
 };
 
 module.exports = {
