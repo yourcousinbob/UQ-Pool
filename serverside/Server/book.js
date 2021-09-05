@@ -38,8 +38,7 @@ module.exports = {
                                 async function getDetour () {
                                     driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                                     pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
-                                    detourETA = await pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
-                                    return detourETA
+                                    return await pickupETA + navigation.getTravelTime(body.location, body.destination) - driverETA;
                                 }
                                 const heuristic = getDetour();
                                 console.log(heuristic)
