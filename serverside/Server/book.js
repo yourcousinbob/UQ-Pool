@@ -40,8 +40,7 @@ module.exports = {
                                     pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                                     return pickupETA + await navigation.getTravelTime(body.location, body.destination) - driverETA;
                                 }
-                                const heuristic = getDetour();
-                                console.log(heuristic)
+                                const heuristic = getDetour().then(heuristic => {console.log(heuristic); return heuristic});
                                 driver_heuristics.push([rows[i].registration, heuristic])
                             };
                             driver_heuristics.sort((first, second) => {
