@@ -39,8 +39,8 @@ module.exports = {
                             return first[1] - second[1];
                         });
                     };
-                    console.log("Successfully parsed drivers");
-                    getDetour(driver_heuristics, rows).then(result => {console.log("Potential drivers for " + body.sid + driver_heuristics);});
+                    console.log("Successfully parsed drivers for " + body.sid);
+                    getDetour(driver_heuristics, rows).then(result => {console.log(driver_heuristics);});
                     result(driver_heuristics)
                 };
             });
