@@ -1,13 +1,12 @@
 // Dependencies
 // Had so much trouble getting fetch import to work, if you can fix this go
 // ahead.
-//import fetch from 'node-fetch'; 
-//import { createRequire } from 'module'
-const fetch = require('node-fetch');
+import fetch from 'node-fetch'; 
 if (!globalThis.fetch) {
     globalThis.fetch = fetch;
 }
-//const require = createRequire(import.meta.url);
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 const env = require('dotenv').config({path:'../../.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
