@@ -45,8 +45,8 @@ module.exports = {
                                 return first[1] - second[1];
                             });
                             console.log("Successfully parsed drivers");
-                            console.log(driver_heuristics);
                             result(driver_heuristics)
+                            console.log(driver_heuristics);
                         };
                     });
                // };
