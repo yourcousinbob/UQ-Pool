@@ -39,16 +39,12 @@ module.exports = {
                                     driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                                     pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                                     detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                                    console.log(driverETA)
-                                    console.log(pickupETA)
-                                    console.log(detourETA)
                                     heuristic = pickupETA + detourETA - driverETA;
                                     driver_heuristics.push([rows[i].registration, heuristic])
                                     driver_heuristics.sort((first, second) => {
                                         return first[1] - second[1];
                                     });
                                     console.log("Successfully parsed drivers");
-                                    console.log(driver_heuristics);
                                 }
                                     getDetour(driver_heuristics).then(result => {console.log(driver_heuristics);});
                                     result(driver_heuristics)
