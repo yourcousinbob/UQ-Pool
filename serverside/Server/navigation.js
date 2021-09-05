@@ -6,6 +6,7 @@ async function getTravelTime (origin, destination) {
     .then((res) => res.json())
     .then((data) => {
         console.log(data)
+        console.log(parseInt(data.rows[0].elements[0].duration.text))
         return parseInt(data.rows[0].elements[0].duration.text)
     }).catch((err) => {
         console.log('rejected', err)
