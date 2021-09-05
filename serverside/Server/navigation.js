@@ -1,16 +1,16 @@
 const pool = require('./dbPool');
 
-async function getTravelTime (origin, destination) {
+const getTravelTime = async (origin, destination) => {
     const key = process.env.GOOGLE_MAPS_API_KEY
-    await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&region=au&origins='+origin+'&destinations='+destination+'&key='+key)
+    const response = await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&region=au&origins='+origin+'&destinations='+destination+'&key='+key)
     .then((res) => res.json())
     .then((data) => {
         console.log(data)
-        console.log(parseInt(data.rows[0].elements[0].duration.text))
-        return parseInt(data.rows[0].elements[0].duration.text)
+        const output = data.rows[0].elements[0].duration.text
     }).catch((err) => {
         console.log('rejected', err)
     });
+    return parseInt(output)
 };
 
 module.exports = {
