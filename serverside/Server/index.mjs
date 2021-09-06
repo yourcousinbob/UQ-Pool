@@ -1,5 +1,13 @@
-
 // Dependencies
+// Had so much trouble getting fetch import to work, if you can fix this go
+// ahead.
+import fetch from 'node-fetch'; 
+if (!globalThis.fetch) {
+    globalThis.fetch = fetch;
+}
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const env = require('dotenv').config({path:'../../.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -112,16 +120,17 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        connected[body.user] = socket;
+        connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
+        console.log("User " + body.sid + " added")
     });
 
     // user x logging out
     // Get rid of user in either activeDriver | activeRider
     // delete socket connection in connected
     socket.on('logout', (body) => {
-        if (body.user in connected) {
-            delete connected[body.user];
+        if (body.sid in connected) {
+            delete connected[body.cwuser];
             socket.broadcast.emit('logout', body);
         }
     });
@@ -139,44 +148,48 @@ io.on('connection', async (socket) => {
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
 
-        if (body.driver in connected) {
+        if (body.sid in connected) {
+            console.log("Requesting pickup for rider " + body.sid);
             book.requestPickup(body, function (payload) {
-                result.send(payload);
+                connected[body.sid].emit('request', payload);
             });
-            connected[body.driver].emit('request', body.driver);
-        }
-
+        } else {
+            console.log("That user does not exist");
+        };
     });
 
     // user a cancels the request to user b
     // search for user b socket in connected and send cancel message
     socket.on('cancel', (body, request) => {
-        if (body.driver in connected) {
+
+        if (body.sid in connected) {
             book.cancelPickup(body, function (payload) {
-                result.send(payload);
+                connected[body.driver].emit('cancel', payload);
             });
-            connected[body.driver].emit('cancel', {message: "Cancelled ride."});
-        }
+        } else {
+            console.log("That user does not exist");
+        };
+
     });
 
-    // user b accepts request
-    // add a route if it doesn't exist
-    // Then decrease capacity
+    //User has accepted a driver
     socket.on('accept', (body, request) => {
-        if (body.passenger in connected) {
-            drivers = book.acceptPickup(body, function (payload) {
-                    result.send(payload);
-            });
-            connected[body.passenger].emit('accept', drivers)
-        }
-    });
 
-    // user b rejects and sends message to user 
-    // search for user a socket and send rejection notice
-    socket.on('reject', (body) => {
-        if (body.passenger in connected) {
-            connected[body.passenger].emit('reject', {message: "Ride rejected."});
-        }
-    });
-    
+        if (body.sid in connected) {
+            if (driver_id in pools) {
+                pool[driver_id].push(body.sid)
+            } else {
+                pool[driver_id] = [body.sid]
+            };
+            //TODO: Validate driver and car wants pickup 
+            book.acceptPickup(body, function (payload) {
+                console.log("User accepted driver " + body.sid);
+                connected[body.driver].emit('confirm', payload);
+                connected[body.sid].emit('confirm', payload);
+            });
+        } else {
+            console.log("That user does not exist");
+        };
+   });
+
 });

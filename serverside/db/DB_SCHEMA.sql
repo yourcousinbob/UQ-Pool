@@ -1,10 +1,10 @@
-DROP TABLE user;
 DROP TABLE activeDriver;
 DROP TABLE destination;
 DROP TABLE history;
 DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
+DROP TABLE user;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -31,8 +31,7 @@ location varchar(100) NOT NULL,
 registration varchar(10) NOT NULL,
 capacity INTEGER NOT NULL,
 PRIMARY KEY (driver_id),
-FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE,
-FOREIGN KEY (destination) REFERENCES destination(location) ON DELETE CASCADE);
+FOREIGN KEY (driver_id) REFERENCES user(sid) ON DELETE CASCADE);
 
 CREATE TABLE rating (
 sid varchar(8) NOT NULL,
@@ -76,6 +75,26 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 "https://www.someDomain.com/images/photo.jpg",
 0
 );
+INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+33211157,
+"Ben",
+"Wieser",
+"benny@student.uq.edu.au",
+0444797111,
+"I like ben",
+"https://www.ben.com/images/photo.jpg",
+0
+);
+INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+43211154,
+"Deece",
+"Figma",
+"email@student.uq.edu.au",
+0433777111,
+"I like pans",
+"https://www.someDomain.com/images/photo2.jpg",
+0
+);
 INSERT INTO rating (sid, rating) VALUES(
 43211157,
 5
@@ -86,4 +105,18 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 "Dreamworld",
 "BIGD",
 3
+);
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
+43211154,
+"Gallery of Modern Art Brisbane",
+"The University of Queensland",
+"KINO",
+2
+);
+INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
+33211157,
+"The University of Queensland",
+"Griffith University Brisbane",
+"BEN",
+4
 );

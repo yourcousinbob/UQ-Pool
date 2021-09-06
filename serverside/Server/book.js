@@ -7,38 +7,41 @@ module.exports = {
     //Search for a driver
     // body requires: 
     // rider_id, 
-    // location_lat, 
-    // location_long, 
+    // location, 
     // destination,
     requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
-            con.query("SELECT sid FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                if(err) throw err;
-                if (rows.length > 0){
-                    console.log("User already booked"+body.sid);
-                    json.error = 0;
-                    json.msg = "user already booked";
-                    result(json);
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
+            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
+                if(err) {
+                    console.log("Could not pass query")
+                    throw err;
+                }
+                if (rows.length < 1) {
+                    console.log("No available drivers");
                 } else {
-                    con.query("SELECT driver_id, location, destination FROM route WHERE rider_id='"+JSON.stringify(body.sid)+"' AND pickup_time IS NULL;", (err,rows) => {
-                        if (rows.length < 1) { //Might have to do a proximtiy check
-                            console.log("No available drivers");
-                        } else {
-                            driver_heuristics = {};
-                            for (let i = 0; i < rows.length; i++) {
-                                //Distance calc assuming all entries sound
-                                driverETA = navigation.getTravelTime(rows.location, rows.destination);
-                                pickupETA = navigation.getTravelTime(rows.location, body.location);
-                                detourETA = pickupETA + navigation.getTravelTime(body.location, body.destination);
-                                driver_heuristics[rows.registration] = detourETA //Add other metrics here with weighting
-                            };
-                            console.log("Successfully parsed drivers");
-                            con.release((err) => {
-                            });
-                            return driver_heuristics
-                        };
-                    });
+                    driver_heuristics = [];
+                    //Distance calc assuming all entries sound might
+                    //be better way to do async tried lots fix if u can.
+                    async function getDetour (driver_heuristics, rows) {
+                        for (let i = 0; i < rows.length; i++) {
+                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
+                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
+                            heuristic = pickupETA + detourETA - driverETA; //Add other factors to heuristic
+                            driver_heuristics.push([rows[i].registration, heuristic])
+                        }
+                        driver_heuristics.sort((first, second) => {
+                            return first[1] - second[1];
+                        });
+                    };
+                    console.log("Successfully parsed drivers for " + body.sid);
+                    getDetour(driver_heuristics, rows).then(result => {console.log(driver_heuristics);});
+                    result(driver_heuristics)
                 };
             });
             con.release((err) => {
@@ -47,9 +50,15 @@ module.exports = {
     },
 
     //Accept a pickup
+    //Body requires:
+    //driver_id,
     acceptPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             con.query("SELECT capacity FROM activeDriver WHERE driver_id='"+JSON.stringify(body.driver_id)+"';", (err,rows) => {
                 if(err) throw err;
                 if (rows.capacity == 0) {
@@ -76,9 +85,16 @@ module.exports = {
     },
 
     //Cancel a pickup
+    //Body requires:
+    //route_id, -- might need to change TODO:
+    //rider_id,
     cancelPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             con.query("DELETE FROM route WHERE route_id='"+body.route_id+"' AND rider_id='"+body.rider_id+"';", (err, row) => {
                 if(err) throw err;
                 json.msg = "pickup successfully cancelled";

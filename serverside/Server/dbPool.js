@@ -6,7 +6,7 @@ host: 'localhost',
 user : 'root',
 password : 'WilsonLOVE',
 database : 'UQPool',
-    multipleStatements: true
+multipleStatements: true,
 });
 
 module.exports = pool;
