@@ -29,11 +29,11 @@ module.exports = {
                     //be better way to do async tried lots fix if u can.
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
-                            driverData = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                            driverData = await navigation.getTravelTime(rows[i].location, rows[i].destination).json;
                             driverETA = parseInt(driverData.rows[0].elements[0].duration.text);
-                            pickupData = await navigation.getTravelTime(rows[i].location, body.location);
+                            pickupData = await navigation.getTravelTime(rows[i].location, body.location).json;
                             pickupETA = parseInt(pickupData.rows[0].elements[0].duration.text);
-                            detourData = await navigation.getTravelTime(body.location, body.destination) 
+                            detourData = await navigation.getTravelTime(body.location, body.destination).json; 
                             detourETA = parseInt(detourETA.rows[0].elements[0].duration.text);
                             heuristic = pickupETA + detourETA - driverETA; //Add other factors to heuristic
                             driver_heuristics.push([rows[i].registration, heuristic])
