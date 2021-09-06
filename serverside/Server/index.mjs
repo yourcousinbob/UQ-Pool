@@ -118,7 +118,6 @@ app.delete('/rate', async(req, res) => {
         res.send(payload);
     });
 });
-
 /*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);

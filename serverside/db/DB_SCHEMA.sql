@@ -67,11 +67,12 @@ message TEXT NOT NULL,
 PRIMARY KEY (time_stamp),
 FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211157,
 "Dirk",
 "Diggler",
 "ddaddy@student.uq.edu.au",
+"deece",
 0444777111,
 "I like pancakes and syrup on sunday mornings",
 "https://www.someDomain.com/images/photo.jpg",
@@ -81,6 +82,7 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 33211157,
 "Ben",
 "Wieser",
+"deece",
 "benny@student.uq.edu.au",
 0444797111,
 "I like ben",
@@ -91,6 +93,7 @@ INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) 
 43211154,
 "Deece",
 "Figma",
+"doze",
 "email@student.uq.edu.au",
 0433777111,
 "I like pans",
