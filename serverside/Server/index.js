@@ -35,9 +35,7 @@ app.use(morgan('combined'));
 // Start the HTTPS servers
 const httpsServer = https.createServer(credentials, app);
 
-httpsServer.listen(httpsPort, () => {
-		console.log('HTTPS Server running on port ' + httpsPort);
-});
+
 
 
 // end point requires
@@ -119,6 +117,13 @@ app.delete('/rate', async(req, res) => {
   }
   console.log(`server is listening on ${port}`);
 })*/
+
+httpsServer.listen(httpsPort, (err) => {
+    if (err) {
+        return console.log('Error: ' + err);
+    }
+	console.log('HTTPS Server running on port ' + httpsPort);
+});
 
 // webhook section
 const io = require('socket.io')(httpsServer);
