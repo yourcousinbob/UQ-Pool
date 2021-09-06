@@ -40,8 +40,10 @@ module.exports = {
                         });
                     };
                     console.log("Successfully parsed drivers for " + body.sid);
-                    getDetour(driver_heuristics, rows).then(result => {console.log(driver_heuristics);});
-                    result(driver_heuristics)
+                    getDetour(driver_heuristics, rows).then(response => {
+                        console.log(driver_heuristics);
+                        result(driver_heuristics)
+                    });
                 };
             });
             con.release((err) => {
