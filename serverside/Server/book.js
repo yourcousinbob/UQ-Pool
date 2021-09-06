@@ -28,11 +28,12 @@ module.exports = {
                     //Distance calc assuming all entries sound might
                     //be better way to do async tried lots fix if u can.
                     async function getDetour (driver_heuristics, rows) {
+                        console.log(body.location)
                         for (let i = 0; i < rows.length; i++) {
                             driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                             pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                             detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                            heuristic = pickupETA + detourETA - driverETA;
+                            heuristic = pickupETA + detourETA - driverETA; //Add other factors to heuristic
                             driver_heuristics.push([rows[i].registration, heuristic])
                         }
                         driver_heuristics.sort((first, second) => {
@@ -51,7 +52,7 @@ module.exports = {
 
     //Accept a pickup
     //Body requires:
-    //drive_id,
+    //driver_id,
     acceptPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {

@@ -167,7 +167,7 @@ io.on('connection', async (socket) => {
                 connected[body.driver].emit('cancel', payload);
             });
         } else {
-            console.log("That user does not exist")
+            console.log("That user does not exist");
         };
 
     });
@@ -175,15 +175,20 @@ io.on('connection', async (socket) => {
     //User has accepted a driver
     socket.on('accept', (body, request) => {
 
-        book.acceptPickup(body, function (payload) {
-            console.log("User accepted driver " + body.sid);
-        });
-
-        //TODO: Validate driver and car wants pickup 
-        if (driver_id in pools) {
-            pool[driver_id].push(body.sid)
+        if (body.sid in connected) {
+            if (driver_id in pools) {
+                pool[driver_id].push(body.sid)
+            } else {
+                pool[driver_id] = [body.sid]
+            };
+            //TODO: Validate driver and car wants pickup 
+            book.acceptPickup(body, function (payload) {
+                console.log("User accepted driver " + body.sid);
+                connected[body.driver].emit('confirm', payload);
+                connected[body.sid].emit('confirm', payload);
+            });
         } else {
-            pool[driver_id] = [body.sid]
+            console.log("That user does not exist");
         };
    });
 
