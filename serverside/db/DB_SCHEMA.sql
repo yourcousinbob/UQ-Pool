@@ -73,28 +73,31 @@ INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone
 "Diggler",
 "ddaddy@student.uq.edu.au",
 "deece",
+123123123,
 0444777111,
 "I like pancakes and syrup on sunday mornings",
 "https://www.someDomain.com/images/photo.jpg",
 0
 );
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 33211157,
 "Ben",
 "Wieser",
-"deece",
 "benny@student.uq.edu.au",
+"deece",
+12312312,
 0444797111,
 "I like ben",
 "https://www.ben.com/images/photo.jpg",
 0
 );
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211154,
 "Deece",
 "Figma",
-"doze",
 "email@student.uq.edu.au",
+"doze",
+12312312,
 0433777111,
 "I like pans",
 "https://www.someDomain.com/images/photo2.jpg",
