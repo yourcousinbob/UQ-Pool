@@ -10,7 +10,6 @@ const getTravelTime = async (origin, destination) => {
     .catch((err) => {
         console.log(err.message)
     });
-    console.log(response)
     return response
 };
 
