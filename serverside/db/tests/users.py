@@ -16,7 +16,7 @@ data = {
 "image": "test",
 }
 
-url = 'http://localhost:7777/users'
+url = 'https://uqpool.xyz:7777/users'
 
 if __name__ == "__main__":
     print('users list test')
