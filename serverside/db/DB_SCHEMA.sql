@@ -123,8 +123,8 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 );
 INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
 33211157,
+"Dreamworld",
 "The University of Queensland",
-"Griffith University Brisbane",
 "BEN",
 4
 );

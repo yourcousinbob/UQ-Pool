@@ -30,9 +30,9 @@ module.exports = {
 
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
-                            driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
-                            pickupETA = navigation.getTravelTime(rows[i].location, body.location);
-                            detourETA = navigation.getTravelTime(body.location, body.destination) 
+                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
+                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
+                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
                             heuristic = pickupETA + detourETA - driverETA;
                             driver_heuristics.push([rows[i].registration, heuristic])
                         }
@@ -41,11 +41,11 @@ module.exports = {
                         });
                     }
 
-                    console.log("Successfully parsed drivers for " + body.sid);
-                    getDetour(driver_heuristics, rows).then(response => {
-                        console.log(driver_heuristics);
-                        result(driver_heuristics)
-                    });
+                        console.log("Successfully parsed drivers for " + body.sid);
+                        getDetour(driver_heuristics, rows).then(response => {
+                            console.log(driver_heuristics);
+                            result(driver_heuristics)
+                        });
                 };
             });
             con.release((err) => {
