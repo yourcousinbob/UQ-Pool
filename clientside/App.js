@@ -10,6 +10,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 /* Screens */
 import HomeScreen from './screens/HomeScreen';
 import RiderScreen from './screens/RiderScreen';
+import SampleScreen from './screens/SampleScreen';
+// import new screens here
 
 
 export default function App() {
@@ -35,6 +37,12 @@ export default function App() {
                 component={RiderScreen}
                 options={{headerShown:false}}
               />
+              <Stack.Screen 
+                name='SampleScreen'
+                component={SampleScreen}
+                options={{headerShown:false}}
+              />
+              {/*You need to add new screens here */}
             </Stack.Navigator>
           </KeyboardAvoidingView>
         </SafeAreaProvider>
@@ -43,3 +51,4 @@ export default function App() {
   );
 }
 
+//

@@ -11,6 +11,7 @@ data = {
 "phone": 444777111,
 "bio" : "whatever floats your boat",
 "image": "test",
+"password":"lololol",
 }
 headers = {'content-type': 'application/json'}
 # Testing email 
@@ -22,6 +23,7 @@ data2 = {
 "phone": 444777111,
 "bio" : "whatever floats your boat",
 "image": "test",
+"password": "lmaolmao",
 }
 
 # Testing wrong student digit count
@@ -33,6 +35,7 @@ data3 = {
 "phone": 444777111,
 "bio" : "whatever floats your boat",
 "image": "test",
+"password":"10101010",
 }
 
 # Testing proper insert
@@ -44,9 +47,10 @@ data4 = {
 "phone": 444777111,
 "bio" : "whatever floats your boat",
 "image": "test",
+"password":"12919djas9fj"
 }
 
-url = 'http://localhost:7777/user'
+url = 'https://uqpool.xyz:7777/user'
 
 if __name__ == "__main__":
     print('user exists test')

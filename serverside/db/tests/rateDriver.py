@@ -16,7 +16,7 @@ data2 = {
     "rating": 5
 }
 
-url = 'http://localhost:7777/rate'
+url = 'https://uqpool.xyz:7777/rate'
 
 if __name__ == "__main__":
     print('user does not exist test')
