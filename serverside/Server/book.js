@@ -30,9 +30,9 @@ module.exports = {
 
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
-                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
-                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
-                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
+                            driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
+                            pickupETA = navigation.getTravelTime(rows[i].location, body.location);
+                            detourETA = navigation.getTravelTime(body.location, body.destination) 
                             heuristic = pickupETA + detourETA - driverETA;
                             driver_heuristics.push([rows[i].registration, heuristic])
                         }
