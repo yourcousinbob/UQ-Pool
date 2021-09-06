@@ -5,8 +5,21 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const fs = require('fs');
+const https = require('https');
 
-const port = 7777;
+// TLS/SSL Certificates
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+const httpsPort = 6969;
 
 // define express
 const app = express();
@@ -18,6 +31,14 @@ app.use(bodyParser.json());
 app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
+
+// Start the HTTPS servers
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(httpsPort, () => {
+		console.log('HTTPS Server running on port ' + httpsPort);
+});
+
 
 // end point requires
 const user = require('./user');
@@ -92,15 +113,15 @@ app.delete('/rate', async(req, res) => {
     });
 });
 
-const server = app.listen(port, (err) => {
+/*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
   }
   console.log(`server is listening on ${port}`);
-})
+})*/
 
 // webhook section
-const io = require('socket.io')(server);
+const io = require('socket.io')(httpsServer);
 
 /* Webhook section
 These are a reflection of the user/location/booking/review methods but for 
