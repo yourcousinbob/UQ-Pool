@@ -19,7 +19,7 @@ const credentials = {
 	ca: ca
 };
 
-const httpsPort = 6969;
+const httpsPort = 7777;
 
 // define express
 const app = express();
@@ -76,7 +76,7 @@ app.put('/user', async(req, res) => {
 });
 
 app.delete('/user', async(req, res) => {
-    user.delete(req.body.user, function (payload) {
+    user.remove(req.body.user, function (payload) {
         res.send(payload);
     });
 });
