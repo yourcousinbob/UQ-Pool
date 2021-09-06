@@ -28,7 +28,6 @@ module.exports = {
                     //Distance calc assuming all entries sound might
                     //be better way to do async tried lots fix if u can.
                     async function getDetour (driver_heuristics, rows) {
-                        console.log(body.location)
                         for (let i = 0; i < rows.length; i++) {
                             driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                             pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
