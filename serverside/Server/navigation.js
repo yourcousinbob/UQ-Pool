@@ -1,14 +1,18 @@
-import { GOOGLE_MAPS_API_KEY } from "@env";
-const pool = require('./dbPool')
+const pool = require('./dbPool');
 
-const getTravelTime = (origin, destination) => {
-    fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key={GOOGLE_MAPS_API_KEY}')
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data)
-        return parseInt(data.rows[0].elements[0].duration.text)
+const getTravelTime = async (origin, destination) => {
+    const key = process.env.GOOGLE_MAPS_API_KEY
+    let response = await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&region=au&origins='+origin+'&destinations='+destination+'&key='+key)
+    .then(res => res.json())
+    .then(data => {
+        return parseInt(data.rows[0].elements[0].duration.text);
+    })
+    .catch((err) => {
+        console.log(err.message)
     });
+    return response
 };
+
 
 module.exports = {
     getTravelTime,
