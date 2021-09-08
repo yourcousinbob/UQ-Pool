@@ -1,10 +1,14 @@
-const pool = require('./dbPool')
-const crypto = require('crypto')
+const pool = require('./dbPool');
+const crypto = require('crypto');
 
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256');
     const hash = sha256.update(password).digest('base64');
     return hash;
+}
+
+function generateAuthenticationToken (sid) {
+	return jwt.sign(sid, process.env.TOKEN_SECRET, {expiresIn: '7200'});
 }
 
 
@@ -22,7 +26,9 @@ module.exports = {
 		    json.error = 6;
 		    result({ msg:"Invalid email or password"});
 		} else {
-		    console.log("Successful login for " + body.email);		   
+		    console.log("Successful login for " + body.email);
+		    const authToken = generateAuthenticationToken(body.sid);
+		    result({msg:"Successful Login", authToken: authToken});
 		}
 	    });
         });
