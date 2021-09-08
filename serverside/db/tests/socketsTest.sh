@@ -9,5 +9,5 @@ declare -a arr=("44412341" "22325454" "12341234" "55334455" "66666666" "53432345
 for i in "${arr[@]}"
 do
 echo "connecting $i"
-ttab python socketSingleBroadcast.py $i
+ttab python3 ./socket/socketSingleBroadcast.py $i
 done

@@ -20,7 +20,7 @@ async def disconnect():
 
 async def main(sid):
     x, y = 0.0, 0.0
-    await sio.connect('http://103.4.234.91:7777')
+    await sio.connect('https://uqpool.xyz')
     await sio.wait()
     for i in range(1, 10):
         time.delay(2)
