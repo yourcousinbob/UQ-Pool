@@ -1,10 +1,16 @@
-const pool = require('./dbPool')
-const crypto = require('crypto')
+const pool = require('./dbPool');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const env = require('dotenv').config({path:'../../.env'});
 
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256');
     const hash = sha256.update(password).digest('base64');
     return hash;
+}
+
+function generateAuthenticationToken (email) {
+	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
 
@@ -22,7 +28,10 @@ module.exports = {
 		    json.error = 6;
 		    result({ msg:"Invalid email or password"});
 		} else {
-		    console.log("Successful login for " + body.email);		   
+		    console.log("Successful login for " + body.email);
+		    const authToken = generateAuthenticationToken(body.email);
+		    console.log("Auth token generated");
+		    result({msg:"Successful Login", auth_token: authToken});
 		}
 	    });
         });

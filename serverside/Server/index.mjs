@@ -15,6 +15,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const fs = require('fs');
 const https = require('https');
+const jwt = require('jsonwebtoken');
 
 // TLS/SSL Certificates
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/privkey.pem', 'utf8');
@@ -26,6 +27,21 @@ const credentials = {
 	cert: certificate,
 	ca: ca
 };
+
+// Authenticate tokens before doing requests
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, sid) => {
+	console.log(err);
+	if (err) return res.sendStatus(403)
+	req.sid = sid
+	next()
+    })
+}
 
 const httpsPort = 7777;
 
@@ -93,7 +109,7 @@ app.post('/user', async(req, res) => {
     });
 });
 
-app.get('/users', async(req, res) => {
+app.get('/users', authenticateToken, async(req, res) => {
     user.users(req.body, function (payload) {
         res.send(payload);
     });
