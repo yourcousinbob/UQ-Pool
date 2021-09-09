@@ -5,7 +5,8 @@ const initialState = {
     first_name: null,
     last_name: null,
     email: null,
-    phone: null
+    phone: null,
+    authentication_token: null
 }
 
 export const userSlice = createSlice({
@@ -26,12 +27,15 @@ export const userSlice = createSlice({
         },
         setPhone: (state, action) => {
             state.phone = action.payload;
+        },
+        setAuthentication: (state, action) => {
+            state.authentication_token = action.payload;
         }
     }
 });
 
 export const { setSID, setFirst, 
-    setLast, setEmail, setPhone } = sessionSlice.actions;
+    setLast, setEmail, setPhone, setAuthentication } = userSlice.actions;
 
 // Selectors
 export const selectSID = (state) => state.user.sid;
@@ -39,5 +43,6 @@ export const selectFirst = (state) => state.user.first_name;
 export const selectLast = (state) => state.user.last_name;
 export const selectEmail = (state) => state.user.email;
 export const selectPhone = (state) => state.user.phone;
+export const selectAuthentication = (state) => authentication_token;
 
-export default UserSlice.reducer;
+export default userSlice.reducer;

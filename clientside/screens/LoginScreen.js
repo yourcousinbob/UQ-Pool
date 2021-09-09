@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native'
 import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
-import HomeScreen from './HomeScreen'
-
-
+import { useDispatch, MapDispatchToProps, connect} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
+import userSlice from '../slices/userSlice'
+
 function RegistrationButton() {
     const navigation = useNavigation();
   
@@ -23,23 +23,21 @@ function RegistrationButton() {
     );
   }
 
-function GoToHomescreen() {
-    const navigation = useNavigation();
-    navigation.navigate("HomeScreen")
-}
+
 
 export class LoginScreen extends Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
             email: "",
             password: "",
             validEmail: false,
-            success: false,
-            auth_token: ""
+            token: null
         };
     }
+
+    
 
     /* This section should check that registration was previously successful from the user slice.
     If so, don't render and just go straight to initial page
@@ -56,7 +54,7 @@ export class LoginScreen extends Component {
         }
 
         try {
-            const response = await fetch('http://103.4.234.91:7777/login', {
+            const response = await fetch('https://uqpool.xyz:7777/login', {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -71,8 +69,8 @@ export class LoginScreen extends Component {
             const json = await response.json();
             if (json.msg =="Successful Login") {
                 // alert the user
-                this.state.success = true;
-                this.auth_token = json.auth;
+                this.state.token = json.authentication_token
+                this.props.setAuthentication(this.state.token)
             } else {
                 console.log(json.msg);
                 // Switch to the initial state of the app
@@ -111,7 +109,7 @@ export class LoginScreen extends Component {
                         onChangeText={email => {this.setState({email})}}
                         placeholder="Email"
                         value={this.state.email}
-                        pattern={'^[a-zA-Z0-9_\-]*@uq.edu.au'} //uq domain, NEED TO FIX
+                        pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
                         onValidation={validEmail => this.setState({validEmail})}
                     />
 
@@ -143,7 +141,13 @@ export class LoginScreen extends Component {
   }
 }
   
-export default LoginScreen
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAuthentication: (authentication_token) => dispatch({type: 'setAuthentication', authentication_token: authentication_token}),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(LoginScreen);
   
 const styles = StyleSheet.create({
     input: {

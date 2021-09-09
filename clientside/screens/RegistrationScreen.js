@@ -41,7 +41,7 @@ export class RegistrationScreen extends Component {
         }
 
         try {
-            const response = await fetch('http://103.4.234.91:7777/user', {
+            const response = await fetch('https://uqpool.xyz:7777/user', {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -58,10 +58,12 @@ export class RegistrationScreen extends Component {
             });
 
             const json = await response.json();
-            if (json.msg =="Successful Creation") {
+            if (json.msg =="User Succesfully Created") {
                 // alert the user
+                //navigation.navigate("LoginScreen") can't call hooks in function
             } else {
                 console.log(json.msg);
+
                 // Switch to the initial state of the app
             }
 
@@ -127,7 +129,7 @@ export class RegistrationScreen extends Component {
                                 onChangeText={email => {this.setState({email})}}
                                 placeholder="UQ Email"
                                 value={this.state.email}
-                                pattern={'^[a-zA-Z0-9_\-\.]+@(uq uqconnect).edu.au'} 
+                                pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'} 
                                 onValidation={validEmail => this.setState({validEmail})}
                             /> 
 

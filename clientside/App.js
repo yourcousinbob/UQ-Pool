@@ -5,20 +5,13 @@ import { Provider } from "react-redux";
 import { store } from './store';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-/* Screens */
-import LoginScreen from './screens/LoginScreen';
-import RegistrationScreen from './screens/RegistrationScreen';
-import HomeScreen from './screens/HomeScreen';
-import RiderScreen from './screens/RiderScreen';
-import SampleScreen from './screens/SampleScreen';
+
+import AuthNavigator from './navigators/AuthNavigator';
 // import new screens here
 
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
-
+export default function App({ navigation }) {
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -28,34 +21,7 @@ export default function App() {
             style={{flex: 1}}
             keyboardVerticalOffset={Platform.OS === "android" ? -64 : 0}
           >
-            <Stack.Navigator>
-              <Stack.Screen 
-                name='LoginScreen'
-                component={LoginScreen}
-                options={{headerShown:false}}
-              />
-              <Stack.Screen 
-                name='RegistrationScreen'
-                component={RegistrationScreen}
-                options={{headerShown:false}}
-              />
-              <Stack.Screen 
-                name='HomeScreen'
-                component={HomeScreen}
-                options={{headerShown:false}}
-              />
-              <Stack.Screen 
-                name='RiderScreen'
-                component={RiderScreen}
-                options={{headerShown:false}}
-              />
-              <Stack.Screen 
-                name='SampleScreen'
-                component={SampleScreen}
-                options={{headerShown:false}}
-              />
-              {/*You need to add new screens here */}
-            </Stack.Navigator>
+            <AuthNavigator/>
           </KeyboardAvoidingView>
         </SafeAreaProvider>
       </NavigationContainer>
