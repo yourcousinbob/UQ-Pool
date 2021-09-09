@@ -6,6 +6,7 @@ import ValidatedTextInput from '../components/ValidatedTextInput'
 
 
 export class RegistrationScreen extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -61,6 +62,7 @@ export class RegistrationScreen extends Component {
             if (json.msg =="User Succesfully Created") {
                 // alert the user
                 //navigation.navigate("LoginScreen") can't call hooks in function
+                this.props.navigation.navigate('LoginScreen')
             } else {
                 console.log(json.msg);
 
