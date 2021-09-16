@@ -11,10 +11,11 @@ data = {
 "phone": 444777111,
 "bio" : "whatever floats your boat",
 "image": "test",
+"password": "password",
 }
 headers = {'content-type': 'application/json'}
 
-url = 'http://localhost:7777/user'
+url = 'https://uqpool.xyz:7777/user'
 
 if __name__ == "__main__":
     content = s.post(url, json=data, headers=headers).content

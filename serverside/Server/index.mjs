@@ -1,12 +1,49 @@
-
 // Dependencies
+// Had so much trouble getting fetch import to work, if you can fix this go
+// ahead.
+import fetch from 'node-fetch'; 
+if (!globalThis.fetch) {
+    globalThis.fetch = fetch;
+}
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const env = require('dotenv').config({path:'../../.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const fs = require('fs');
+const https = require('https');
+const jwt = require('jsonwebtoken');
 
-const port = 7777;
+// TLS/SSL Certificates
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+// Authenticate tokens before doing requests
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, sid) => {
+	console.log(err);
+	if (err) return res.sendStatus(403)
+	req.sid = sid
+	next()
+    })
+}
+
+const httpsPort = 7777;
 
 // define express
 const app = express();
@@ -18,6 +55,12 @@ app.use(bodyParser.json());
 app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
+
+// Start the HTTPS servers
+const httpsServer = https.createServer(credentials, app);
+
+
+
 
 // end point requires
 const user = require('./user');
@@ -42,8 +85,8 @@ rewards
 */
 
 // Registration section
-app.post('/user', async(req, res) => {
-    user.create(req.body, function (payload) {
+app.post('/login', async(req, res) => {
+    user.login(req.body, function (payload) {
         res.send(payload);
     });
 });
@@ -55,12 +98,18 @@ app.put('/user', async(req, res) => {
 });
 
 app.delete('/user', async(req, res) => {
-    user.delete(req.body.user, function (payload) {
+    user.remove(req.body.user, function (payload) {
         res.send(payload);
     });
 });
 
-app.get('/users', async(req, res) => {
+app.post('/user', async(req, res) => {
+    user.create(req.body, function (payload) {
+	res.send(payload);
+    });
+});
+
+app.get('/users', authenticateToken, async(req, res) => {
     user.users(req.body, function (payload) {
         res.send(payload);
     });
@@ -85,16 +134,22 @@ app.delete('/rate', async(req, res) => {
         res.send(payload);
     });
 });
-
-const server = app.listen(port, (err) => {
+/*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
   }
   console.log(`server is listening on ${port}`);
-})
+})*/
+
+httpsServer.listen(httpsPort, (err) => {
+    if (err) {
+        return console.log('Error: ' + err);
+    }
+	console.log('HTTPS Server running on port ' + httpsPort);
+});
 
 // webhook section
-const io = require('socket.io')(server);
+const io = require('socket.io')(httpsServer);
 
 /* Webhook section
 These are a reflection of the user/location/booking/review methods but for 
@@ -112,16 +167,17 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        connected[body.user] = socket;
+        connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
+        console.log("User " + body.sid + " added")
     });
 
     // user x logging out
     // Get rid of user in either activeDriver | activeRider
     // delete socket connection in connected
     socket.on('logout', (body) => {
-        if (body.user in connected) {
-            delete connected[body.user];
+        if (body.sid in connected) {
+            delete connected[body.cwuser];
             socket.broadcast.emit('logout', body);
         }
     });
@@ -139,44 +195,48 @@ io.on('connection', async (socket) => {
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
 
-        if (body.driver in connected) {
+        if (body.sid in connected) {
+            console.log("Requesting pickup for rider " + body.sid);
             book.requestPickup(body, function (payload) {
-                result.send(payload);
+                connected[body.sid].emit('request', payload);
             });
-            connected[body.driver].emit('request', body.driver);
-        }
-
+        } else {
+            console.log("That user does not exist");
+        };
     });
 
     // user a cancels the request to user b
     // search for user b socket in connected and send cancel message
     socket.on('cancel', (body, request) => {
-        if (body.driver in connected) {
+
+        if (body.sid in connected) {
             book.cancelPickup(body, function (payload) {
-                result.send(payload);
+                connected[body.driver].emit('cancel', payload);
             });
-            connected[body.driver].emit('cancel', {message: "Cancelled ride."});
-        }
+        } else {
+            console.log("That user does not exist");
+        };
+
     });
 
-    // user b accepts request
-    // add a route if it doesn't exist
-    // Then decrease capacity
+    //User has accepted a driver
     socket.on('accept', (body, request) => {
-        if (body.passenger in connected) {
-            drivers = book.acceptPickup(body, function (payload) {
-                    result.send(payload);
-            });
-            connected[body.passenger].emit('accept', drivers)
-        }
-    });
 
-    // user b rejects and sends message to user 
-    // search for user a socket and send rejection notice
-    socket.on('reject', (body) => {
-        if (body.passenger in connected) {
-            connected[body.passenger].emit('reject', {message: "Ride rejected."});
-        }
-    });
-    
+        if (body.sid in connected) {
+            if (driver_id in pools) {
+                pool[driver_id].push(body.sid)
+            } else {
+                pool[driver_id] = [body.sid]
+            };
+            //TODO: Validate driver and car wants pickup 
+            book.acceptPickup(body, function (payload) {
+                console.log("User accepted driver " + body.sid);
+                connected[body.driver].emit('confirm', payload);
+                connected[body.sid].emit('confirm', payload);
+            });
+        } else {
+            console.log("That user does not exist");
+        };
+   });
+
 });

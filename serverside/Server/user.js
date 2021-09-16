@@ -1,32 +1,62 @@
-const pool = require('./dbPool')
+const pool = require('./dbPool');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const env = require('dotenv').config({path:'../../.env'});
+
+const getHashedPassword = (password) => {
+    const sha256 = crypto.createHash('sha256');
+    const hash = sha256.update(password).digest('base64');
+    return hash;
+}
+
+function generateAuthenticationToken (email) {
+	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+}
+
 
 module.exports = {
+
+    //Log in user
+    login(body, result) {
+	var json = {};
+	console.log("Attemped Log in for: " + body.email);
+	pool.getConnection(function(err, con) {
+	    con.query("SELECT sid FROM user WHERE email='"  + body.email + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
+		if (err) throw err;
+		if (rows.length == 0){
+		    console.log("Invalid email or password for: " + body.email);
+		    json.error = 6;
+		    result({ msg:"Invalid email or password"});
+		} else {
+		    console.log("Successful login for " + body.email);
+		    const authToken = generateAuthenticationToken(body.email);
+		    console.log("Auth token generated");
+		    result({msg:"Successful Login", auth_token: authToken});
+		}
+	    });
+        });
+    },
 
     //Creates User
     create(body, result) {
         var json = {};
-        if (JSON.stringify(body.sid).match(/[!@#\$%\|\}\{\]\[]+/g) != null) {
-            console.log("forbidden character in username");
-            json.error = 0;
-            json.msg = "illegal character";
-            result(json);
-            return;
-        }
 
+	console.log("Attempted User Creation for: " + body.sid);
         pool.getConnection(function(err, con) {
-            con.query("SELECT sid FROM user WHERE sid='"+JSON.stringify(body.sid)+"';", (err,rows) => {
+            con.query("SELECT sid FROM user WHERE sid='"+ body.sid +"';", (err,rows) => {
                 if(err) throw err;
                 if (rows.length > 0){
-                    console.log("User already exists"+body.sid);
+                    console.log("User already exists with "+body.sid);
                     json.error = 4;
                     json.msg = "user already exists";
                     result(json);
                 } else {
-                    const user = { sid: JSON.stringify(body.sid), first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0};
+                    const user = { sid: body.sid, first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0, password:getHashedPassword(body.password)};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
-                        json.msg = "user successfully created";
-                        result(json);
+			console.log("User created with sid: " + body.sid);
+                        json.msg = "User Succesfully Created";
+			result(json);
                     });
                     con.release((err) => {
                     });
