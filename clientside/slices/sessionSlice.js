@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     origin: null,
     destination: null,
-    travelTimeInfomration: null
+    travelTimeInformation: null
 }
 
 export const sessionSlice = createSlice({
@@ -28,6 +28,6 @@ export const { setOrigin, setDestination,
 // Selectors
 export const selectOrigin = (state) => state.session.origin;
 export const selectDestination = (state) => state.session.destination;
-export const selectTravelTimeInfomration = (state) => state.session.travelTimeInfomration;
+export const selectTravelTimeInformation = (state) => state.session.travelTimeInformation;
 
 export default sessionSlice.reducer;
