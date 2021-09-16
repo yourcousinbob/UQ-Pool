@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native'
 import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
-import { useDispatch, MapDispatchToProps, connect} from 'react-redux'
+import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
-import userSlice from '../slices/userSlice'
+import userSlice, { selectAuthentication, setAuthentication } from '../slices/userSlice'
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -69,7 +69,7 @@ export class LoginScreen extends Component {
             const json = await response.json();
             if (json.msg =="Successful Login") {
                 // alert the user
-                this.state.token = json.authentication_token
+                this.state.token = json.auth_token
                 this.props.setAuthentication(this.state.token)
             } else {
                 console.log(json.msg);
@@ -112,14 +112,13 @@ export class LoginScreen extends Component {
                         pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
                         onValidation={validEmail => this.setState({validEmail})}
                     />
-
+                    
                     <TextInput
                         style={styles.input}
                         onChangeText={password => {this.setState({password})}}
                         placeholder="Password"
                         value={this.state.password}
                     />
-
                     <TouchableOpacity 
                         onPress={() => this.loginUser()}
                         style={styles.button}
@@ -127,7 +126,6 @@ export class LoginScreen extends Component {
                         <Text
                             style={styles.buttonText}
                         >
-                            Log In
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
@@ -143,11 +141,15 @@ export class LoginScreen extends Component {
   
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAuthentication: (authentication_token) => dispatch({type: 'setAuthentication', authentication_token: authentication_token}),
+        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(LoginScreen);
+function mapStateToProps(state) {
+    return { authentication_token: state.user.authentication_token }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
   
 const styles = StyleSheet.create({
     input: {
