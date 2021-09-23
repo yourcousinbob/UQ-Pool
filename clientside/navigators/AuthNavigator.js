@@ -9,7 +9,9 @@ import RegistrationScreen from '../screens/RegistrationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import RiderScreen from '../screens/RiderScreen';
 import SampleScreen from '../screens/SampleScreen';
+import HomeScreenNavigator from './HomeScreenNavigator';
 import { selectAuthentication } from '../slices/userSlice';
+import DriverScreen from '../screens/DriverScreen';
 
 export default function AuthNavigator() {
     const Stack = createNativeStackNavigator(); 
@@ -34,12 +36,17 @@ export default function AuthNavigator() {
                 <>
                     <Stack.Screen 
                     name='HomeScreen'
-                    component={HomeScreen}
+                    component={HomeScreenNavigator}
                     options={{headerShown:false}}
                     />
                     <Stack.Screen 
                     name='RiderScreen'
                     component={RiderScreen}
+                    options={{headerShown:false}}
+                    />
+                    <Stack.Screen 
+                    name='DriverScreen'
+                    component={DriverScreen}
                     options={{headerShown:false}}
                     />
                     <Stack.Screen 
