@@ -5,8 +5,7 @@ import ValidatedTextInput from '../components/ValidatedTextInput'
 import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
 import userSlice, { selectAuthentication, setAuthentication } from '../slices/userSlice'
-
-let socket = io('https://uqpool.xyz:7777', { autoConnect: false });
+import { io } from "socket.io-client";
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -35,11 +34,10 @@ export class LoginScreen extends Component {
             email: "",
             password: "",
             validEmail: false,
-            token: null
+            token: null,
+            socket = null
         };
     }
-
-    
 
     /* This section should check that registration was previously successful from the user slice.
     If so, don't render and just go straight to initial page
@@ -70,13 +68,19 @@ export class LoginScreen extends Component {
 
             const json = await response.json();
 
-            // Connect to socket
-            socket.connect();
-
-            if (json.msg =="Successful Login" && socket.connected) {
+            if (json.msg =="Successful Login") {
                 // alert the user
                 this.state.token = json.auth_token
                 this.props.setAuthentication(this.state.token)
+
+                // Connect to socket
+                this.state.socket = io('https://uqpool.xyz:7777', { auth: { token: this.state.token } })
+                
+                if (this.socket.connected = false) {
+                    throw 'Failed to connect to socket';
+                }
+                this.props.setSocket(this.state.socket)
+
             } else {
                 console.log(json.msg);
                 // Switch to the initial state of the app

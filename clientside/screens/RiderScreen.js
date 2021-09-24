@@ -3,13 +3,18 @@ import { StyleSheet, View} from 'react-native'
 import Map from '../components/Map'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DestinationCard from '../components/DestinationCard'
-import { setDestination } from '../slices/sessionSlice'
+import { setDestination , selectOrigin, selectDestination} from '../slices/sessionSlice'
+import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
-async getDrivers() {
-    if (!(this.state.validSID && this.state.validFN && this.state.validLN && this.state.validEmail && this.state.validPhone)) {
-        console.log("Invalid signup details");
-        return
-    }
+async function getDrivers() {
+    msg = JSON.stringify({
+        sid: selectSID,
+        location: selectOrigin,
+        destination: selectDestination})
+    selectSocket.emit('request', msg)
+    let response = await selectSocket.on('requestResponse', (body) => {
+        console.log(body)
+    })
 };
 
 const RiderScreen = () => {

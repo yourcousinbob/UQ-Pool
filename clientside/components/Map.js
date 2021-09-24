@@ -7,7 +7,6 @@ import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
 
 
-
 const Map = () => {
     const origin = useSelector(selectOrigin);
     const destination = useSelector(selectDestination);
