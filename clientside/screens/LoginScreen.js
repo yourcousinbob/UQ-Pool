@@ -152,6 +152,7 @@ export class LoginScreen extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
+        setSocket: socket => dispatch(setSocket(socket)),
     }
 }
 

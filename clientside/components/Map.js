@@ -7,8 +7,16 @@ import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
 
 //testing
-import getDrivers from '../screens/LoginScreen'
-
+async function getDrivers() {
+    msg = JSON.stringify({
+        sid: selectSID,
+        location: selectOrigin,
+        destination: selectDestination})
+    selectSocket.emit('request', msg)
+    let response = await selectSocket.on('request', (body) => {
+        console.log(body)
+    })
+};
 console.log(getDrivers())
 
 const Map = () => {

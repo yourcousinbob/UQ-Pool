@@ -12,7 +12,7 @@ async function getDrivers() {
         location: selectOrigin,
         destination: selectDestination})
     selectSocket.emit('request', msg)
-    let response = await selectSocket.on('requestResponse', (body) => {
+    let response = await selectSocket.on('request', (body) => {
         console.log(body)
     })
 };
