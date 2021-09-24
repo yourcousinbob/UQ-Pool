@@ -5,7 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DestinationCard from '../components/DestinationCard'
 import { setDestination } from '../slices/sessionSlice'
 
-
+async getDrivers() {
+    if (!(this.state.validSID && this.state.validFN && this.state.validLN && this.state.validEmail && this.state.validPhone)) {
+        console.log("Invalid signup details");
+        return
+    }
+};
 
 const RiderScreen = () => {
     const Stack = createNativeStackNavigator();
