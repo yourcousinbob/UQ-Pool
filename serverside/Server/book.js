@@ -27,21 +27,25 @@ module.exports = {
                     driver_heuristics = [];
                     //Distance calc assuming all entries sound might
                     //be better way to do async tried lots fix if u can.
+
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
                             driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
                             pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
                             detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                            heuristic = pickupETA + detourETA - driverETA; //Add other factors to heuristic
+                            heuristic = pickupETA + detourETA - driverETA;
                             driver_heuristics.push([rows[i].registration, heuristic])
                         }
                         driver_heuristics.sort((first, second) => {
                             return first[1] - second[1];
                         });
-                    };
-                    console.log("Successfully parsed drivers for " + body.sid);
-                    getDetour(driver_heuristics, rows).then(result => {console.log(driver_heuristics);});
-                    result(driver_heuristics)
+                    }
+
+                        console.log("Successfully parsed drivers for " + body.sid);
+                        getDetour(driver_heuristics, rows).then(response => {
+                            console.log(driver_heuristics);
+                            result(driver_heuristics)
+                        });
                 };
             });
             con.release((err) => {

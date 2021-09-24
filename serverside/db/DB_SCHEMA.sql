@@ -11,6 +11,8 @@ sid varchar(8) NOT NULL UNIQUE,
 first_name varchar(50) NOT NULL,
 last_name varchar(50) NOT NULL,
 email varchar(100) NOT NULL,
+password varchar(256) NOT NULL,
+auth_token varchar(60),
 phone INTEGER(10),
 bio TEXT,
 image TEXT,
@@ -65,31 +67,37 @@ message TEXT NOT NULL,
 PRIMARY KEY (time_stamp),
 FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211157,
 "Dirk",
 "Diggler",
 "ddaddy@student.uq.edu.au",
+"deece",
+123123123,
 0444777111,
 "I like pancakes and syrup on sunday mornings",
 "https://www.someDomain.com/images/photo.jpg",
 0
 );
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 33211157,
 "Ben",
 "Wieser",
 "benny@student.uq.edu.au",
+"deece",
+12312312,
 0444797111,
 "I like ben",
 "https://www.ben.com/images/photo.jpg",
 0
 );
-INSERT INTO user (sid, first_name, last_name, email, phone, bio, image, tokens) VALUES(
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211154,
 "Deece",
 "Figma",
 "email@student.uq.edu.au",
+"doze",
+12312312,
 0433777111,
 "I like pans",
 "https://www.someDomain.com/images/photo2.jpg",
@@ -115,8 +123,8 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 );
 INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(
 33211157,
+"Dreamworld",
 "The University of Queensland",
-"Griffith University Brisbane",
 "BEN",
 4
 );
