@@ -11,10 +11,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import RiderScreen from './screens/RiderScreen';
 
-//testing
-import getDrivers from '../screens/LoginScreen'
-
-console.log(getDrivers())
 
 export default function App() {
   const Stack = createNativeStackNavigator();

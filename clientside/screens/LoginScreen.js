@@ -35,7 +35,7 @@ export class LoginScreen extends Component {
             password: "",
             validEmail: false,
             token: null,
-            socket = null
+            socket: null
         };
     }
 

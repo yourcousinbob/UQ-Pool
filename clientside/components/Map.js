@@ -6,6 +6,10 @@ import { useSelector } from 'react-redux';
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
 
+//testing
+import getDrivers from '../screens/LoginScreen'
+
+console.log(getDrivers())
 
 const Map = () => {
     const origin = useSelector(selectOrigin);
