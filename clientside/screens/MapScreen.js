@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, View, PermissionsAndroid } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { BOX } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import * as Location from "expo-location";
+
+import DropOffModalButton from "../components/DropOffModalButton";
 
 export default function MapScreen() {
   const [latitude, setLatitude] = useState(-27.497);
@@ -19,7 +25,7 @@ export default function MapScreen() {
       }
 
       let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Lowest,
+        accuracy: Location.Accuracy.Lowest, // android won't work without this :(
       });
       console.log(location);
       setLatitude(location.coords.latitude);
@@ -31,6 +37,7 @@ export default function MapScreen() {
     <View style={{ flex: 1 }}>
       <MapView
         style={styles.map}
+        showsMyLocationButton={true}
         showsUserLocation={true}
         region={{
           latitude: latitude,
@@ -47,7 +54,8 @@ export default function MapScreen() {
         />
       </MapView>
       <View style={styles.bubble}>
-        <Text>Text inside the bubble</Text>
+        <DropOffModalButton/>
+        <Text>Some More Text</Text>
       </View>
     </View>
   );
@@ -66,8 +74,8 @@ const styles = StyleSheet.create({
     marginHorizontal: "10%",
     padding: 15,
     width: "80%",
-    height: 120,
     position: "absolute",
     bottom: "15%",
+    display: "flex",
   },
 });
