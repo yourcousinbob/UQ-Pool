@@ -1,23 +1,12 @@
 import React, { useRef, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import MapView, {Marker} from 'react-native-maps';
-import { selectDestination, selectOrigin } from '../slices/sessionSlice';
+//import { selectDestination, selectOrigin } from '../slices/sessionSlice';
 import { useSelector } from 'react-redux';
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
-
-//testing
-async function getDrivers() {
-    msg = JSON.stringify({
-        sid: selectSID,
-        location: selectOrigin,
-        destination: selectDestination})
-    selectSocket.emit('request', msg)
-    let response = await selectSocket.on('request', (body) => {
-        console.log(body)
-    })
-};
-console.log(getDrivers())
+import { setDestination , selectOrigin, selectDestination} from '../slices/sessionSlice'
+import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
 const Map = () => {
     const origin = useSelector(selectOrigin);

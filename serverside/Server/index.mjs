@@ -85,11 +85,13 @@ rewards
 */
 
 // Registration section
+/*
 app.post('/login', async(req, res) => {
     user.login(req.body, function (payload) {
         res.send(payload);
     });
 });
+*/
 
 app.put('/user', async(req, res) => {
     user.update(req.body, function (payload) {
@@ -167,6 +169,9 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
+        user.login(req.body, function (payload) {
+            res.send(payload);
+        });
         connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
         console.log("User " + body.sid + " added")
@@ -177,7 +182,7 @@ io.on('connection', async (socket) => {
     // delete socket connection in connected
     socket.on('logout', (body) => {
         if (body.sid in connected) {
-            delete connected[body.cwuser];
+            delete connected[body.user];
             socket.broadcast.emit('logout', body);
         }
     });

@@ -4,7 +4,7 @@ import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
 import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication } from '../slices/userSlice'
+import userSlice, { selectAuthentication, setAuthentication , setSocket} from '../slices/userSlice'
 import { io } from "socket.io-client";
 
 function RegistrationButton() {
@@ -76,7 +76,7 @@ export class LoginScreen extends Component {
                 // Connect to socket
                 this.state.socket = io('https://uqpool.xyz:7777', { auth: { token: this.state.token } })
                 
-                if (this.socket.connected = false) {
+                if (this.state.socket.connected = false) {
                     throw 'Failed to connect to socket';
                 }
                 this.props.setSocket(this.state.socket)
@@ -152,12 +152,15 @@ export class LoginScreen extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
-        setSocket: socket => dispatch(setSocket(socket)),
+        setSocket: socket => dispatch(setSocket(socket))
     }
 }
 
 function mapStateToProps(state) {
-    return { authentication_token: state.user.authentication_token }
+    return { 
+        authentication_token: state.user.authentication_token,
+        socket: state.user.socket
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

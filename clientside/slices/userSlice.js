@@ -42,7 +42,7 @@ export const { setSID, setFirst,
     setLast, setEmail, setPhone, setAuthentication, setSocket} = userSlice.actions;
 
 // Selectors
-export const selectSID = (state) => state.user.user.sid;
+export const selectSID = (state) => state.user.sid;
 export const selectFirst = (state) => state.user.first_name;
 export const selectLast = (state) => state.user.last_name;
 export const selectEmail = (state) => state.user.email;
