@@ -85,13 +85,11 @@ rewards
 */
 
 // Registration section
-/*
 app.post('/login', async(req, res) => {
     user.login(req.body, function (payload) {
         res.send(payload);
     });
 });
-*/
 
 app.put('/user', async(req, res) => {
     user.update(req.body, function (payload) {

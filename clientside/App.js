@@ -12,8 +12,8 @@ import AuthNavigator from './navigators/AuthNavigator';
 
 
 //For socket
-import { connect } from './socket.js';
-connect();
+import SocketConnection from './socket.js';
+SocketConnection.init('https://uqpool.xyz:7777');
 
 export default function App({ navigation }) {
   return (

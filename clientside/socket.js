@@ -1,17 +1,16 @@
 import { io } from "socket.io-client";
 
+let connection = null
+
 class SocketConnection {
 
-    constructor() {
+    constructor(url) {
         this.socket = null;
+        this.url = url
     }
 
     connect() {
-        socket = io('https://uqpool.xyz:7777')
-
-        io.use(function(socket, next) {
-            middleware(socket.request, socket.request.res, next);
-        });
+        socket = io(this.url)
 
         if (socket.connected = false) {
             throw 'Failed to connect to socket';
@@ -28,9 +27,9 @@ class SocketConnection {
         this.socket.on(message, payload);
     }
 
-    static init() {
+    static init(url) {
         if(!connection) {
-            connection = new SocketConnection();
+            connection = new SocketConnection(url);
             connection.connect();
         }
     }
@@ -43,5 +42,4 @@ class SocketConnection {
     }
 }
 
-export let connect = SocketConnection.init;
-export let connection = SocketConnection.getConnection;
+export default SocketConnection;
