@@ -20,7 +20,6 @@ const HomeScreen = () => {
                         require('../assets/logo.png')
                     }
                 />
-
                 <GooglePlacesAutocomplete 
                     styles={{
                         container: {

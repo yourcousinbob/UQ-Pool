@@ -5,6 +5,8 @@ DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
 DROP TABLE user;
+DROP TABLE rewards;
+DROP TABLE userRewards;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -67,6 +69,20 @@ message TEXT NOT NULL,
 PRIMARY KEY (time_stamp),
 FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 
+CREATE TABLE rewards (
+reward_id varchar(10) NOT NULL UNIQUE,
+cost varchar(10),
+description varchar(100),
+image varchar(100));
+
+CREATE TABLE userRewards (
+sid varchar(8) NOT NULL,
+reward_id varchar(10) NOT NULL,
+quantity varchar(10),
+FOREIGN KEY (sid) REFERENCES rewards(reward_id) ON DELETE CASCADE,
+FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
+
+
 INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211157,
 "Dirk",
@@ -127,4 +143,18 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 "The University of Queensland",
 "BEN",
 4
+);
+
+-- James' Test Profile + test data
+INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
+45299038,
+"James",
+"Robins",
+"jamesrobins@uq.edu.au",
+"password",
+12312312,
+0412443858,
+"I like ben",
+"https://www.ben.com/images/photo.jpg",
+0
 );

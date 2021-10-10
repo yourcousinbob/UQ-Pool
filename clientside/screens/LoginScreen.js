@@ -4,6 +4,7 @@ import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
 import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
+
 import userSlice, { selectAuthentication, setAuthentication} from '../slices/userSlice'
 import SocketConnection from '../socket.js';
 
@@ -107,7 +108,6 @@ export class LoginScreen extends Component {
                         }
                     />
                 </View>
-               
                 <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
                     <ValidatedTextInput
                         style={styles.input}
@@ -131,12 +131,10 @@ export class LoginScreen extends Component {
                         <Text
                             style={styles.buttonText}
                         >
+                            Login
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
-
- 
-
                 </View>
             </View> 
         </View>
