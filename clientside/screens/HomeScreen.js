@@ -12,6 +12,7 @@ export default function HomeScreen() {
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
 
+
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();

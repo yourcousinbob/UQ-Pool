@@ -23,6 +23,7 @@ import userSlice, {
 } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
 
+
 function RegistrationButton() {
   const navigation = useNavigation();
 
@@ -152,6 +153,7 @@ export class LoginScreen extends Component {
             </TouchableOpacity>
             <RegistrationButton />
           </View>
+
         </View>
       </View>
     );

@@ -55,12 +55,11 @@ app.use(bodyParser.json());
 app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
+// serve static files such as images
+app.use(express.static('public'));
 
 // Start the HTTPS servers
 const httpsServer = https.createServer(credentials, app);
-
-
-
 
 // end point requires
 const user = require('./user');
@@ -134,6 +133,20 @@ app.delete('/rate', async(req, res) => {
         res.send(payload);
     });
 });
+
+// Rewards Section
+app.get('/rewards', async(req, res) => {
+    reward.getRewards(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
+app.post('/rewards', async(req, res) => {
+    reward.getPoints(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
 /*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
