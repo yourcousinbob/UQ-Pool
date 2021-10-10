@@ -1,65 +1,81 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
-import SessionOptions from '../components/SessionOptions';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_API_KEY } from "@env";
-import { useDispatch } from "react-redux";
-import { setDestination, setOrigin } from "../slices/sessionSlice"
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+} from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
+import * as Location from "expo-location";
+import { useSelector } from 'react-redux';
 
-const HomeScreen = () => {
-    const dispatch = useDispatch();
-     
-    return (
-        <SafeAreaView style={{backgroundColor:"white", height:"100%"}}>
-            <View style={{padding:20}}>
-                <Image
-                    style={{
-                        width: 200, height: 100, resizeMode: 'contain',
-                    }}
-                    source={
-                        require('../assets/logo.png')
-                    }
-                />
+import DropOffModalButton from "../components/DropOffModalButton";
+export default function HomeScreen() {
+  const [latitude, setLatitude] = useState(-27.497);
+  const [longitude, setLongitude] = useState(153.0134);
+  const latitudeDelta = 0.005;
+  const longitudeDelta = 0.005;
 
-                <GooglePlacesAutocomplete 
-                    styles={{
-                        container: {
-                            backgroundColor: "white",
-                            flex: 0,
-                        },
-                        textInput: {
-                            fontSize: 18,
-                        }
-                    }}
-                    onPress={(data, details = null) => {
-                        dispatch(
-                            setOrigin({
-                                location: details.geometry.location,
-                                description: data.description
-                            })
-                        );
-                        dispatch(setDestination(null));
-                    }}
-                    fetchDetails={true}
-                    returnKeyType={"search"}
-                    minLength={2}
-                    enablePoweredByContainer={false}
-                    query={{
-                        key: GOOGLE_MAPS_API_KEY,
-                        language: 'en'
-                    }}
-                    placeholder="Where are you?"
-                    nearbyPlacesAPI="GooglePlacesSearch"
-                    debounce={400}
-                />
 
-                <SessionOptions/>
-            </View>
-        </SafeAreaView>
-    );
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission to access foreground location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.BestForNavigation,
+      });
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
+    })();
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <MapView
+        style={styles.map}
+        showsMyLocationButton={true}
+        showsUserLocation={true}
+        region={{
+          latitude: latitude,
+          longitude: longitude,
+          longitudeDelta: longitudeDelta,
+          latitudeDelta: latitudeDelta,
+        }}
+      >
+        <Marker
+          coordinate={{
+            latitude: latitude,
+            longitude: longitude,
+          }}
+        />
+      </MapView>
+      <View style={styles.bubble}>
+        <DropOffModalButton/>
+        <Text>Some More Text</Text>
+      </View>
+    </View>
+  );
 }
 
-export default HomeScreen;
-
 const styles = StyleSheet.create({
+  map: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    zIndex: -1,
+  },
+  bubble: {
+    backgroundColor: "white",
+    borderRadius: BOX.borderRadius,
+    marginHorizontal: "10%",
+    padding: 15,
+    width: "80%",
+    position: "absolute",
+    bottom: "15%",
+    display: "flex",
+  },
 });
