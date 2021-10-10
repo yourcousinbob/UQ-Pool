@@ -136,13 +136,13 @@ app.delete('/rate', async(req, res) => {
 
 // Rewards Section
 app.get('/rewards', async(req, res) => {
-    reward.getRewards(req.body.user, function (payload) {
+    reward.getRewards(req.body, function (payload) {
         res.send(payload);
     });
 });
 
 app.post('/rewards', async(req, res) => {
-    reward.getPoints(req.body.user, function (payload) {
+    reward.getPoints(req.body, function (payload) {
         res.send(payload);
     });
 });

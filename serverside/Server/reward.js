@@ -25,7 +25,7 @@ module.exports = {
         var json = {};
         var points = 0;
 
-        console.log("Points for user " + body.user + " requested");
+        console.log("Points for user " + body.sid + " requested");
         pool.getConnection(function(err, con) {
             con.query("SELECT tokens FROM user WHERE sid='" + body.sid + "';", (err, points) => {
             if (err) throw err;
