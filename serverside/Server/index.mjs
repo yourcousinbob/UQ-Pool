@@ -177,7 +177,7 @@ io.on('connection', async (socket) => {
     // delete socket connection in connected
     socket.on('logout', (body) => {
         if (body.sid in connected) {
-            delete connected[body.cwuser];
+            delete connected[body.user];
             socket.broadcast.emit('logout', body);
         }
     });
@@ -198,7 +198,7 @@ io.on('connection', async (socket) => {
         if (body.sid in connected) {
             console.log("Requesting pickup for rider " + body.sid);
             book.requestPickup(body, function (payload) {
-                connected[body.sid].emit('request', payload);
+                connected[body.sid].emit('requestResponse', payload);
             });
         } else {
             console.log("That user does not exist");

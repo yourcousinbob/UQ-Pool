@@ -9,7 +9,7 @@ import RegistrationScreen from '../screens/RegistrationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import RiderScreen from '../screens/RiderScreen';
 import SampleScreen from '../screens/SampleScreen';
-import { selectAuthentication } from '../slices/userSlice';
+import { selectAuthentication} from '../slices/userSlice';
 
 export default function AuthNavigator() {
     const Stack = createNativeStackNavigator(); 
@@ -17,7 +17,7 @@ export default function AuthNavigator() {
     return (
         <Stack.Navigator>
             {/* how tf do I call useSelector() */}
-                {authentication_token == null? (
+                {authentication_token == null?(
                 <>
                     <Stack.Screen 
                     name='LoginScreen'
