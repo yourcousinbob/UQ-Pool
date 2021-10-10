@@ -5,6 +5,8 @@ DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
 DROP TABLE user;
+DROP TABLE rewards;
+DROP TABLE userRewards;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
