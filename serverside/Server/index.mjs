@@ -141,6 +141,12 @@ app.get('/rewards', async(req, res) => {
     });
 });
 
+app.post('/rewards', async(req, res) => {
+    reward.getPoints(req.body.user, function (payload) {
+        res.send(payload);
+    });
+});
+
 /*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
