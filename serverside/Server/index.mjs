@@ -56,7 +56,7 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 // serve static files such as images
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 // Start the HTTPS servers
 const httpsServer = https.createServer(credentials, app);
