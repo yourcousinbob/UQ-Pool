@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'; //required to move to another page
-import HomeScreen from '../screens/HomeScreen';
 
 /**
  * This is a sample button which takes you to another page. 

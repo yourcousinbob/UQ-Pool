@@ -18,7 +18,10 @@ const ReturnHomeButton = ( {/* Here you can add input variables and use them in 
             onPress={() => navigation.navigate("Home")} // change this to whatever screen you want and add screen to App.js
             style={styles.button}
         >
-            <Text> &lt; </Text>
+            <Image
+                style={styles.button}
+                source={require('../assets/backArrow.png')}
+            />
       
         </TouchableOpacity>
     )
@@ -35,5 +38,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 40,
         backgroundColor: 'grey',
-    }
+    },
 })
+
+/* shape  */
+
