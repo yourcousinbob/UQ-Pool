@@ -4,7 +4,6 @@ import requests as R
 s = R.session()
 headers = {'content-type': 'application/json'}
 
-# Testing inexistent driver
 data = {
     "sid": 45299038,
 }

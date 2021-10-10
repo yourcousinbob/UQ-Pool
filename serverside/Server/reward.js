@@ -23,13 +23,12 @@ module.exports = {
     //Gets points of a user
     getPoints(body, result) {
         var json = {};
-        var points = 0;
 
         console.log("Points for user " + body.sid + " requested");
         pool.getConnection(function(err, con) {
-            con.query("SELECT tokens FROM user WHERE sid='" + body.sid + "';", (err, points) => {
+            con.query("SELECT tokens FROM user WHERE sid='" + body.sid + "';", (err, row) => {
             if (err) throw err;
-            json.points = points;
+            json.points = row.tokens;
             result(json); 
             });
         });
