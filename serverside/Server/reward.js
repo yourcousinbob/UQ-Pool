@@ -12,7 +12,7 @@ module.exports = {
             con.query("SELECT * FROM rewards;", (err, rows) => {
             if (err) throw err;
             for (var i = 0; i < rows.length; i++){
-                rewards.push(rows[i].user)
+                rewards.push(rows[i])
             }
             json.rewards = rewards;
             result(json); 
