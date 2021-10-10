@@ -26,7 +26,7 @@ module.exports = {
 		if (rows.length == 0){
 		    console.log("Invalid Student ID or password for: " + body.sid);
 		    json.error = 6;
-		    result({ msg:"Invalid sid or password"});
+		    result({ msg:"Invalid Student ID or password"});
 		} else {
 		    console.log("Successful login for " + body.sid);
 		    const authToken = generateAuthenticationToken(body.sid);
@@ -41,7 +41,7 @@ module.exports = {
     create(body, result) {
         var json = {};
 
-	console.log("Attempted User Creation for: " + body.sid);
+        console.log("Attempted User Creation for: " + body.sid);
         pool.getConnection(function(err, con) {
             con.query("SELECT sid FROM user WHERE sid='"+ body.sid +"';", (err,rows) => {
                 if(err) throw err;
@@ -54,9 +54,9 @@ module.exports = {
                     const user = { sid: body.sid, first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0, password:getHashedPassword(body.password)};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
-			console.log("User created with sid: " + body.sid);
+                        console.log("User created with sid: " + body.sid);
                         json.msg = "User Succesfully Created";
-			result(json);
+                        result(json);
                     });
                     con.release((err) => {
                     });

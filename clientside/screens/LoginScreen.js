@@ -116,7 +116,7 @@ export class LoginScreen extends Component {
                         value={this.state.sid}
                         //pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
                         //pattern={'^(s|uq)\d{7}$'}
-                        pattern={'^[0-9]{8}'}
+                        pattern={'^[0-9]{8}$'}
                         onValidation={validSid => this.setState({validSid})}
                     />
                     
