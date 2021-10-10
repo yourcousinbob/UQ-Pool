@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, FlatList} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image, Alert, FlatList} from 'react-native';
 
 export default class Store extends Component {
 
@@ -7,15 +7,31 @@ export default class Store extends Component {
     super(props);
     this.state = {
       data: [
-        /*can only get images to work with links, not through assets folder */
-        {id:1, title: "UQ-Pool T-Shirt",  price:" 10000 ", image:"https://i.gyazo.com/27fabfa34ba56b7c41d8c5ef15a649cc.png"},
-        {id:2, title: "$10 off UQ-Shop",  price:" 8000 ", image:"https://uqpool.xyz:7777/images/rewards/uqshopp.PNG"} ,
-        {id:3, title: "Merlo Coffee \n20% Discount",  price:" 2500 ",image:"https://uqpool.xyz:7777/images/rewards/merlo.PNG"}, 
-        {id:4, title: "Main Course \n20% Discount",  price:" 3000 ", image:"https://uqpool.xyz:7777/images/rewards/Main-Course.jpg"}, 
-        {id:5, title: "1YR UQ-Rewards Membership",  price:" 25000 ", image:"https://uqpool.xyz:7777/images/rewards/uqurewards.PNG"}, 
-        {id:6, title: "Free Redroom Pint",  price:" 5000 ", image:"https://uqpool.xyz:7777/images/rewards/redroom.PNG"}, 
-      ]
+      {reward_id:"1", description: "UQ-Pool T-Shirt",  cost:" 696969 ", image:"https://i.gyazo.com/27fabfa34ba56b7c41d8c5ef15a649cc.png"}, ]
     };
+  }
+
+  componentDidMount() {
+    this.getRewards()
+  }
+
+  async getRewards() {
+    try {
+        const response = await fetch('https://uqpool.xyz:7777/rewards', {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const json = await response.json();
+        this.setState({ data: json.rewards });
+        
+
+    } catch (error) {
+        console.log("Caught Error")
+        console.log(error);  
+    }
   }
 
   Redeem = () => {
@@ -34,7 +50,7 @@ export default class Store extends Component {
           horizontal={false}
 
           keyExtractor= {(item) => {
-            return item.id;
+            return item.reward_id;
           }}
           /*Padding between rows */
           ItemSeparatorComponent={() => {
@@ -49,8 +65,8 @@ export default class Store extends Component {
                
                <View style={styles.itemHead}>
                   <View>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.price}>{item.price}</Text>
+                    <Text style={styles.description}>{item.description}</Text>
+                    <Text style={styles.cost}>{item.cost}</Text>
                   </View>
                 </View>
 
@@ -123,11 +139,11 @@ const styles = StyleSheet.create({
     /* width: null, */
   },
   /* Individual item elements */
-  title:{
+  description:{
     fontSize:18,
     flex:5,
   },
-  price:{
+  cost:{
     fontSize:16,
     color: "green",
     marginTop: 5,

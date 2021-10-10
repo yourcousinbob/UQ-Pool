@@ -33,4 +33,32 @@ module.exports = {
             });
         });
     },
+
+    //Adds points to a user
+    addPoints(body, result) {
+        var json = {};
+
+        console.log("Points for user " + body.sid + " requested");
+        pool.getConnection(function(err, con) {
+            con.query("SELECT tokens FROM user WHERE sid='" + body.sid + "';", (err, row) => {
+            if (err) throw err;
+            json.points = row.tokens;
+            result(json); 
+            });
+        });
+    },
+
+    //Redeems points for a prize
+    redeemPoints(body, result) {
+        var json = {};
+
+        console.log("Points for user " + body.sid + " requested");
+        pool.getConnection(function(err, con) {
+            con.query("SELECT tokens FROM user WHERE sid='" + body.sid + "';", (err, row) => {
+            if (err) throw err;
+            json.points = row.tokens;
+            result(json); 
+            });
+        });
+    },
 }
