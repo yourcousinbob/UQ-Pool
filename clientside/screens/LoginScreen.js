@@ -4,8 +4,9 @@ import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
 import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication } from '../slices/userSlice'
-import { KeyboardAvoidingView } from 'react-native'
+
+import userSlice, { selectAuthentication, setAuthentication} from '../slices/userSlice'
+import SocketConnection from '../socket.js';
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -34,11 +35,10 @@ export class LoginScreen extends Component {
             email: "",
             password: "",
             validEmail: false,
-            token: null
+            token: null,
+            socket: null
         };
     }
-
-    
 
     /* This section should check that registration was previously successful from the user slice.
     If so, don't render and just go straight to initial page
@@ -66,12 +66,17 @@ export class LoginScreen extends Component {
                     password: this.state.password
                 })
             });
-
+ 
             const json = await response.json();
+
             if (json.msg =="Successful Login") {
                 // alert the user
                 this.state.token = json.auth_token
                 this.props.setAuthentication(this.state.token)
+                connection = SocketConnection.getConnection()
+                //Add actual sid when login is fixed
+                connection.sendPayload('login', JSON.stringify({sid:45829211}))
+                
             } else {
                 console.log(json.msg);
                 // Switch to the initial state of the app
@@ -139,12 +144,14 @@ export class LoginScreen extends Component {
   
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
+        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token))
     }
 }
 
 function mapStateToProps(state) {
-    return { authentication_token: state.user.authentication_token }
+    return { 
+        authentication_token: state.user.authentication_token
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

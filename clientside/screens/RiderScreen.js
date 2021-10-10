@@ -1,11 +1,24 @@
 import React from 'react'
 import { StyleSheet, View} from 'react-native'
+import { COLORS, BOX } from '../stylesheets/theme'
 import Map from '../components/Map'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DestinationCard from '../components/DestinationCard'
-import { setDestination } from '../slices/sessionSlice'
+import { setDestination , selectOrigin, selectDestination} from '../slices/sessionSlice'
+import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
-
+//testing
+async function getDrivers() {
+    msg = JSON.stringify({
+        sid: selectSID,
+        location: selectOrigin,
+        destination: selectDestination})
+    socket = useSelector(selectSocket);
+    socket.emit('request', msg)
+    let response = await socket.on('request', (body) => {
+        console.log(body)
+    })
+};
 
 const RiderScreen = () => {
     const Stack = createNativeStackNavigator();
@@ -24,6 +37,10 @@ const RiderScreen = () => {
                         }}
                     />
                 </Stack.Navigator>
+                <SampleButton
+                    onPress={() => getDrivers()}
+                    style={styles.button}
+                />
             </View>
         </View>
         
@@ -36,5 +53,12 @@ const styles = StyleSheet.create({
     view: {
         width: "100%",
         height: "50%",
+    },
+    button: {
+        backgroundColor: COLORS.primary,
+        marginHorizontal: "25%",
+        marginTop: 10,
+        paddingVertical: 10,
+        borderRadius: BOX.borderRadius,
     },
 })

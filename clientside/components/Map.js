@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import MapView, {Marker} from 'react-native-maps';
-import { selectDestination, selectOrigin } from '../slices/sessionSlice';
+//import { selectDestination, selectOrigin } from '../slices/sessionSlice';
 import { useSelector } from 'react-redux';
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
-
-
+import { setDestination , selectOrigin, selectDestination} from '../slices/sessionSlice'
+import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
 const Map = () => {
     const origin = useSelector(selectOrigin);

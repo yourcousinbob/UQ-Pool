@@ -13,13 +13,14 @@ import HomeScreenNavigator from './HomeScreenNavigator';
 import { selectAuthentication } from '../slices/userSlice';
 import DriverScreen from '../screens/DriverScreen';
 
+
 export default function AuthNavigator() {
     const Stack = createNativeStackNavigator(); 
     const authentication_token = useSelector(selectAuthentication);
     return (
         <Stack.Navigator>
             {/* how tf do I call useSelector() */}
-                {authentication_token == null? (
+                {authentication_token == null?(
                 <>
                     <Stack.Screen 
                     name='LoginScreen'

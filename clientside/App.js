@@ -7,9 +7,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-import AuthNavigator from './navigators/AuthNavigator';
 // import new screens here
+import AuthNavigator from './navigators/AuthNavigator';
 
+
+//For socket
+import SocketConnection from './socket.js';
+SocketConnection.init('https://uqpool.xyz:7777');
 
 export default function App({ navigation }) {
   return (
