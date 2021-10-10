@@ -31,9 +31,9 @@ export class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
+            sid: "",
             password: "",
-            validEmail: false,
+            validSid: false,
             token: null,
             socket: null
         };
@@ -48,8 +48,8 @@ export class LoginScreen extends Component {
     async loginUser() {
 
         // Check that all fields are valid
-        if (!(this.state.validEmail)) {
-            console.log("Invalid Email Format");
+        if (!(this.state.validSid)) {
+            console.log("Invalid Student ID Format");
             return
         }
 
@@ -61,7 +61,7 @@ export class LoginScreen extends Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ // not sure if we need the stringify tbh
-                    email: this.state.email,
+                    sid: this.state.sid,
                     password: this.state.password
                 })
             });
@@ -111,11 +111,12 @@ export class LoginScreen extends Component {
                 <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
                     <ValidatedTextInput
                         style={styles.input}
-                        onChangeText={email => {this.setState({email})}}
-                        placeholder="Email"
-                        value={this.state.email}
-                        pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
-                        onValidation={validEmail => this.setState({validEmail})}
+                        onChangeText={sid => {this.setState({sid})}}
+                        placeholder="Student ID"
+                        value={this.state.sid}
+                        //pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
+                        pattern={'^(s|uq)\d{8}$'}
+                        onValidation={validSid => this.setState({validSid})}
                     />
                     
                     <TextInput
