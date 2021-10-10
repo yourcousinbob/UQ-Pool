@@ -10,6 +10,7 @@ const getHashedPassword = (password) => {
 }
 
 function generateAuthenticationToken (email) {
+    print(process.env.TOKEN_SECRET)
 	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
