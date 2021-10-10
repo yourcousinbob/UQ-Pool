@@ -14,6 +14,7 @@ import { StyleSheet, View, Image} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SampleButton from '../components/Samples/SampleButton';
+import { getDrivers } from '../screens/RiderScreen'
  
  const SampleScreen = () => {     
      return (
