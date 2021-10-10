@@ -32,5 +32,10 @@ export const box = StyleSheet.create({
   base: {
     borderRadius: 20,
     padding: 15,
+    marginBottom: 15,
   }
+});
+
+export const cantPress = StyleSheet.create({
+  opacity: 0.2
 });
