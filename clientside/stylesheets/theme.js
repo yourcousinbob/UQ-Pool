@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { withTheme } from "react-native-elements";
 
 export const COLORS = {
   primary: "#65388E",
@@ -9,6 +10,10 @@ export const COLORS = {
 
 export const BOX = {
   borderRadius: 20,
+};
+
+export const LINE = {
+   width: 1
 };
 
 export const FONT_SIZE = {

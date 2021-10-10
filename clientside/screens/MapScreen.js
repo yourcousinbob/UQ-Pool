@@ -7,9 +7,9 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import * as Location from "expo-location";
+import { useSelector } from 'react-redux';
 
 import DropOffModalButton from "../components/DropOffModalButton";
-
 export default function MapScreen() {
   const [latitude, setLatitude] = useState(-27.497);
   const [longitude, setLongitude] = useState(153.0134);
@@ -25,9 +25,8 @@ export default function MapScreen() {
       }
 
       let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Lowest, // android won't work without this :(
+        accuracy: Location.Accuracy.BestForNavigation,
       });
-      console.log(location);
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
     })();

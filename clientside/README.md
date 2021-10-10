@@ -24,7 +24,7 @@ key installed. This key should stay private.
 8. Go the the file '.env' in the root folder and paste the following ```GOOGLE_MAPS_API_KEY={Your API Key}```.
 9. You will need to setup billing on your account for this to work.
 
-Nathan currently has Directions, Places and Distance Matrix APIs enabled. 
+Nathan currently has Directions, Places, Geocoding and Distance Matrix APIs enabled. 
 
 ## How to run ##
 Ensure you have gone through the steps in enviroment setup. 

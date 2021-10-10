@@ -8,39 +8,15 @@ import {
   TextInput,
 } from "react-native";
 import Modal from "react-native-modal";
-import { BOX, COLORS, FONT_SIZE, box } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import { Icon } from "react-native-elements";
+import SessionOptions from "./SessionOptions";
 
 const DropOffModalButton = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  function RideAdressInput() {
-    return (
-      <View
-        style={[
-          box.shadows,
-          {
-            backgroundColor: "red",
-            borderRadius: BOX.borderRadius,
-            backgroundColor: "white",
-            padding: 15,
-          },
-        ]}
-      >
-        <TextInput
-          placeholder="Enter pickup point"
-          style={{ fontSize: FONT_SIZE.text }}
-        />
-        <TextInput
-          placeholder="Enter destination"
-          style={{ fontSize: FONT_SIZE.text }}
-        />
-      </View>
-    );
-  }
 
   function DropOffModal() {
     return (
@@ -59,8 +35,8 @@ const DropOffModalButton = () => {
         >
           <View style={styles.modal}>
             <Icon type="ionicon" name="remove-outline" size={25} />
-            <Text style={styles.modalHeader}>Set drop off</Text>
-            <RideAdressInput />
+            <Text style={styles.modalHeader}>Drop off</Text>
+            <SessionOptions />
           </View>
         </Modal>
       </View>
@@ -101,13 +77,5 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.heading3,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  pullDownTab: {
-    display: "flex",
-    backgroundColor: "gray",
-    height: 10,
-    marginHorizontal: "80%",
-    width: 10,
-    //   alignContent: "center"
   },
 });

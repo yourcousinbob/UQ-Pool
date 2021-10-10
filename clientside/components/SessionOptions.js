@@ -1,93 +1,113 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Image, Text, StyleSheet, TouchableOpacity, View, FlatList } from 'react-native';
-import { Icon } from "react-native-elements";
-import { selectOrigin } from '../slices/sessionSlice';
-import { useSelector } from 'react-redux';
-
-const data = [
-    {
-        id: "123",
-        title: "Be a rider",
-        image: "https://links.papareact.com/3pn",
-        screen: "RiderScreen",
-    },
-    {
-        id: "456",
-        title: "Be a driver",
-        image: "https://links.papareact.com/3pn",
-        screen: "DriverScreen",
-    },
-];
+import React, { useRef, useEffect } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { BOX, FONT_SIZE, box, LINE } from "../stylesheets/theme";
+import { GOOGLE_MAPS_API_KEY } from "@env";
+import * as Location from "expo-location";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectDestination,
+  selectOrigin,
+  setDestination,
+  setOrigin,
+} from "../slices/sessionSlice";
 
 const SessionOptions = () => {
-    const navigation = useNavigation();
-    const origin = useSelector(selectOrigin);
+  Location.installWebGeolocationPolyfill();
+  navigator.geolocation.getCurrentPosition(Location.getCurrentPositionAsync());
 
-    return (
-        <FlatList
-            data={data}
-            horizontal
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate(item.screen)}
-                    style={styles.button}
-                    disabled={!origin}
-                >
-                    <View 
-                        style={!origin ? styles.cant_press : styles.none}
-                    >
-                        <Image 
-                            style={styles.image}
-                            source={{ uri: item.image }}
-                        />
-                        <Text style={styles.text}>
-                            {item.title}
-                        </Text>
-                        <Icon  style={styles.icon} name="arrowright" color="white" type="antdesign" />
-                    </View>
-                    
-                </TouchableOpacity>
-            )}
-        />
-    );
+  const dispatch = useDispatch();
+  const origin = useSelector(selectOrigin);
+  const destination = useSelector(selectDestination);
+
+  const originRef = useRef();
+  const destRef = useRef();
+
+  useEffect(() => {
+    if (origin) {
+        originRef.current?.setAddressText(origin.description);
+    }
+    if (destination) {
+        destRef.current?.setAddressText(destination.description);
+    }
+  }, []);
+
+  return (
+    <View style={[box.shadows, box.base, { backgroundColor: "white" }]}>
+      <GooglePlacesAutocomplete
+        ref={originRef}
+        styles={googlePlacesStyle}
+        placeholder="Enter starting point"
+        fetchDetails={true}
+        nearbyPlacesAPI="GoogleReverseGeocoding"
+        debounce={200}
+        query={{
+          key: GOOGLE_MAPS_API_KEY,
+          language: "en",
+          components: "country:aus",
+        }}
+        returnKeyType={"search"}
+        minLength={2}
+        enablePoweredByContainer={false}
+        currentLocation={true}
+        onPress={(data, details = null) => {
+          var description = data.description ? data.description : data.formatted_address;
+          dispatch(
+            setOrigin({
+              location: details.geometry.location,
+              description: description,
+            })
+          );
+        }}
+      />
+      <GooglePlacesAutocomplete
+        ref={destRef}
+        styles={googlePlacesStyle}
+        placeholder="Enter destination"
+        fetchDetails={true}
+        nearbyPlacesAPI="GoogleReverseGeocoding"
+        debounce={200}
+        query={{
+          key: GOOGLE_MAPS_API_KEY,
+          language: "en",
+          components: "country:aus",
+        }}
+        returnKeyType={"search"}
+        maxLength={2}
+        enablePoweredByContainer={false}
+        onPress={(data, details = null) => {
+          dispatch(
+            setDestination({
+              location: details.geometry.location,
+              description: data.description,
+            })
+          );
+        }}
+      />
+    </View>
+  );
 };
 
 export default SessionOptions;
 
 const styles = StyleSheet.create({
-    image: {
-        width: 120,
-        height: 120,
-        resizeMode: "contain",
+  font: {
+    fontSize: FONT_SIZE.text,
+  },
 
-    },
-    button: {
-        backgroundColor: "rgba(181, 181, 181, 0.40)",
-        padding: 2,
-        paddingLeft: 6, 
-        paddingBottom: 8,
-        paddingTop: 4,
-        margin:5,
-        borderRadius:5,
-    },
-    text: {
-        marginTop: 10,
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-    icon: {
-        backgroundColor: 'grey',
-        borderRadius: 100,
-        margin: 5,
-    },
-    cant_press: {
-        opacity: 0.2
-    },
-    none: {
-
-    }
+  horizontalLine: {
+    borderBottomColor: "lightgray",
+    borderBottomWidth: LINE.width,
+    paddingBottom: 7,
+    marginBottom: 7,
+  },
 });
 
+const googlePlacesStyle = StyleSheet.create({
+  textInput: {
+    fontSize: FONT_SIZE.text,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    height: null,
+  },
+});
