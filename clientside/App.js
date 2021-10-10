@@ -17,7 +17,7 @@ export default function App({ navigation }) {
       <NavigationContainer>
         <SafeAreaProvider>
           <KeyboardAvoidingView 
-            behavior={Platform.OS === "android" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{flex: 1}}
             keyboardVerticalOffset={Platform.OS === "android" ? -64 : 0}
           >
@@ -28,5 +28,3 @@ export default function App({ navigation }) {
     </Provider>
   );
 }
-
-//
