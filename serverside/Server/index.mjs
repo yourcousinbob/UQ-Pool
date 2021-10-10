@@ -167,9 +167,6 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        user.login(req.body, function (payload) {
-            res.send(payload);
-        });
         connected[body.sid] = socket;
         socket.broadcast.emit('login', body);
         console.log("User " + body.sid + " added")

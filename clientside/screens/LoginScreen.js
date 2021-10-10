@@ -72,6 +72,9 @@ export class LoginScreen extends Component {
                 // alert the user
                 this.state.token = json.auth_token
                 this.props.setAuthentication(this.state.token)
+                connection = SocketConnection.getConnection()
+                //Add actual sid when login is fixed
+                connection.sendPayload('login', JSON.stringify({sid:45829211}))
                 
             } else {
                 console.log(json.msg);
