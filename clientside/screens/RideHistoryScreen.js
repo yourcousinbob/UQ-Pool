@@ -12,7 +12,6 @@
 import React from 'react'
 import { StyleSheet, View, Image} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ReturnHomeButton from '../components/ReturnHomeButton'; 
 
  const RideHistoryScreen = () => {     
      return (
@@ -31,7 +30,6 @@ import ReturnHomeButton from '../components/ReturnHomeButton';
                 />
 
                 {/* Here I have imported a sample component */}
-                <ReturnHomeButton/>
 
 
             </View>

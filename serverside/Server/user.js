@@ -54,11 +54,11 @@ module.exports = {
                     const user = { sid: body.sid, first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0, password:getHashedPassword(body.password)};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
-			console.log("User created with sid: " + body.sid);
+			            console.log("User created with sid: " + body.sid);
                         json.msg = "User Succesfully Created";
-			result(json);
+			            result(json);
                     });
-                    con.release((err) => {
+                        con.release((err) => {
                     });
                 }
             });

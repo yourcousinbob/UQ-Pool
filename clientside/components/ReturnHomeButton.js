@@ -17,12 +17,7 @@ const ReturnHomeButton = ( {/* Here you can add input variables and use them in 
         <TouchableOpacity 
             onPress={() => navigation.navigate("Home")} // change this to whatever screen you want and add screen to App.js
             style={styles.button}
-        >
-            <Image
-                style={styles.button}
-                source={require('../assets/backArrow.png')}
-            />
-      
+        >      
         </TouchableOpacity>
     )
 }

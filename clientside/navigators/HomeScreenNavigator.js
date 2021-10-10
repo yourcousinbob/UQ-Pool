@@ -12,6 +12,8 @@ import RideHistoryScreen from '../screens/RideHistoryScreen';
 export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
     return (
+        
+        
         <Drawer.Navigator initialRouteName="Home">
             <Drawer.Screen name="Home" component={HomeScreen} />
             <Drawer.Screen name="Ride History" component={RideHistoryScreen} />

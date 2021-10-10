@@ -9,12 +9,11 @@ export default class Store extends Component {
       data: [
         /*can only get images to work with links, not through assets folder */
         {id:1, title: "UQ-Pool T-Shirt",  price:" 10000 ", image:"https://i.gyazo.com/27fabfa34ba56b7c41d8c5ef15a649cc.png"},
-        {id:2, title: "$10 off UQ-Shop",  price:" 8000 ", image:"../assets/rewards/pooltshirt.PNG"} ,
-        {id:3, title: "Merlo Coffee \n20% Discount",  price:" 2500 ",image:"../assets/rewards/shopping-cart.png"}, 
-        {id:4, title: "Main Course \n20% Discount",  price:" 3000 ", image:"../assets/rewards/Main-Course.png"}, 
-        {id:5, title: "1YR UQ-Rewards Membership",  price:" 25000 ", image:"../assets/rewards/uqrewards.png"}, 
-        {id:6, title: "Free Redroom Pint",  price:" 5000 ", image:"../assets/rewards/redroom.PNG"}, 
-        
+        {id:2, title: "$10 off UQ-Shop",  price:" 8000 ", image:"https://uqpool.xyz:7777/images/rewards/uqshopp.PNG"} ,
+        {id:3, title: "Merlo Coffee \n20% Discount",  price:" 2500 ",image:"https://uqpool.xyz:7777/images/rewards/merlo.PNG"}, 
+        {id:4, title: "Main Course \n20% Discount",  price:" 3000 ", image:"https://uqpool.xyz:7777/images/rewards/Main-Course.jpg"}, 
+        {id:5, title: "1YR UQ-Rewards Membership",  price:" 25000 ", image:"https://uqpool.xyz:7777/images/rewards/uqurewards.PNG"}, 
+        {id:6, title: "Free Redroom Pint",  price:" 5000 ", image:"https://uqpool.xyz:7777/images/rewards/redroom.PNG"}, 
       ]
     };
   }
