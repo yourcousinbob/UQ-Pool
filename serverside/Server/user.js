@@ -9,8 +9,8 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-function generateAuthenticationToken (sid) {
-	return jwt.sign({sid: sid}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+function generateAuthenticationToken (email) {
+	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
 
