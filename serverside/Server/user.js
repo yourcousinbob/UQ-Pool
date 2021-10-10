@@ -21,7 +21,7 @@ module.exports = {
 	var json = {};
 	console.log("Attemped Log in for: " + body.sid);
 	pool.getConnection(function(err, con) {
-	    //con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
+	    con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
 		if (err) throw err;
 		if (rows.length == 0){
 		    console.log("Invalid Student ID or password for: " + body.sid);
@@ -34,7 +34,7 @@ module.exports = {
 		    result({msg:"Successful Login", auth_token: authToken});
 		}
 	    });
-        //});
+        });
     },
 
     //Creates User
