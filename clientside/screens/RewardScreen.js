@@ -62,7 +62,7 @@ export default class Store extends Component {
                   <View style={styles.barContainer}>
                     <View style={styles.barSection}>
                       <TouchableOpacity style={styles.barButton} onPress={() => this.Redeem()}>
-                        <Image style={styles.shoppingIcon} source={require('../assets/rewards/shopping-cart.png')}/>
+                        <Image style={styles.shoppingIcon} source={require('../assets/shopping-cart.png')}/>
                         <Text style={[styles.barLabel, styles.redeemText]}>Redeem Now</Text>
                       </TouchableOpacity>
                     </View>
@@ -160,6 +160,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-  }
-}); 
+  },
+
+
+});  
  
