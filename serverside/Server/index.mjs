@@ -15,6 +15,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const fs = require('fs');
 const https = require('https');
+const jwt = require('jsonwebtoken');
 
 // TLS/SSL Certificates
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/uqpool.xyz/privkey.pem', 'utf8');
@@ -26,6 +27,21 @@ const credentials = {
 	cert: certificate,
 	ca: ca
 };
+
+// Authenticate tokens before doing requests
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, sid) => {
+	console.log(err);
+	if (err) return res.sendStatus(403)
+	req.sid = sid
+	next()
+    })
+}
 
 const httpsPort = 7777;
 
@@ -39,12 +55,11 @@ app.use(bodyParser.json());
 app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
+// serve static files such as images
+app.use(express.static('public'));
 
 // Start the HTTPS servers
 const httpsServer = https.createServer(credentials, app);
-
-
-
 
 // end point requires
 const user = require('./user');
@@ -93,7 +108,7 @@ app.post('/user', async(req, res) => {
     });
 });
 
-app.get('/users', async(req, res) => {
+app.get('/users', authenticateToken, async(req, res) => {
     user.users(req.body, function (payload) {
         res.send(payload);
     });
@@ -118,6 +133,20 @@ app.delete('/rate', async(req, res) => {
         res.send(payload);
     });
 });
+
+// Rewards Section
+app.get('/rewards', async(req, res) => {
+    reward.getRewards(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
+app.post('/rewards', async(req, res) => {
+    reward.getPoints(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
 /*const server = app.listen(port, (err) => {
   if (err) {
       return console.log('Error: ', err);
@@ -161,7 +190,7 @@ io.on('connection', async (socket) => {
     // delete socket connection in connected
     socket.on('logout', (body) => {
         if (body.sid in connected) {
-            delete connected[body.cwuser];
+            delete connected[body.user];
             socket.broadcast.emit('logout', body);
         }
     });
@@ -182,7 +211,7 @@ io.on('connection', async (socket) => {
         if (body.sid in connected) {
             console.log("Requesting pickup for rider " + body.sid);
             book.requestPickup(body, function (payload) {
-                connected[body.sid].emit('request', payload);
+                connected[body.sid].emit('requestResponse', payload);
             });
         } else {
             console.log("That user does not exist");
