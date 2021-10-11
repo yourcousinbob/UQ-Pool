@@ -1,55 +1,108 @@
-/**
- * This is a example of a typical screen in react native. To view this page, 
- * you can do a few things. 
- * 
- * 1) Move the StackScreen for this page as the first one within App.js
- * 2) Render a SampleButton component on the homescreen and link it to this page
- * 
- * Components can be added onto this page, along with other 
- * text, images, or whatever..
- */
-
-import React from 'react'
-import { StyleSheet, View, Image} from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet } from "react-native";
+import { Bubble, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import SampleButton from '../components/Samples/SampleButton';
- 
- const ChatScreen = () => {     
-     return (
-       
-         <SafeAreaView> 
-         {/* SafeAreaView prevents content from going into the notch of a phone*/}
-            {/* Pages are usually contained in a view */}
-            <View>  
+const ChatScreen = () => {
 
-                {/* I've add an image here */}
-                <Image 
-                    style={styles.image}
-                    source={
-                        require('../assets/logo.png')
+    const [messages, setMessages] = useState([]);
+    useEffect(() => {
+        setMessages([
+            {
+                _id: 1,
+                text: 'STOP TALKING TO ME',
+                createdAt: new Date(),
+                user: {
+                    _id: 2,
+                    name: 'dirver',
+                    avatar: 'https://placeimg.com/140/140/any',
+                },
+            },
+            {
+                _id: 2,
+                text: 'whaaaat up?',
+                createdAt: new Date(),
+                user: {
+                    _id: 1,
+                    name: 'passenger',
+                    avatar: 'https://placeimg.com/140/140/any',
+                },
+            },
+        ])
+    }, [])
+    const onSend = useCallback((messages = []) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }, [])
+    const renderInputToolbar = (props) => {
+        return (
+            <InputToolbar{...props}
+            //containerStyle={{ backgroundColor: '#4B2876' }}
+            >
+            </InputToolbar>
+        )
+    }
+    const renderSend = (props) => {
+        return (
+            <Send {...props}>
+                <View>
+                    <MaterialCommunityIcons
+                        name='send-circle'
+                        size={32}
+                        style={{ marginBottom: 5, marginRight: 5 }}
+                        color='#4B2876' />
+                </View>
+            </Send>
+        )
+    }
+
+    const renderBubble = (props) => {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: '#4B2876'
+                    },
+                    left: {
+                        backgroundColor: '#4B2876'
                     }
-                />
+                }}
+                textStyle={{
+                    left: {
+                        color: '#FFFFFF'
+                    },
+                    left: {
+                        color: '#FFFFFF'
+                    }
+                }}
+            />
+        );
+    }
 
-                {/* Here I have imported a sample component */}
-                <SampleButton/>
+    return (
+        <GiftedChat
+            messages={messages}
+            onSend={messages => onSend(messages)}
+            user={{
+                _id: 1,
+            }}
+            renderBubble={renderBubble}
+            alwaysShowSend={true}
+            renderSend={renderSend}
+            renderInputToolbar={renderInputToolbar}
+            bottomOffset={280} //need to check if this work on andriod, change int to 0
+        />
 
+    );
+};
 
-            </View>
-         </SafeAreaView>
-         
-         
-     )
- }
- 
- export default ChatScreen // You need this so you can use ChatScreen in other files
- 
-// Apply styles to your components, similiar to CSS 
+export default ChatScreen;
+
 const styles = StyleSheet.create({
-     image: {
-        width: 200, 
-        height: 100, 
-        resizeMode: 'contain'
-     },
- })
- 
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
