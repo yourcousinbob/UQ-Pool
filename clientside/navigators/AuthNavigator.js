@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectAuthentication } from "../slices/userSlice";
-import DrawerNavigator from "./DrawerNavigator";
+import HomeScreenNavigator from "./HomeScreenNavigator";
 
 /* Screens */
 import LoginScreen from "../screens/LoginScreen";
@@ -30,7 +30,7 @@ export default function AuthNavigator() {
 				<>
 					<Stack.Screen
 						name="Root"
-						component={DrawerNavigator}
+						component={HomeScreenNavigator}
 						options={{ headerShown: false }}
 					/>
 				</>
