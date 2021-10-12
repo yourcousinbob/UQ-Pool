@@ -1,33 +1,44 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native'
-import { COLORS, BOX } from '../stylesheets/theme'
-import ValidatedTextInput from '../components/ValidatedTextInput'
-import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
-import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication} from '../slices/userSlice'
-import SocketConnection from '../socket.js';
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { COLORS, BOX } from "../stylesheets/theme";
+import ValidatedTextInput from "../components/ValidatedTextInput";
+import {
+  useDispatch,
+  MapDispatchToProps,
+  connect,
+  useSelector,
+} from "react-redux";
+import { useNavigation } from "@react-navigation/core";
+import userSlice, {
+  selectAuthentication,
+  setAuthentication,
+} from "../slices/userSlice";
+import SocketConnection from "../socket.js";
+
 
 function RegistrationButton() {
-    const navigation = useNavigation();
-  
-    return (
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("RegistrationScreen")}
-        style={styles.button}
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("RegistrationScreen")}
+      style={styles.button}
     >
-        <Text
-            style={styles.buttonText}
-        >
-            Sign Up
-        </Text>
+      <Text style={styles.buttonText}>Sign Up</Text>
     </TouchableOpacity>
-    );
-  }
-
-
+  );
+}
 
 export class LoginScreen extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -39,10 +50,11 @@ export class LoginScreen extends Component {
         };
     }
 
-    /* This section should check that registration was previously successful from the user slice.
+  /* This section should check that registration was previously successful from the user slice.
     If so, don't render and just go straight to initial page
     else render    
     */
+
     componentDidMount() {}
 
     async loginUser() {
@@ -91,7 +103,7 @@ export class LoginScreen extends Component {
         }
     }
 
-    render() {
+  render() {
     return (
         <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
             <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
@@ -136,52 +148,52 @@ export class LoginScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
-
- 
-
                 </View>
             </View> 
+
         </View>
+      </View>
     );
   }
 }
-  
+
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token))
-    }
-}
+  return {
+    setAuthentication: (authentication_token) =>
+      dispatch(setAuthentication(authentication_token)),
+  };
+};
 
 function mapStateToProps(state) {
-    return { 
-        authentication_token: state.user.authentication_token
-    }
+  return {
+    authentication_token: state.user.authentication_token,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
-  
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: 'white',
-        paddingHorizontal: "3%",
-        paddingVertical:"4%",
-        marginVertical: "1%",
-        marginHorizontal: "7%",
-        borderRadius: BOX.borderRadius,
-        borderColor: COLORS.primary,
-        borderWidth: 1,
-    },
-    button: {
-        backgroundColor: COLORS.primary,
-        marginHorizontal: "25%",
-        marginTop: 10,
-        paddingVertical: 10,
-        borderRadius: BOX.borderRadius,
-    },
 
-    buttonText: {
-        color: "white",
-        textAlign: "center",
-        fontSize: 16
-    }
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: "white",
+    paddingHorizontal: "3%",
+    paddingVertical: "4%",
+    marginVertical: "1%",
+    marginHorizontal: "7%",
+    borderRadius: BOX.borderRadius,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+  },
+  button: {
+    backgroundColor: COLORS.primary,
+    marginHorizontal: "25%",
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: BOX.borderRadius,
+  },
+
+  buttonText: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 16,
+  },
 });

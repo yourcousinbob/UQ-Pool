@@ -7,5 +7,7 @@ send "use UQPool;\n";
 expect "mysql> "
 send "source ./DB_SCHEMA.sql;\n";
 expect "mysql> "
+send "source ./populateRewards.sql;\n";
+expect "mysql> "
 send "exit\n";
 interact

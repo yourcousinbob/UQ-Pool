@@ -40,7 +40,6 @@ module.exports = {
     //Creates User
     create(body, result) {
         var json = {};
-
         console.log("Attempted User Creation for: " + body.sid);
         pool.getConnection(function(err, con) {
             con.query("SELECT sid FROM user WHERE sid='"+ body.sid +"';", (err,rows) => {
@@ -58,7 +57,7 @@ module.exports = {
                         json.msg = "User Succesfully Created";
                         result(json);
                     });
-                    con.release((err) => {
+                        con.release((err) => {
                     });
                 }
             });
