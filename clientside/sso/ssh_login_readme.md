@@ -93,3 +93,9 @@ https://api.uqcloud.net/login/http://uq-pool.uqcloud.net:8081/timetable which wi
 # cd ~/Downloads
 # mv chromedriver /usr/local/bin
 
+# note: changing from nodejs to php 
+## the file is in /var/www/htdocs/test.php
+logs for any errors in the php are in:
+# /var/log/php/errors.log Insertion on word: /
+
+
