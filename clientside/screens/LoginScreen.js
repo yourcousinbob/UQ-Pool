@@ -138,11 +138,12 @@ export class LoginScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
+                    </View>
+             </View>
         </View>
     );
-  }
-}
-  
+}};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token))
