@@ -9,8 +9,8 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-function generateAuthenticationToken (email) {
-	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+function generateAuthenticationToken (sid) {
+	return jwt.sign({sid: sid}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
 
@@ -19,17 +19,17 @@ module.exports = {
     //Log in user
     login(body, result) {
 	var json = {};
-	console.log("Attemped Log in for: " + body.email);
+	console.log("Attemped Log in for: " + body.sid);
 	pool.getConnection(function(err, con) {
-	    con.query("SELECT sid FROM user WHERE email='"  + body.email + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
+	    con.query("SELECT sid FROM user WHERE email='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
 		if (err) throw err;
 		if (rows.length == 0){
-		    console.log("Invalid email or password for: " + body.email);
+		    console.log("Invalid email or password for: " + body.sid);
 		    json.error = 6;
 		    result({ msg:"Invalid email or password"});
 		} else {
-		    console.log("Successful login for " + body.email);
-		    const authToken = generateAuthenticationToken(body.email);
+		    console.log("Successful login for " + body.sid);
+		    const authToken = generateAuthenticationToken(body.sid);
 		    console.log("Auth token generated");
 		    result({msg:"Successful Login", auth_token: authToken});
 		}
