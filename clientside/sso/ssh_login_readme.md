@@ -78,11 +78,18 @@ map   $uri   $acl   {
  }
 
 # Once configuration is set run for restarting nanx
-systemctl reload nginx
+sudo systemctl reload nginx
 
 ## SSO usage for nodejs is in www/nodejs/app.js.
 
 When a user accesses the nodejs endPoint './login' redirect them to:
 https://api.uqcloud.net/login/http://uq-pool.uqcloud.net:8081/timetable which will retrieve the nanx X-KVD-PAYLOAD containing the user's authed info to be passed in the express endPoint across the internal UQ zone network services for retrieving the LDAP data (time table).
 
+## Test case: ssotest.py
+
+# Change the user name and password to your own and run the test
+# Make sure Selenium and its driver is installed, the path configured correctly as follows:
+# get the driver from: 
+# cd ~/Downloads
+# mv chromedriver /usr/local/bin
 
