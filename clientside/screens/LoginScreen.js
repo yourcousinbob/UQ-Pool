@@ -27,7 +27,7 @@ function RegistrationButton() {
 
 
 export class LoginScreen extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -43,6 +43,7 @@ export class LoginScreen extends Component {
     If so, don't render and just go straight to initial page
     else render    
     */
+
     componentDidMount() {}
 
     async loginUser() {
@@ -91,7 +92,8 @@ export class LoginScreen extends Component {
         }
     }
 
-    render() {
+  render() {
+
     return (
         <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
             <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
@@ -136,11 +138,6 @@ export class LoginScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
-
- 
-
-                </View>
-            </View> 
         </View>
     );
   }
