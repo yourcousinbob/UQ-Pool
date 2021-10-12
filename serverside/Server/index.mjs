@@ -168,8 +168,7 @@ io.on('connection', async (socket) => {
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
         let msg = JSON.parse(body)
-        connected[msg.sid] = socket;
-        console.log("User " + body.sid + " added")
+        console.log("User " + msg.sid + " added")
     });
 
     // user x logging out
