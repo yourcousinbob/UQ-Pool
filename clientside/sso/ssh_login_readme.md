@@ -6,23 +6,6 @@ UQ-poolBlackJack2021!
 # Now run for image list:
 triton image list
 
-# SHORTID   NAME                   VERSION   FLAGS  OS       TYPE          PUBDATE
-# 221635c4  base-64                18.1.0    P      smartos  zone-dataset  2018-04-08
-# 5a513a46  base-multiarch         18.1.0    P      smartos  zone-dataset  2018-04-08
-# c193a558  base-64-lts            18.4.0    P      smartos  zone-dataset  2019-01-21
-
-# 19aa3328  alpine-3               20170303  P      linux    lx-dataset    2017-03-03
-# 7b5981c4  ubuntu-16.04           20170403  P      linux    lx-dataset    2017-04-03
-# 3dbbdcca  centos-7               20180323  P      linux    lx-dataset    2018-03-23
-# 63d6e664  debian-9               20180404  P      linux    lx-dataset    2018-04-04
-# 1246aee0  ubuntu-18.04           20191115  P      linux    lx-dataset    2019-11-15
-
-# 7858da72  ubuntu-krb5            1.0.4     IP     linux    lx-dataset    2020-01-16
-# c83d1030  webproject             3.0.4     IP     linux    lx-dataset    2020-01-21
-# da39262c  jupyter                1.0.3     IP     linux    lx-dataset    2020-02-11
-# 91cca3be  x2go-xfce4             1.0.1     IP     linux    lx-dataset    2020-02-20
-
-
 # We will choose webproject as it contains most installations ready for use
 
 # Checking networks
@@ -30,8 +13,7 @@ triton network list
 # SHORTID   NAME               SUBNET            GATEWAY        FABRIC  VLAN  PUBLIC
 # ab964f41  My-Fabric-Network  192.168.128.0/22  192.168.128.1  true    2     false
 # b10a8f1c  zones              -                 -              -       -     true
-
-# The zone should be fabric and allowed for public access to the website.
+# The zone should be zones and allowed for public access to the website.
 
 # Meta tags for installation of webproject services
 services=php mysql nodejs etc...
@@ -100,5 +82,7 @@ systemctl reload nginx
 
 ## SSO usage for nodejs is in www/nodejs/app.js.
 
-When a user accesses the nodejs endPoint redirect them to:
-https://api.uqcloud.net/login/<final URL>    where <final URL> is replaced by the URL you want the user to come back to after logging in.
+When a user accesses the nodejs endPoint './login' redirect them to:
+https://api.uqcloud.net/login/http://uq-pool.uqcloud.net:8081/timetable which will retrieve the nanx X-KVD-PAYLOAD containing the user's authed info to be passed in the express endPoint across the internal UQ zone network services for retrieving the LDAP data (time table).
+
+
