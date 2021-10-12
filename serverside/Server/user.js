@@ -10,7 +10,6 @@ const getHashedPassword = (password) => {
 }
 
 function generateAuthenticationToken (sid) {
-    console.log(process.env.TOKEN_SECRET)
 	return jwt.sign({sid: sid}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
