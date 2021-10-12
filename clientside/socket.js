@@ -19,6 +19,14 @@ class SocketConnection {
         console.log('Connected to socket')
     }
 
+    sendPayload(message, payload) {
+        this.socket.emit(message, payload);
+    }
+
+    recievePayload(message, payload) {
+        this.socket.on(message, payload);
+    }
+
     static init(url) {
         if(!connection) {
             connection = new SocketConnection(url);
