@@ -6,13 +6,16 @@ from selenium.webdriver.support.expected_conditions import (presence_of_element_
 from selenium.webdriver.support.wait import WebDriverWait
 import requests as r
 import time
+import re as Re
+from icalendar import Calendar, Event
 
-url = "http://uq-pool.uqcloud.net"
+url = "http://s4321115-uq-pool.uqcloud.net/test.php"
+icalURL = "https://timetable.my.uq.edu.au/odd/"
 
 # just for ease of logging
 
 def log():
-    for request in driver.requests:
+    for request in d.requests:
         print(request.url)
         print(request.headers) 
         print(request.response.headers)
@@ -37,7 +40,18 @@ time.sleep(3)
 button = d.find_elements_by_tag_name('button')[0]
 button.click()
 time.sleep(3)
-for request in driver.requests:
-  print(request.url)
-print(request.headers) 
-print(request.response.headers)
+
+# get the headers
+log()
+
+# Now we're looking for the student module
+studentModule = [a for a in d.find_elements_by_tag_name('a') if a.text == "Student Module"][0]
+studentModule.click()
+time.sleep(2)
+
+# Finally, get the link to the ical calendar
+text = d.page_source
+x = Re.search('iCalURL =.*;', text)
+icalUrl = text[x.start():x.end()]
+icalUrl = url.replace('"', '')
+icalUrl = icalURL+url.replace('iCalURL = ', '')
