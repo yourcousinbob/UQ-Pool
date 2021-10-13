@@ -218,7 +218,7 @@ io.on('connection', async (socket) => {
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
             book.requestPickup(msg, function (payload) {
-                connected[msg.sid].emit('requestResponse', payload);
+                connected[msg.sid].emit('request', payload);
             });
         } else {
             console.log("That user does not exist");

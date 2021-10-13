@@ -48,15 +48,13 @@ async function getDrivers(sid, location, destination) {
     console.log(location)
     console.log(destination)
     connection = SocketConnection.getConnection()
-    let data = {
+    let data = ({
         sid: sid,
         location: location.description,
         destination: destination.description
-    }
-    connection.sendPayload('request', data)
-    let response = await socket.on('request', (body) => {
-        console.log(body)
     })
+    connection.sendPayload('request', data)
+    connection.recievePayload('request')
 };
 
 const SessionOptions = () => {
