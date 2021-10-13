@@ -9,8 +9,8 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-function generateAuthenticationToken (email) {
-	return jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+function generateAuthenticationToken (sid) {
+	return jwt.sign({sid: sid}, process.env.TOKEN_SECRET, {expiresIn: process.env.JWT_EXPIRE});
 }
 
 
@@ -18,23 +18,22 @@ module.exports = {
 
     //Log in user
     login(body, result) {
-	    var json = {};
-	    console.log("Attemped Log in for: " + body.email);
-	    pool.getConnection(function(err, con) {
-            // Check login details
-	        con.query("SELECT sid FROM user WHERE email='"  + body.email + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
+        var json = {};
+            console.log("Attemped Log in for: " + body.sid);
+            pool.getConnection(function(err, con) {
+                con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
                 if (err) throw err;
                 if (rows.length == 0){
-                    console.log("Invalid email or password for: " + body.email);
+                    console.log("Invalid Student ID or password for: " + body.sid);
                     json.error = 6;
-                    result({ msg:"Invalid email or password"});
+                    result({ msg:"Invalid Student ID or password"});
                 } else {
                     // Log in user and send user details to app
-                    console.log("Successful login for " + body.email);
+                    console.log("Successful login for " + body.sid);
                     con.query("SELECT sid, phone, first_name, last_name, email, image FROM user where email='" + body.email +"';" , (err, rows) => {
                         if (err) throw err;
+                        const authToken = generateAuthenticationToken(body.sid);
                         console.log("Auth token generated");
-                        const authToken = generateAuthenticationToken(body.email);
                         json.first_name = rows[0].first_name;
                         json.last_name = rows[0].last_name;
                         json.email = rows[0].email;
@@ -46,14 +45,14 @@ module.exports = {
                     });
                 }
             });
+
         });
     },
 
     //Creates User
     create(body, result) {
         var json = {};
-
-	console.log("Attempted User Creation for: " + body.sid);
+        console.log("Attempted User Creation for: " + body.sid);
         pool.getConnection(function(err, con) {
             con.query("SELECT sid FROM user WHERE sid='"+ body.sid +"';", (err,rows) => {
                 if(err) throw err;
@@ -66,9 +65,9 @@ module.exports = {
                     const user = { sid: body.sid, first_name: body.first_name, last_name: body.last_name, email: body.email, phone: body.phone, tokens: 0, password:getHashedPassword(body.password)};
                     con.query('INSERT INTO user SET ?', user, (err, response) => {
                         if(err) throw err;
-			            console.log("User created with sid: " + body.sid);
+                        console.log("User created with sid: " + body.sid);
                         json.msg = "User Succesfully Created";
-			            result(json);
+                        result(json);
                     });
                         con.release((err) => {
                     });
