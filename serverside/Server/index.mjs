@@ -180,7 +180,7 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        let result;
+        let log = "None";
         let msg = JSON.parse(body)
         if (msg.sid === "undefined") {
             log = "Failed to add user"
