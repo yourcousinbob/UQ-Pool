@@ -9,12 +9,13 @@ import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
 //testing
 async function getDrivers() {
-    msg = JSON.stringify({
+    connection = SocketConnection.getConnection()
+    let data = {
         sid: selectSID,
         location: selectOrigin,
-        destination: selectDestination})
-    socket = useSelector(selectSocket);
-    socket.emit('request', msg)
+        destination: selectDestination
+    }
+    connection.sendPayload('request', data)
     let response = await socket.on('request', (body) => {
         console.log(body)
     })

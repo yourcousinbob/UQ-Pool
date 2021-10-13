@@ -74,8 +74,7 @@ export class LoginScreen extends Component {
                 this.state.token = json.auth_token
                 this.props.setAuthentication(this.state.token)
                 connection = SocketConnection.getConnection()
-                //Add actual sid when login is fixed
-                connection.sendPayload('login', JSON.stringify({sid: this.state.sid}))
+                connection.sendPayload('login', {sid: this.state.sid})
                 
             } else {
                 console.log(json.msg);
@@ -138,6 +137,8 @@ export class LoginScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
+                </View>
+            </View>
         </View>
     );
   }

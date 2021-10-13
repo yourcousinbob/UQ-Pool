@@ -180,9 +180,16 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
+        let result;
         let msg = JSON.parse(body)
-        connected[msg.sid] = socket;
-        console.log("User " + msg.sid + " added")
+        if (msg.sid === "undefined") {
+            log = "Failed to add user"
+        } else {
+            connected[msg.sid] = socket;
+            log = "User " + msg.sid + " added"
+        }
+        connected[msg.sid].emit('login', JSON.stringify({log: log}));
+        console.log(log)
     });
 
     // user x logging out
