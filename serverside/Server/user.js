@@ -29,9 +29,16 @@ module.exports = {
 		    result({ msg:"Invalid email or password"});
 		} else {
 		    console.log("Successful login for " + body.email);
-		    const authToken = generateAuthenticationToken(body.email);
-		    console.log("Auth token generated");
-		    result({msg:"Successful Login", auth_token: authToken});
+            con.query("SELECT first_name, last_name, email, image FROM user where email='" + body.email +"';") , (err, rows) => {
+                if (err) throw err;
+                const authToken = generateAuthenticationToken(body.email);
+                const user = rows;
+
+                json.user = user
+                json.authToken = authToken
+                console.log("Auth token generated");
+                result({msg:"Successful Login", json});
+            }
 		}
 	    });
         });

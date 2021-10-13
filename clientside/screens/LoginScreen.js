@@ -80,6 +80,7 @@ export class LoginScreen extends Component {
 
       if (json.msg == "Successful Login") {
         // alert the user
+        console.log(json.user)
         this.state.token = json.auth_token;
         this.props.setAuthentication(this.state.token);
         connection = SocketConnection.getConnection();
