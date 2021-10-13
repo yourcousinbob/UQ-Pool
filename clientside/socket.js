@@ -37,7 +37,7 @@ class SocketConnection {
             case "location":
 
             case "request":
-                console.log(data.log)
+                console.log(data.drivers)
 
             case "cancel":
 
