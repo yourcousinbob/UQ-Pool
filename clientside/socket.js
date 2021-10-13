@@ -25,7 +25,39 @@ class SocketConnection {
 
     recievePayload(message, payload) {
         this.socket.on(message, payload);
-    }
+        switch(message){
+
+            case "login":
+                this.socket.on(message, user => {
+                });
+            case "logout":
+                this.socket.on(message, user => {
+                });
+
+            case "location":
+                this.socket.on(message, user => {
+                });
+
+            case "request":
+                this.socket.on(message, user => {
+                });
+
+            case "cancel":
+                this.socket.on(message, user => {
+                });
+
+            case "accept":
+                this.socket.on(message, user => {
+                });
+
+            case "reject":
+                this.socket.on(message, user => {
+                });
+        
+        }
+    } 
+
+
 
     static init(url) {
         if(!connection) {
