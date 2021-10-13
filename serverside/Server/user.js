@@ -35,7 +35,7 @@ module.exports = {
                         const authToken = generateAuthenticationToken(body.email);
                         const user = rows;
                         json.user = user;
-                        json.authToken = authToken;
+                        json.auth_token = authToken;
                         json.msg = "Successful Login";
                         result(json);
                     });
