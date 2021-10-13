@@ -4,7 +4,7 @@ import { COLORS, BOX } from '../stylesheets/theme'
 import ValidatedTextInput from '../components/ValidatedTextInput'
 import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication} from '../slices/userSlice'
+import userSlice, { selectAuthentication, setAuthentication, selectSID, setSID } from '../slices/userSlice'
 import SocketConnection from '../socket.js';
 
 function RegistrationButton() {
@@ -75,6 +75,8 @@ export class LoginScreen extends Component {
                 this.props.setAuthentication(this.state.token)
                 connection = SocketConnection.getConnection()
                 connection.sendPayload('login', {sid: this.state.sid})
+                connection.recievePayload('login')
+                dispatch(setSID(this.state.sid))
                 
             } else {
                 console.log(json.msg);
@@ -146,13 +148,15 @@ export class LoginScreen extends Component {
   
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token))
+        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
+        setSID: sid => dispatch(setSID(sid))
     }
 }
 
 function mapStateToProps(state) {
     return { 
-        authentication_token: state.user.authentication_token
+        authentication_token: state.user.authentication_token,
+        sid: state.user.sid
     }
 }
 

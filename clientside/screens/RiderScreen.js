@@ -4,22 +4,7 @@ import { COLORS, BOX } from '../stylesheets/theme'
 import Map from '../components/Map'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DestinationCard from '../components/DestinationCard'
-import { setDestination , selectOrigin, selectDestination} from '../slices/sessionSlice'
-import userSlice, { selectSocket , selectSID } from '../slices/userSlice'
 
-//testing
-async function getDrivers() {
-    connection = SocketConnection.getConnection()
-    let data = {
-        sid: selectSID,
-        location: selectOrigin,
-        destination: selectDestination
-    }
-    connection.sendPayload('request', data)
-    let response = await socket.on('request', (body) => {
-        console.log(body)
-    })
-};
 
 const RiderScreen = () => {
     const Stack = createNativeStackNavigator();

@@ -30,7 +30,7 @@ class SocketConnection {
             switch(message){
 
             case "login":
-                console.log(msg.log)
+                console.log(data.log)
 
             case "logout":
 
