@@ -78,7 +78,7 @@ export class LoginScreen extends Component {
                 this.props.setFirst(json.first_name);
                 this.props.setSID(json.sid);
                 connection = SocketConnection.getConnection()
-                connection.sendPayload('login', {sid: this.state.sid})
+                connection.sendPayload('login', {sid: json.sid})
                 connection.recievePayload('login')
                 
             } else {

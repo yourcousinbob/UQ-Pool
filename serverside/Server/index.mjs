@@ -214,11 +214,11 @@ io.on('connection', async (socket) => {
     // User a requests to user b    
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
-
-        if (body.sid in connected) {
-            console.log("Requesting pickup for rider " + body.sid);
-            book.requestPickup(body, function (payload) {
-                connected[body.sid].emit('requestResponse', payload);
+        let msg = JSON.parse(body)
+        if (msg.sid in connected) {
+            console.log("Requesting pickup for rider " + msg.sid);
+            book.requestPickup(msg, function (payload) {
+                connected[msg.sid].emit('requestResponse', payload);
             });
         } else {
             console.log("That user does not exist");
