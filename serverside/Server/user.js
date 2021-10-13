@@ -18,29 +18,29 @@ module.exports = {
 
     //Log in user
     login(body, result) {
-	var json = {};
-	console.log("Attemped Log in for: " + body.email);
-	pool.getConnection(function(err, con) {
-	    con.query("SELECT sid FROM user WHERE email='"  + body.email + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
-		if (err) throw err;
-		if (rows.length == 0){
-		    console.log("Invalid email or password for: " + body.email);
-		    json.error = 6;
-		    result({ msg:"Invalid email or password"});
-		} else {
-		    console.log("Successful login for " + body.email);
-            con.query("SELECT first_name, last_name, email, image FROM user where email='" + body.email +"';") , (err, rows) => {
+	    var json = {};
+	    console.log("Attemped Log in for: " + body.email);
+	    pool.getConnection(function(err, con) {
+	        con.query("SELECT sid FROM user WHERE email='"  + body.email + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
                 if (err) throw err;
-                const authToken = generateAuthenticationToken(body.email);
-                const user = rows;
-
-                json.user = user
-                json.authToken = authToken
-                console.log("Auth token generated");
-                result({msg:"Successful Login", json});
-            }
-		}
-	    });
+                if (rows.length == 0){
+                    console.log("Invalid email or password for: " + body.email);
+                    json.error = 6;
+                    result({ msg:"Invalid email or password"});
+                } else {
+                    console.log("Successful login for " + body.email);
+                    con.query("SELECT first_name, last_name, email, image FROM user where email='" + body.email +"';" , (err, rows) => {
+                        if (err) throw err;
+                        console.log("Auth token generated");
+                        const authToken = generateAuthenticationToken(body.email);
+                        const user = rows;
+                        json.user = user;
+                        json.authToken = authToken;
+                        json.msg = "Successful Login";
+                        result(json);
+                    });
+                }
+            });
         });
     },
 
