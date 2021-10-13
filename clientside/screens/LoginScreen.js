@@ -20,7 +20,11 @@ import { useNavigation } from "@react-navigation/core";
 import userSlice, {
   selectAuthentication,
   setAuthentication,
+  setFirst,
   setLast,
+  setEmail,
+  setPhone,
+  setSID
 } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
 
@@ -80,14 +84,16 @@ export class LoginScreen extends Component {
       const json = await response.json();
 
       if (json.msg == "Successful Login") {
-        // alert the user
-        console.log(json)
+
+        //store login details from server
         this.props.setAuthentication(json.auth_token);
         this.props.setLast(json.last_name);
         this.props.setEmail(json.email);
         this.props.setPhone(json.phone);
         this.props.setFirst(json.first_name);
         this.props.setSID(json.sid);
+
+
         connection = SocketConnection.getConnection();
         //Add actual sid when login is fixed
         connection.sendPayload("login", JSON.stringify({ sid: json.sid }));
