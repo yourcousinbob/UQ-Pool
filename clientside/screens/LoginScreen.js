@@ -23,7 +23,6 @@ import userSlice, {
   setLast,
 } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
-import { derToJose } from "ecdsa-sig-formatter";
 
 
 function RegistrationButton() {
@@ -82,16 +81,16 @@ export class LoginScreen extends Component {
 
       if (json.msg == "Successful Login") {
         // alert the user
-        
+        console.log(json)
         this.props.setAuthentication(json.auth_token);
-        this.props.setFirst(json.first_name);
         this.props.setLast(json.last_name);
         this.props.setEmail(json.email);
         this.props.setPhone(json.phone);
-        this.props.setSID(json.sid)
+        this.props.setFirst(json.first_name);
+        this.props.setSID(json.sid);
         connection = SocketConnection.getConnection();
         //Add actual sid when login is fixed
-        connection.sendPayload("login", JSON.stringify({ sid: 45829211 }));
+        connection.sendPayload("login", JSON.stringify({ sid: json.sid }));
       } else {
         console.log(json.msg);
         // Switch to the initial state of the app
@@ -172,14 +171,14 @@ const mapDispatchToProps = (dispatch) => {
     setAuthentication: (authentication_token) =>
       dispatch(setAuthentication(authentication_token)),
 
-    setSID: (authentication_token) =>
-      dispatch(setSID(authentication_token)),
+    setSID: (sid) =>
+      dispatch(setSID(sid)),
 
     setFirst: (first_name) =>
       dispatch(setFirst(first_name)),
 
     setLast: (last_name) =>
-      dispatch(setLast(authentication_token)),
+      dispatch(setLast(last_name)),
 
     setPhone: (phone) =>
       dispatch(setPhone(phone)),

@@ -33,11 +33,11 @@ module.exports = {
                         if (err) throw err;
                         console.log("Auth token generated");
                         const authToken = generateAuthenticationToken(body.email);
-                        json.first_name = rows.first_name;
-                        json.last_name = rows.last_name;
-                        json.email = rows.email;
-                        json.phone = rows.phone;
-                        json.sid = rows.sid;
+                        json.first_name = rows[0].first_name;
+                        json.last_name = rows[0].last_name;
+                        json.email = rows[0].email;
+                        json.phone = rows[0].phone;
+                        json.sid = rows[0].sid;
                         json.auth_token = authToken;
                         json.msg = "Successful Login";
                         result(json);
