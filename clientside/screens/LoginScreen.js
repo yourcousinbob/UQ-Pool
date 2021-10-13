@@ -147,11 +147,26 @@ export class LoginScreen extends Component {
 }
   
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token)),
-        setSID: sid => dispatch(setSID(sid))
-    }
-}
+  return {
+    setAuthentication: (authentication_token) =>
+      dispatch(setAuthentication(authentication_token)),
+
+    setSID: (sid) =>
+      dispatch(setSID(sid)),
+
+    setFirst: (first_name) =>
+      dispatch(setFirst(first_name)),
+
+    setLast: (last_name) =>
+      dispatch(setLast(last_name)),
+
+    setPhone: (phone) =>
+      dispatch(setPhone(phone)),
+
+    setEmail: (email) =>
+      dispatch(setEmail(email)),
+  };
+};
 
 function mapStateToProps(state) {
     return { 

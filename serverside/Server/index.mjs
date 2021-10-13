@@ -259,4 +259,19 @@ io.on('connection', async (socket) => {
         };
    });
 
+   // Pool Messaging Section
+   // Once user is joined to a pool they will use the below socket.io calls to chat
+   // and to update GPS locations
+
+   //Send message to a pool chat
+   socket.on('sendMessage', (body, request) => {
+        if (body.sid in pools[body.driverSid]) {
+            chat.sendMessage(body, function (payload) {
+                pool[body.driverSid].emit('message', payload);
+            });
+        } else {
+            console.log("Invalid chat room")
+        };
+    });
+
 });
