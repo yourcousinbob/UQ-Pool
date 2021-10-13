@@ -78,9 +78,8 @@ export class LoginScreen extends Component {
                 this.props.setFirst(json.first_name);
                 this.props.setSID(json.sid);
                 connection = SocketConnection.getConnection()
-              
-                //Add actual sid when login is fixed
-                connection.sendPayload('login', JSON.stringify({sid: this.state.sid}))
+                connection.sendPayload('login', {sid: json.sid})
+                connection.recievePayload('login')
                 
             } else {
                 console.log(json.msg);

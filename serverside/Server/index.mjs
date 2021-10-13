@@ -180,9 +180,16 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
+        let log = "None";
         let msg = JSON.parse(body)
-        connected[msg.sid] = socket;
-        console.log("User " + msg.sid + " added")
+        if (msg.sid === "undefined") {
+            log = "Failed to add user"
+        } else {
+            connected[msg.sid] = socket;
+            log = "User " + msg.sid + " added"
+        }
+        connected[msg.sid].emit('login', JSON.stringify({log: log}));
+        console.log(log)
     });
 
     // user x logging out
@@ -207,11 +214,11 @@ io.on('connection', async (socket) => {
     // User a requests to user b    
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
-
-        if (body.sid in connected) {
-            console.log("Requesting pickup for rider " + body.sid);
-            book.requestPickup(body, function (payload) {
-                connected[body.sid].emit('requestResponse', payload);
+        let msg = JSON.parse(body)
+        if (msg.sid in connected) {
+            console.log("Requesting pickup for rider " + msg.sid);
+            book.requestPickup(msg, function (payload) {
+                connected[msg.sid].emit('request', JSON.stringify({drivers: payload}));
             });
         } else {
             console.log("That user does not exist");

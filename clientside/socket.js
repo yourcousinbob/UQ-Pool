@@ -20,12 +20,36 @@ class SocketConnection {
     }
 
     sendPayload(message, payload) {
-        this.socket.emit(message, payload);
+        this.socket.emit(message, JSON.stringify(payload));
     }
 
-    recievePayload(message, payload) {
-        this.socket.on(message, payload);
-    }
+    recievePayload(message) {
+        this.socket.on(message, (body) => {
+            let data = JSON.parse(body)
+
+            switch(message){
+
+            case "login":
+                console.log(data.log)
+
+            case "logout":
+
+            case "location":
+
+            case "request":
+                console.log(data.drivers)
+
+            case "cancel":
+
+            case "accept":
+
+            case "reject":
+                
+            }
+        });
+    } 
+
+
 
     static init(url) {
         if(!connection) {
