@@ -140,6 +140,7 @@ export class LoginScreen extends Component {
                         <Text
                             style={styles.buttonText}
                         >
+	    		Login
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
