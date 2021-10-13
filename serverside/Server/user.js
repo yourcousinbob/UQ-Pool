@@ -18,22 +18,34 @@ module.exports = {
 
     //Log in user
     login(body, result) {
-	var json = {};
-	console.log("Attemped Log in for: " + body.sid);
-	pool.getConnection(function(err, con) {
-	    con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
-		if (err) throw err;
-		if (rows.length == 0){
-		    console.log("Invalid Student ID or password for: " + body.sid);
-		    json.error = 6;
-		    result({ msg:"Invalid Student ID or password"});
-		} else {
-		    console.log("Successful login for " + body.sid);
-		    const authToken = generateAuthenticationToken(body.sid);
-		    console.log("Auth token generated");
-		    result({msg:"Successful Login", auth_token: authToken});
-		}
-	    });
+        var json = {};
+            console.log("Attemped Log in for: " + body.sid);
+            pool.getConnection(function(err, con) {
+                con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
+                if (err) throw err;
+                if (rows.length == 0){
+                    console.log("Invalid Student ID or password for: " + body.sid);
+                    json.error = 6;
+                    result({ msg:"Invalid Student ID or password"});
+                } else {
+                    // Log in user and send user details to app
+                    console.log("Successful login for " + body.sid);
+                    con.query("SELECT sid, phone, first_name, last_name, email, image FROM user where email='" + body.email +"';" , (err, rows) => {
+                        if (err) throw err;
+                        const authToken = generateAuthenticationToken(body.sid);
+                        console.log("Auth token generated");
+                        json.first_name = rows[0].first_name;
+                        json.last_name = rows[0].last_name;
+                        json.email = rows[0].email;
+                        json.phone = rows[0].phone;
+                        json.sid = rows[0].sid;
+                        json.auth_token = authToken;
+                        json.msg = "Successful Login";
+                        result(json);
+                    });
+                }
+            });
+
         });
     },
 

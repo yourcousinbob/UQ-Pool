@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native'
-import { COLORS, BOX } from '../stylesheets/theme'
-import ValidatedTextInput from '../components/ValidatedTextInput'
-import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
-import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication} from '../slices/userSlice'
-import SocketConnection from '../socket.js';
+import React, { Component } from "react";
+import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from "react-native";
+import { COLORS, BOX } from "../stylesheets/theme";
+import ValidatedTextInput from "../components/ValidatedTextInput";
+import { useDispatch, MapDispatchToProps, connect, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
+import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID } from "../slices/userSlice";
+import SocketConnection from "../socket.js";
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -69,11 +69,16 @@ export class LoginScreen extends Component {
  
             const json = await response.json();
 
-            if (json.msg =="Successful Login") {
-                // alert the user
-                this.state.token = json.auth_token
-                this.props.setAuthentication(this.state.token)
+            if (json.msg =="Successful Login") {      
+                //store login details from server
+                this.props.setAuthentication(json.auth_token);
+                this.props.setLast(json.last_name);
+                this.props.setEmail(json.email);
+                this.props.setPhone(json.phone);
+                this.props.setFirst(json.first_name);
+                this.props.setSID(json.sid);
                 connection = SocketConnection.getConnection()
+              
                 //Add actual sid when login is fixed
                 connection.sendPayload('login', JSON.stringify({sid: this.state.sid}))
                 
@@ -91,7 +96,7 @@ export class LoginScreen extends Component {
             // Just in case this is required
         }
     }
-
+  
   render() {
 
     return (
@@ -145,10 +150,27 @@ export class LoginScreen extends Component {
 }};
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setAuthentication: authentication_token => dispatch(setAuthentication(authentication_token))
-    }
-}
+  return {
+    setAuthentication: (authentication_token) =>
+      dispatch(setAuthentication(authentication_token)),
+
+    setSID: (sid) =>
+      dispatch(setSID(sid)),
+
+    setFirst: (first_name) =>
+      dispatch(setFirst(first_name)),
+
+    setLast: (last_name) =>
+      dispatch(setLast(last_name)),
+
+    setPhone: (phone) =>
+      dispatch(setPhone(phone)),
+
+    setEmail: (email) =>
+      dispatch(setEmail(email)),
+  };
+};
+
 
 function mapStateToProps(state) {
     return { 
