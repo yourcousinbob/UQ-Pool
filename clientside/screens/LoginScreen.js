@@ -76,7 +76,6 @@ export class LoginScreen extends Component {
                 connection = SocketConnection.getConnection()
                 connection.sendPayload('login', {sid: this.state.sid})
                 connection.recievePayload('login')
-                dispatch(setSID(this.state.sid))
                 
             } else {
                 console.log(json.msg);
@@ -170,8 +169,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function mapStateToProps(state) {
     return { 
-        authentication_token: state.user.authentication_token,
-        sid: state.user.sid
+        authentication_token: state.user.authentication_token
     }
 }
 
