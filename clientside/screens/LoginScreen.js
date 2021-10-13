@@ -20,8 +20,10 @@ import { useNavigation } from "@react-navigation/core";
 import userSlice, {
   selectAuthentication,
   setAuthentication,
+  setLast,
 } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
+import { derToJose } from "ecdsa-sig-formatter";
 
 
 function RegistrationButton() {
@@ -80,9 +82,13 @@ export class LoginScreen extends Component {
 
       if (json.msg == "Successful Login") {
         // alert the user
-        console.log(json.user)
-        this.state.token = json.auth_token;
-        this.props.setAuthentication(this.state.token);
+        
+        this.props.setAuthentication(json.auth_token);
+        this.props.setFirst(json.first_name);
+        this.props.setLast(json.last_name);
+        this.props.setEmail(json.email);
+        this.props.setPhone(json.phone);
+        this.props.setSID(json.sid)
         connection = SocketConnection.getConnection();
         //Add actual sid when login is fixed
         connection.sendPayload("login", JSON.stringify({ sid: 45829211 }));
@@ -165,6 +171,21 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setAuthentication: (authentication_token) =>
       dispatch(setAuthentication(authentication_token)),
+
+    setSID: (authentication_token) =>
+      dispatch(setSID(authentication_token)),
+
+    setFirst: (first_name) =>
+      dispatch(setFirst(first_name)),
+
+    setLast: (last_name) =>
+      dispatch(setLast(authentication_token)),
+
+    setPhone: (phone) =>
+      dispatch(setPhone(phone)),
+
+    setEmail: (email) =>
+      dispatch(setEmail(email)),
   };
 };
 

@@ -29,12 +29,15 @@ module.exports = {
                     result({ msg:"Invalid email or password"});
                 } else {
                     console.log("Successful login for " + body.email);
-                    con.query("SELECT first_name, last_name, email, image FROM user where email='" + body.email +"';" , (err, rows) => {
+                    con.query("SELECT sid, phone, first_name, last_name, email, image FROM user where email='" + body.email +"';" , (err, rows) => {
                         if (err) throw err;
                         console.log("Auth token generated");
                         const authToken = generateAuthenticationToken(body.email);
-                        const user = rows;
-                        json.user = user;
+                        json.first_name = rows.first_name;
+                        json.last_name = rows.last_name;
+                        json.email = rows.email;
+                        json.phone = rows.phone;
+                        json.sid = rows.sid;
                         json.auth_token = authToken;
                         json.msg = "Successful Login";
                         result(json);
