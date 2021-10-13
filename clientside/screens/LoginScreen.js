@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native'
-import { COLORS, BOX } from '../stylesheets/theme'
-import ValidatedTextInput from '../components/ValidatedTextInput'
-import { useDispatch, MapDispatchToProps, connect, useSelector} from 'react-redux'
-import { useNavigation } from '@react-navigation/core'
-import userSlice, { selectAuthentication, setAuthentication, selectSID, setSID } from '../slices/userSlice'
-import SocketConnection from '../socket.js';
+import React, { Component } from "react";
+import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from "react-native";
+import { COLORS, BOX } from "../stylesheets/theme";
+import ValidatedTextInput from "../components/ValidatedTextInput";
+import { useDispatch, MapDispatchToProps, connect, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
+import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID } from "../slices/userSlice";
+import SocketConnection from "../socket.js";
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -69,10 +69,14 @@ export class LoginScreen extends Component {
  
             const json = await response.json();
 
-            if (json.msg =="Successful Login") {
-                // alert the user
-                this.state.token = json.auth_token
-                this.props.setAuthentication(this.state.token)
+            if (json.msg =="Successful Login") {      
+                //store login details from server
+                this.props.setAuthentication(json.auth_token);
+                this.props.setLast(json.last_name);
+                this.props.setEmail(json.email);
+                this.props.setPhone(json.phone);
+                this.props.setFirst(json.first_name);
+                this.props.setSID(json.sid);
                 connection = SocketConnection.getConnection()
                 connection.sendPayload('login', {sid: this.state.sid})
                 connection.recievePayload('login')
@@ -91,7 +95,7 @@ export class LoginScreen extends Component {
             // Just in case this is required
         }
     }
-
+  
   render() {
 
     return (
@@ -135,16 +139,16 @@ export class LoginScreen extends Component {
                         <Text
                             style={styles.buttonText}
                         >
+	    		Login
                         </Text>
                     </TouchableOpacity>
                     <RegistrationButton/>
-                </View>
-            </View>
+                    </View>
+             </View>
         </View>
     );
-  }
-}
-  
+}};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     setAuthentication: (authentication_token) =>
@@ -166,6 +170,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setEmail(email)),
   };
 };
+
 
 function mapStateToProps(state) {
     return { 
