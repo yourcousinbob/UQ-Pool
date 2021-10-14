@@ -39,7 +39,8 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "FOREGROUND_SERVICE"
-      ]
+      ],
+      "package": "UQPool.apk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

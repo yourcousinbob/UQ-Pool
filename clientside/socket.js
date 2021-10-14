@@ -44,6 +44,9 @@ class SocketConnection {
             case "accept":
 
             case "reject":
+
+            case "add":
+                console.log(data.msg)
                 
             }
         });

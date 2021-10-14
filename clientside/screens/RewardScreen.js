@@ -85,7 +85,8 @@ export default class Store extends Component {
                 </View>
               </View>
             )
-          }}/>
+          }}
+        />
       </View>
     );
   }

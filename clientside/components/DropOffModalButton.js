@@ -36,7 +36,7 @@ const DropOffModalButton = () => {
 					<View style={styles.modal}>
 						<Icon type="ionicon" name="remove-outline" size={25} />
 						<Text style={styles.modalHeader}>Drop off</Text>
-						<SessionOptions />
+						<SessionOptions/>
 					</View>
 				</Modal>
 			</View>
@@ -48,7 +48,7 @@ const DropOffModalButton = () => {
 			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
 				Where to?
 			</Text>
-			<DropOffModal />
+			<DropOffModal/>
 		</TouchableOpacity>
 	);
 };

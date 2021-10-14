@@ -114,6 +114,12 @@ app.get('/users', authenticateToken, async(req, res) => {
     });
 });
 
+app.post('/driver', async(req, res) => {
+    user.driver(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
 // History section
 app.get('/history', async(req, res) => {
     user.history(req.body.user, function (payload) {
@@ -257,6 +263,14 @@ io.on('connection', async (socket) => {
         } else {
             console.log("That user does not exist");
         };
+   });
+
+   //Driver
+   socket.on('add', (body, request) => {
+        console.log("Adding driver to active drivers: " + msg.sid);
+        book.addDriver(msg, function (payload) {
+            connected[msg.sid].emit('add', JSON.stringify(payload));
+        });
    });
 
    // Pool Messaging Section

@@ -12,7 +12,6 @@ export default function HomeScreen() {
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
 
-
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -50,8 +49,8 @@ export default function HomeScreen() {
 				/>
 			</MapView>
 			<View style={styles.bubble}>
-				<DropOffModalButton />
-				<Text>Some More Text</Text>
+				<DropOffModalButton/>
+				<Text>Book a ride</Text>
 			</View>
 		</View>
 	);
