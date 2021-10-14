@@ -114,6 +114,12 @@ app.get('/users', authenticateToken, async(req, res) => {
     });
 });
 
+app.post('/driver', async(req, res) => {
+    user.driver(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
 // History section
 app.get('/history', async(req, res) => {
     user.history(req.body.user, function (payload) {
