@@ -107,7 +107,7 @@ module.exports = {
     //Registers a user to be a driver
     driver(body, result) {
         var json = {};
-        const driver = {sid: body.sid, registration: body.registration, capacity: body.capacity};
+        const driver = {driver_id: body.sid, registration: body.registration, capacity: body.capacity};
         pool.getConnection(function(err, con) {
             con.query('INSERT INTO vehicles SET ?', driver, (err, response) => {
                 if(err) throw err;
