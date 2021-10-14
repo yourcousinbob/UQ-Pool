@@ -109,7 +109,7 @@ module.exports = {
         var json = {};
         const driver = {sid: body.sid, registration: body.registration, capacity: body.capacity};
         pool.getConnection(function(err, con) {
-            con.query('INSERT INTO vehicle SET ?', driver, (err, response) => {
+            con.query('INSERT INTO vehicles SET ?', driver, (err, response) => {
                 if(err) throw err;
                 console.log("Driver added with sid: " + body.sid);
                 json.msg = "Driver Succesfully Added";

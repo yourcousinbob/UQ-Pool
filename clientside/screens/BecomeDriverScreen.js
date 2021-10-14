@@ -11,8 +11,10 @@ import {
 } from "react-native";
 import { COLORS, BOX } from "../stylesheets/theme";
 import ValidatedTextInput from "../components/ValidatedTextInput";
+import { MapStateToProps, connect, useSelector } from "react-redux";
+import { selectSID } from "../slices/userSlice";
 
-export class BecomeDriverScreen extends Component {
+class BecomeDriverScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,9 +52,9 @@ export class BecomeDriverScreen extends Component {
 				},
 				body: JSON.stringify({
 					// not sure if we need the stringify tbh
-					sid: this.state.sid,
+					sid: this.props.sid,
 					registration: this.state.registration,
-                    capacity: this.state.registration
+                    capacity: this.state.capacity
 				}),
 			});
 
@@ -137,7 +139,11 @@ export class BecomeDriverScreen extends Component {
 	}
 }
 
-export default BecomeDriverScreen;
+function mapStateToProps(state) { 
+	return { sid: selectSID(state) }
+}
+
+export default connect(mapStateToProps, null)(BecomeDriverScreen);
 
 const styles = StyleSheet.create({
 	input: {
