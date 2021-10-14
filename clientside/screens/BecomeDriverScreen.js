@@ -62,7 +62,7 @@ class BecomeDriverScreen extends Component {
 			if (json.msg == "Driver Succesfully Added") {
 				// alert the user
 				//navigation.navigate("LoginScreen") can't call hooks in function
-				this.props.navigation.navigate("HomeScreen");
+				this.props.navigation.navigate("Root", { screen: "Home" });
 			} else {
 				console.log(json.msg);
 
