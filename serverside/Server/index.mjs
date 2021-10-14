@@ -259,6 +259,14 @@ io.on('connection', async (socket) => {
         };
    });
 
+   //Driver
+   socket.on('add', (body, request) => {
+        console.log("Adding driver to active drivers: " + msg.sid);
+        book.addDriver(msg, function (payload) {
+            connected[msg.sid].emit('add', JSON.stringify(payload));
+        });
+   });
+
    // Pool Messaging Section
    // Once user is joined to a pool they will use the below socket.io calls to chat
    // and to update GPS locations

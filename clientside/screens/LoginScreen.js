@@ -22,7 +22,7 @@ function RegistrationButton() {
         </Text>
     </TouchableOpacity>
     );
-  }
+}
 
 
 
