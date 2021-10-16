@@ -38,9 +38,8 @@ module.exports = {
                             });
                         }
                     }
-                    getDetour(driver_heuristics, rows)
-                    .then(response => {
-                        result(driver_heuristics)
+                    getDetour(driver_heuristics, rows).then(response => {
+                        result(driver_heuristics);
                     });
                     console.log("Successfully parsed drivers for " + body.sid);
                 };
