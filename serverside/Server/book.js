@@ -58,10 +58,13 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-            + body.location + "', '" + body.registration + "'," + body.capacity);
-            json.msg = "Driver added to queue"
-            result(json)
+            const driver = { sid: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+            con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
+                if(err) throw err;
+                console.log("Active driver created with sid: " + body.sid);
+                json.msg = "Driver Succesfully Added";
+                result(json);
+            });
         });
     },
 
