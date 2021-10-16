@@ -219,7 +219,7 @@ io.on('connection', async (socket) => {
 
     // User a requests to user b    
     // socket searches for user b in connected sockets and sends request
-    socket.on('request', (body, result) => {
+    socket.on('get', (body, result) => {
         let msg = JSON.parse(body)
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);

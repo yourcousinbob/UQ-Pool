@@ -32,6 +32,8 @@ import {
 import SocketConnection from '../socket.js';
 import DriverListModal from "./DriverListModal";
 import { UserStatus } from "../enums/UserStatus";
+import DriverListModalButton from "./DriverListModal";
+import BecomeDriverModalButton from "./BecomeDriverModalButton";
 
 
 const options = [
@@ -179,6 +181,8 @@ const SessionOptions = () => {
           )}
         />
       </View>
+      <DriverListModalButton/>
+      <BecomeDriverModalButton/>
     </View>
   );
 };

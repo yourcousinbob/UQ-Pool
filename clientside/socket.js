@@ -36,7 +36,7 @@ class SocketConnection {
 
             case "location":
 
-            case "request":
+            case "get":
                 console.log(data.drivers)
 
             case "cancel":
@@ -47,7 +47,9 @@ class SocketConnection {
 
             case "add":
                 console.log(data.msg)
-                
+
+            case "removeDriver":
+                console.log(data.msg)
             }
         });
     } 
