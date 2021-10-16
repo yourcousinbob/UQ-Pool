@@ -33,7 +33,7 @@ module.exports = {
                         let driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
                         let pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
-                        Promise.all([driverETA, pickupETA, detourETA]).then(heuristic => {
+                        Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
                             let queryInfo = await con.query("select first_name, last_name, image from user where sid='"+body[0]+"';", (err, info) => {
                                 if(err) {
