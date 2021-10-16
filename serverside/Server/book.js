@@ -44,19 +44,19 @@ module.exports = {
                             drivers = []
                             for (let i = 0; i < driver_heuristics.length; i++){
                                 console.log(driver_heuristics[i][0])
-                                con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+JSON.stringify(driver_heuristics[i][0])+"';", (err,info) => {
+                                con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+JSON.stringify(driver_heuristics[i][0])+"';", (err,rows) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
                                 }
-                                console.log(info.first_name)
+                                console.log(rows.first_name)
                                 drivers.push({
                                     driver_id: driver_heuristics[i][0], 
                                     registration: driver_heuristics[i][1], 
                                     heuristic: driver_heuristics[i][2], 
-                                    first_name: info.first_name, 
-                                    last_name: info.last_name,
-                                    image: info.image
+                                    first_name: rows.first_name, 
+                                    last_name: rows.last_name,
+                                    image: rows.image
                                 })
                             });
                             }
