@@ -59,7 +59,7 @@ module.exports = {
                                 return driver
                             }));
                         }
-                        console.log(JSON.stringify(drivers));
+                        //console.log(JSON.stringify(drivers));
                         result(drivers)
                     });
                 };
