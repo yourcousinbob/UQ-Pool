@@ -4,9 +4,9 @@ DROP TABLE history;
 DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
-DROP TABLE user;
-DROP TABLE rewards;
 DROP TABLE userRewards;
+DROP TABLE rewards;
+DROP TABLE user;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
