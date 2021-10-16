@@ -24,8 +24,7 @@ module.exports = {
                 if (rows.length < 1) {
                     console.log("No available drivers");
                 } else {
-                    driver_heuristics = [];
-                    drivers = []
+                    let driver_heuristics = [];
 
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
@@ -40,6 +39,7 @@ module.exports = {
                         }
                     }
 
+                    let drivers = []
                     console.log("Successfully parsed drivers for " + body.sid);
                     getDetour(driver_heuristics, rows).then(response => {
                         for (let i = 0; i < driver_heuristics.length; i++){
@@ -56,11 +56,8 @@ module.exports = {
                                     last_name: rows[0].last_name,
                                     image: rows[0].image
                                 })
-                                console.log("first" + JSON.stringify(drivers));
                             });
-                            console.log("before" + JSON.stringify(drivers));
                         }
-                        console.log("after" + JSON.stringify(drivers));
                         result(drivers)
                     });
                 };
