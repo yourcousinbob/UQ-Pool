@@ -48,7 +48,7 @@ module.exports = {
                                     console.log("Could not pass query")
                                     throw err;
                                 }
-                                driver = {
+                                const driver = {
                                     driver_id: driver_heuristics[i][0], 
                                     registration: driver_heuristics[i][1], 
                                     heuristic: driver_heuristics[i][2], 
