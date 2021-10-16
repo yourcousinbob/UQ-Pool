@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
 /* Alerts */
@@ -12,14 +11,16 @@ import RewardScreen from '../screens/RewardScreen';
 import RideHistoryScreen from '../screens/RideHistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import BecomeDriverScreen from '../screens/BecomeDriverScreen';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSID } from '../slices/userSlice';
 
 function CustomDrawerContent(props) {
     const dispatch = useDispatch();
+    const sid = useSelector(selectSID);
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
-            <DrawerItem label="Logout" onPress={() => LogoutAlert(dispatch)} />
+            <DrawerItem label="Logout" onPress={() => LogoutAlert(dispatch, sid)} />
         </DrawerContentScrollView>
     );
 }

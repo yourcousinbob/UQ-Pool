@@ -207,7 +207,7 @@ io.on('connection', async (socket) => {
         if (user in connected) {
             delete connected[user];
             socket.broadcast.emit('logout', body);
-            console.log("User" + user + " logged out");
+            console.log("User sid:" + user + " logged out");
         }
     });
 
