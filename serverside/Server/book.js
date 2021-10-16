@@ -50,12 +50,12 @@ module.exports = {
                                     }
                                     console.log(rows)
                                     drivers.push({
-                                    driver_id: driver_heuristics[i][0], 
+                                        driver_id: driver_heuristics[i][0], 
                                         registration: driver_heuristics[i][1], 
                                         heuristic: driver_heuristics[i][2], 
-                                        first_name: rows.first_name, 
-                                        last_name: rows.last_name,
-                                        image: rows.image
+                                        first_name: rows[0].first_name, 
+                                        last_name: rows[0].last_name,
+                                        image: rows[0].image
                                     })
                                 });
                             }
