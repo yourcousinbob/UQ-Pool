@@ -28,50 +28,47 @@ module.exports = {
                 } else {
                     let drivers = [];
 
-                        //async function getDetour (driver_heuristics, rows) {
                     for (let i = 0; i < rows.length; i++) {
                         let driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
                         let pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
                         Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
-                            con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
+                            con.promise().query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     json.msg = "Could not pass query";
                                     result(json)
                                     throw err;
                                 }
-                                const driver = {
-                                    driver_id: rows[i].driver_id, 
-                                    registration: rows[i].registration, 
-                                    heuristic: heuristic,
-                                    first_name: info.first_name, 
-                                    last_name: info.last_name,
-                                    image: info.image
-                                }
-                                Promise.resolve(driver)
-                                .then(driver => {drivers.push(driver)
+                            }).then(rows => {
+                                    const driver = {
+                                        driver_id: rows[i].driver_id, 
+                                        registration: rows[i].registration, 
+                                        heuristic: heuristic,
+                                        first_name: info.first_name, 
+                                        last_name: info.last_name,
+                                        image: info.image
+                                    }
+                                    drivers.push(driver)
                                 }).catch((err) => {
                                     console.log("Could not pass query")
                                     json.msg = "Could not pass query";
                                     result(json)
                                     console.log(err)
                                 })
-                            })
                             }).catch((err) => {
                                 console.log("Could not pass query")
                                 json.msg = "Could not pass query";
                                 result(json)
                                 console.log(err)
                             })
-                    }
+                        }
                     drivers.sort((first, second) => {
                         first.heuristic - second.heuristic;
                     })
                     console.log(drivers)
                     result(drivers);
-                    //}
                     console.log("Successfully parsed drivers for " + body.sid);
                 };
             });
