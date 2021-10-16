@@ -9,7 +9,7 @@ module.exports = {
     // rider_id, 
     // location, 
     // destination,
-    requestPickup(body, result) {
+    requestPickup(result) {
         var json = {};
         pool.getConnection(function(err, con) {
             if(err) {
@@ -34,14 +34,14 @@ module.exports = {
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
                         Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
-                            let queryInfo = new Promise(con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
-                                if(err) {
-                                    console.log("Could not pass query")
-                                    json.msg = "Could not pass query";
-                                    result(json)
-                                    throw err;
-                                }
-                            })).then(([rows, fields]) => {
+                            let queryInfo = new Promise((resolve, reject) => {
+                                con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
+                                    if(err) {
+                                        console.log("Could not pass query")
+                                        json.msg = "Could not pass query";
+                                        reject(json)
+                                        throw err;
+                                    }
                                     const driver = {
                                         driver_id: rows[i].driver_id, 
                                         registration: rows[i].registration, 
@@ -50,20 +50,21 @@ module.exports = {
                                         last_name: info.last_name,
                                         image: info.image
                                     }
-                                    drivers.push(driver)
-                                }).catch((err) => {
-                                    console.log("Could not pass query")
-                                    json.msg = "Could not pass query";
-                                    result(json)
-                                    console.log(err)
-                                })
+                                    resolve(driver)
+                            })}).then(driver => {drivers.push(driver)
                             }).catch((err) => {
                                 console.log("Could not pass query")
                                 json.msg = "Could not pass query";
                                 result(json)
                                 console.log(err)
                             })
-                        }
+                        }).catch((err) => {
+                                console.log("Could not pass query")
+                                json.msg = "Could not pass query";
+                                result(json)
+                                console.log(err)
+                        })
+                    }
                     drivers.sort((first, second) => {
                         first.heuristic - second.heuristic;
                     })

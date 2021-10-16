@@ -225,7 +225,8 @@ io.on('connection', async (socket) => {
         let msg = JSON.parse(body)
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
-            book.requestPickup(msg, function (payload) {
+            bookrequestPickup(msg, async function (result) {
+                let payload = await result
                 connected[msg.sid].emit('request', JSON.stringify(payload));
             });
         } else {
