@@ -224,14 +224,7 @@ io.on('connection', async (socket) => {
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
             book.requestPickup(msg, function (payload) {
-                let drivers = []
-                for (let i = 0; i < payload.length; i++){
-                    const result = await book.getDriversForHeuristic(payload[i], function (driver) {
-                        console.log(driver)
-                    }).then(driver => {drivers.push(driver)})
-                 }
-                console.log(drivers)
-                connected[msg.sid].emit('request', JSON.stringify(drivers));
+                connected[msg.sid].emit('request', JSON.stringify(payload));
             });
         } else {
             console.log("That user does not exist");
