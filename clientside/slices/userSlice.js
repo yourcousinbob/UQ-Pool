@@ -30,11 +30,14 @@ export const userSlice = createSlice({
         },
         setAuthentication: (state, action) => {
             state.authentication_token = action.payload;
+        },
+        clearAuthentication: (state) => {
+            state.authentication_token = null;
         }
     }
 });
 
-export const { setSID, setFirst, 
+export const { setSID, setFirst, clearAuthentication,
     setLast, setEmail, setPhone, setAuthentication} = userSlice.actions;
 
 // Selectors

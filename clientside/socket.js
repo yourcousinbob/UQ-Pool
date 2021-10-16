@@ -33,6 +33,7 @@ class SocketConnection {
                 console.log(data.log)
 
             case "logout":
+                console.log(data.msg)
 
             case "location":
 
