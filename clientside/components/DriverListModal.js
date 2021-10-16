@@ -28,11 +28,13 @@ const DriverListModalButton = () => {
     const driver_list = [
         {
             name: "Bob Melham",
+            sid: 1214312421,
             heuristic: "12",
             image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
         },
         {
             name: "James Robins",
+            sid: 123124124,
             distance: "23",
             image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
         },
@@ -47,9 +49,17 @@ const DriverListModalButton = () => {
             location: location.description,
             destination: destination.description
         });
-        connection.sendPayload('request', data);
-        connection.recievePayload('request');
+        connection.sendPayload('get', data);
+        connection.recievePayload('get');
         dispatch(setStatus(UserStatus.WaitingForDriver));
+    };
+
+    async function requestDriver(sid, dispatch) {
+        connection = SocketConnection.getConnection();
+        let data = ({
+            sid: sid,
+        })
+        console.log(sid);
     };
 
     function DriverListModal() {
@@ -79,7 +89,7 @@ const DriverListModalButton = () => {
                             horizontal={false}
 
                             keyExtractor= {(item) => {
-                                return item.name;
+                                return item.sid;
                             }}
                             /*Padding between rows */
                             ItemSeparatorComponent={() => {
@@ -104,7 +114,7 @@ const DriverListModalButton = () => {
                                     <View style={styles.itemFooter}>
                                         <View style={styles.barContainer}>
                                             <View style={styles.barSection}>
-                                                <TouchableOpacity style={styles.barButton} onPress={() => this.Redeem()}>
+                                                <TouchableOpacity style={styles.barButton} onPress={() => requestDriver(item.sid, dispatch)}>
                                                     <Text style={[styles.barLabel, styles.redeemText]}>Book Driver</Text>
                                                 </TouchableOpacity>
                                             </View>
