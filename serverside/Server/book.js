@@ -69,7 +69,6 @@ module.exports = {
                     image: rows[0].image
                 }
                 res(driver);
-                result(driver);
             })
             })
             }
