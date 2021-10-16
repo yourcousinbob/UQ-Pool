@@ -39,11 +39,10 @@ module.exports = {
                         }
                     }
 
-                    console.log("Successfully parsed drivers for " + body.sid);
-                    getDetour(driver_heuristics, rows).then(response => {
-                        let drivers = []
+                    let drivers = []
+                    async function getInfo (driver_heuristics, drivers) {
                         for (let i = 0; i < driver_heuristics.length; i++){
-                            let driver = con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
+                            con.promise().query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,addDriver) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
@@ -56,9 +55,15 @@ module.exports = {
                                     last_name: rows[0].last_name,
                                     image: rows[0].image
                                 }
-                                return driver
-                            }).then(driver => {drivers.push(driver)});
+                                drivers.push(driver)
+                            })
                         }
+                    }
+
+                    console.log("Successfully parsed drivers for " + body.sid);
+                    getDetour(driver_heuristics, rows)
+                    .then(res => res.getInfo(driver_heuristics, drivers))
+                    .then(log => {
                         console.log(drivers);
                         result(drivers)
                     });
