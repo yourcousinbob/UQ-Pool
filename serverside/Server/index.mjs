@@ -267,9 +267,9 @@ io.on('connection', async (socket) => {
 
    //Driver
    socket.on('add', (body, request) => {
-        console.log("Adding driver to active drivers: " + msg.sid);
-        book.addDriver(msg, function (payload) {
-            connected[msg.sid].emit('add', JSON.stringify(payload));
+        console.log("Adding driver to active drivers: " + body.sid);
+        book.addDriver(body, function (payload) {
+            connected[body.sid].emit('add', JSON.stringify(payload));
         });
    });
 
