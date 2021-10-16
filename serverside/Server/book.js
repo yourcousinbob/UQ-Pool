@@ -35,7 +35,7 @@ module.exports = {
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
                         Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
-                            let queryInfo = await con.query("select first_name, last_name, image from user where sid='"+body[0]+"';", (err, info) => {
+                            con.query("select first_name, last_name, image from user where sid='"+body[0]+"';", (err, info) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     json.msg = "Could not pass query";
