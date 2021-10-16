@@ -224,13 +224,15 @@ io.on('connection', async (socket) => {
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
             book.requestPickup(msg, function (payload) {
-                const drivers = []
-                for (let i = 0; i < payload.length; i++){
-                    book.getDriversForHeuristic(payload[i], function (driver) {
-                        drivers.push(driver)
-                    }) 
+                let data = async () => {
+                    let drivers = []
+                    for (let i = 0; i < payload.length; i++){
+                        book.getDriversForHeuristic(payload[i], function (driver) {
+                            drivers.push(driver)
+                            console.log(drivers)
+                        }) 
+                    }
                 }
-                console.log(drivers)
                 connected[msg.sid].emit('request', JSON.stringify(drivers));
             });
         } else {
