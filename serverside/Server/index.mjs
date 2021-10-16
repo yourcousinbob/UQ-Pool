@@ -266,6 +266,8 @@ io.on('connection', async (socket) => {
    });
 
    //Driver
+
+   //Adds a driver to the active driver table
    socket.on('add', (body) => {
         let msg = JSON.parse(body)
         console.log("Adding driver to active drivers: " + msg.sid);
@@ -273,6 +275,15 @@ io.on('connection', async (socket) => {
             connected[msg.sid].emit('add', JSON.stringify(payload));
         });
    });
+
+   //Removes a driver from the active driver table
+   socket.on('removeDriver', (body) => {
+    let msg = JSON.parse(body)
+    console.log("Removing driver frin active drivers: " + msg.sid);
+    book.removeDriver(msg, function (payload) {
+        connected[msg.sid].emit('removeDriver', JSON.stringify(payload));
+    });
+});
 
    // Pool Messaging Section
    // Once user is joined to a pool they will use the below socket.io calls to chat

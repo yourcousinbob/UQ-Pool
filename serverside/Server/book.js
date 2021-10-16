@@ -68,7 +68,19 @@ module.exports = {
         });
     },
 
-        
+    // Removes a driver from the active driver list
+    removeDriver(body, result) {
+        var json = {};
+        pool.getConnection(function(err, con) {
+            if (err) throw err;
+            con.query("DELETE FROM activeDriver WHERE sid='" + body.sid + "';", (err, row) => {
+                if(err) throw err;
+                console.log("Active driver removed sid: " + body.sid);
+                json.msg = "Driver Succesfully Removed";
+                result(json);
+            });
+        });
+    },
 
     //Accept a pickup
     //Body requires:
