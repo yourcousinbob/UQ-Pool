@@ -55,7 +55,7 @@ module.exports = {
                 console.log("Could not connect to server")
                 throw err;
             }
-            return con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
+            con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
                 if(err) {
                     console.log("Could not pass query")
                     throw err;
