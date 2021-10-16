@@ -61,7 +61,7 @@ module.exports = {
                     }
 
                     console.log("Successfully parsed drivers for " + body.sid);
-                    getDetour(driver_heuristics, rows)
+                    drivers = await getDetour(driver_heuristics, rows)
                     .then(res => res.getInfo(driver_heuristics, drivers))
                     .then(log => {
                         console.log(drivers);
