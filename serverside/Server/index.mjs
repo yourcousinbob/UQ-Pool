@@ -279,7 +279,7 @@ io.on('connection', async (socket) => {
    //Removes a driver from the active driver table
    socket.on('removeDriver', (body) => {
     let msg = JSON.parse(body)
-    console.log("Removing driver frin active drivers: " + msg.sid);
+    console.log("Removing driver from active drivers: " + msg.sid);
     book.removeDriver(msg, function (payload) {
         connected[msg.sid].emit('removeDriver', JSON.stringify(payload));
     });

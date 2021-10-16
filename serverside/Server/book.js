@@ -73,7 +73,7 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("DELETE FROM activeDriver WHERE sid='" + body.sid + "';", (err, row) => {
+            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
                 if(err) throw err;
                 console.log("Active driver removed sid: " + body.sid);
                 json.msg = "Driver Succesfully Removed";
