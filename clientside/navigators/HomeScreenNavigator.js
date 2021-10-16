@@ -1,6 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+
+/* Alerts */
+import { LogoutAlert } from '../components/alerts/LogoutAlert';
 
 /* Screens */
 import HomeScreen from '../screens/HomeScreen';
@@ -10,13 +13,22 @@ import RideHistoryScreen from '../screens/RideHistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import BecomeDriverScreen from '../screens/BecomeDriverScreen';
 
+function CustomDrawerContent(props) {
+    
+    return (
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem label="Logout" onPress={() => LogoutAlert()} />
+        </DrawerContentScrollView>
+    );
+}
 
 export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
     return (
         
         
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="Home" drawerContent={props => <CustomDrawerContent {...props} />} >
             <Drawer.Screen name="Home" component={HomeScreen} />
             <Drawer.Screen name="Ride History" component={RideHistoryScreen} />
             <Drawer.Screen name="Reward" component={RewardScreen} />
