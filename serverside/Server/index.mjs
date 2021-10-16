@@ -231,8 +231,7 @@ io.on('connection', async (socket) => {
                         drivers.push(driver)
                     }) 
                 }
-                console.log(drivers)
-                connected[msg.sid].emit('request', JSON.stringify({drivers: drivers}));
+                connected[msg.sid].emit('request', JSON.stringify(drivers));
             });
         } else {
             console.log("That user does not exist");
