@@ -43,7 +43,7 @@ module.exports = {
                     console.log("Successfully parsed drivers for " + body.sid);
                     getDetour(driver_heuristics, rows).then(response => {
                         for (let i = 0; i < driver_heuristics.length; i++){
-                            driver = con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
+                            let driver = con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
