@@ -69,7 +69,7 @@ module.exports = {
                     last_name: rows[0].last_name,
                     image: rows[0].image
                 }
-                result(driver);
+                res(driver);
             })
             });
             }

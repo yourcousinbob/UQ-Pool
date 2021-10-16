@@ -227,7 +227,7 @@ io.on('connection', async (socket) => {
                 let drivers = []
                 for (let i = 0; i < payload.length; i++){
                     book.getDriversForHeuristic(payload[i], function (driver) {
-                        res(driver)
+                        console.log(driver)
                     }).then(driver => {drivers.push(driver)})
                 }
                 connected[msg.sid].emit('request', JSON.stringify(drivers));
