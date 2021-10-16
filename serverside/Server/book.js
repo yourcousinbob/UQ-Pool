@@ -38,40 +38,34 @@ module.exports = {
                             });
                         }
                     }
-
-                    let drivers = []
-                    async function getInfo (driver_heuristics, drivers) {
-                        for (let i = 0; i < driver_heuristics.length; i++){
-                            con.promise().query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,addDriver) => {
-                                if(err) {
-                                    console.log("Could not pass query")
-                                    throw err;
-                                }
-                                const driver = {
-                                    driver_id: driver_heuristics[i][0], 
-                                    registration: driver_heuristics[i][1], 
-                                    heuristic: driver_heuristics[i][2], 
-                                    first_name: rows[0].first_name, 
-                                    last_name: rows[0].last_name,
-                                    image: rows[0].image
-                                }
-                                drivers.push(driver)
-                            })
-                        }
-                    }
-
-                    console.log("Successfully parsed drivers for " + body.sid);
-                    drivers = await getDetour(driver_heuristics, rows)
-                    .then(res => res.getInfo(driver_heuristics, drivers))
-                    .then(log => {
-                        console.log(drivers);
-                        result(drivers)
+                    getDetour(driver_heuristics, rows)
+                    .then(response => {
+                        result(driver_heuristics)
                     });
+                    console.log("Successfully parsed drivers for " + body.sid);
                 };
             });
             con.release((err) => {
             });
         });
+    },
+
+    getDriversForHeuristic(body, result) {
+            con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
+                if(err) {
+                    console.log("Could not pass query")
+                    throw err;
+                }
+                const driver = {
+                    driver_id: body[0], 
+                    registration: body[1], 
+                    heuristic: body[2], 
+                    first_name: rows[0].first_name, 
+                    last_name: rows[0].last_name,
+                    image: rows[0].image
+                }
+                result(driver);
+            })
     },
 
     // Adds a new driver to the available driver list
@@ -80,13 +74,13 @@ module.exports = {
         pool.getConnection(function(err, con) {
             if (err) throw err;
             con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-            + body.location + "', '" + body.registration + "'," + body.capacity)
+                + body.location + "', '" + body.registration + "'," + body.capacity)
             json.msg = "Driver added to queue"
             result(json)
         });
     },
 
-        
+
 
     //Accept a pickup
     //Body requires:
@@ -112,14 +106,14 @@ module.exports = {
                     });
                 }
             }),
-            con.query('INSERT INTO route SET ?', body, (err, response) => {
-                if(err) throw err;
-                console.log("Successfully accepted pickup.");
-                json.msg = "successfully accepted pickup.";
-                result(json);
-                con.release((err) => {
+                con.query('INSERT INTO route SET ?', body, (err, response) => {
+                    if(err) throw err;
+                    console.log("Successfully accepted pickup.");
+                    json.msg = "successfully accepted pickup.";
+                    result(json);
+                    con.release((err) => {
+                    });
                 });
-            });
         });
     },
 
