@@ -17,8 +17,8 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
 INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     3,
     3000,
-    "UQU",
-    "Main Course 20% Discount",
+    "Main Course",
+    "20% Off Order",
     "https://uqpool.xyz:7777/images/rewards/Main-Course.jpg"
 );
 
@@ -26,7 +26,7 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     4,
     2500,
     "Merlo Coffee",
-    "20% Discount on Large Coffee",
+    "20% Off Large Coffee",
     "https://uqpool.xyz:7777/images/rewards/merlo.PNG"
 );
 
@@ -34,7 +34,7 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     5,
     8000,
     "UQ Shop",
-    "$10 Discount",
+    "$10 Coupon",
     "https://uqpool.xyz:7777/images/rewards/uqshopp.PNG"
 );
 
@@ -42,6 +42,6 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     6,
     25000,
     "UQU", 
-    "rewards 1-year membership",
+    "Rewards 1-Year Membership",
     "https://uqpool.xyz:7777/images/rewards/uqurewards.PNG"
 );
