@@ -1,8 +1,9 @@
 import SocketConnection from "../socket";
 import { useDispatch, } from "react-redux";
 import { clearAuthentication, selectAuthentication } from '../slices/userSlice';
-import store from '../store'
+import { connect } from "react-redux";
 
-export default function logout() {
-    store.dispatch(clearAuthentication());
+export default function LogOut(dispatch) {
+    dispatch(clearAuthentication());
 };
+connect()(LogOut);

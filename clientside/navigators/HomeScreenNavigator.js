@@ -12,13 +12,14 @@ import RewardScreen from '../screens/RewardScreen';
 import RideHistoryScreen from '../screens/RideHistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import BecomeDriverScreen from '../screens/BecomeDriverScreen';
+import { connect, useDispatch } from 'react-redux';
 
 function CustomDrawerContent(props) {
-    
+    const dispatch = useDispatch();
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
-            <DrawerItem label="Logout" onPress={() => LogoutAlert()} />
+            <DrawerItem label="Logout" onPress={() => LogoutAlert(dispatch)} />
         </DrawerContentScrollView>
     );
 }
@@ -26,7 +27,6 @@ function CustomDrawerContent(props) {
 export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
     return (
-        
         
         <Drawer.Navigator initialRouteName="Home" drawerContent={props => <CustomDrawerContent {...props} />} >
             <Drawer.Screen name="Home" component={HomeScreen} />

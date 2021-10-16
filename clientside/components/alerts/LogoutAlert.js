@@ -1,12 +1,14 @@
 import { Alert } from "react-native";
-import logout from "../../util/logout";
+import LogOut from "../../util/LogOut";
 
-export const LogoutAlert = () =>
+
+export const LogoutAlert = (dispatch) =>
     Alert.alert(
         "Logout",
         "Are you sure you wish to log out?",
     [
-        { text: "Yes", onPress: () => logout() },
+        { text: "Yes", onPress: () => LogOut(dispatch) },
         { text: "No", onPress: () => console.log("Don't log out") }
     ]
     );
+

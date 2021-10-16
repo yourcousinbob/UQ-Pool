@@ -202,9 +202,11 @@ io.on('connection', async (socket) => {
     // Get rid of user in either activeDriver | activeRider
     // delete socket connection in connected
     socket.on('logout', (body) => {
-        if (body.sid in connected) {
-            delete connected[body.user];
+        let msg = JSON.parse(body)
+        if (msg.sid in connected) {
+            delete connected[msg.sid];
             socket.broadcast.emit('logout', body);
+            console.log("User" + body.sid + " logged out");
         }
     });
 
@@ -234,10 +236,10 @@ io.on('connection', async (socket) => {
     socket.on('request', (body, request) => {
         let msg = JSON.parse(body)
         console.log("User " + msg.sid + " is requesting pickup from user" + msg.driver_sid);
-        user.getUserForHandshake(msg, function (payload)) {
-            connected[msg.driver_sid].emit('ask', JSON.stringify(payload))
-        }
-        connected[msg.sid].emit('request', ({msg:"Request to driver sent"}))
+        user.getUserForHandshake(msg, function (payload) {
+            connected[msg.driver_sid].emit('ask', JSON.stringify(payload));
+        });
+        connected[msg.sid].emit('request', ({msg:"Request to driver sent"}));
     });
 
     // user a cancels the request to user b
