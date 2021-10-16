@@ -12,6 +12,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import BackButton from "../components/BackButton";
 import { box, BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 
 const Redeem = () => {
@@ -37,9 +38,7 @@ const RewardsHeader = () => {
 						Rewards
 					</Text>
 				</View>
-				<View
-					style={{ height: "40%", display: "flex", alignItems: "center" }}
-				>
+				<View style={{ height: "40%", display: "flex", alignItems: "center" }}>
 					<View style={[box.shadows, styles.pointsDisplay]}>
 						<Text style={{ fontSize: FONT_SIZE.text, color: "white" }}>
 							Points: 80
@@ -77,6 +76,7 @@ const RewardScreen = () => {
 
 	return (
 		<View style={{ backgroundColor: COLORS.primary, height: "100%" }}>
+			<BackButton />
 			<FlatList
 				scrollIndicatorInsets={{ right: 1 }}
 				ListHeaderComponent={<RewardsHeader />}
@@ -152,6 +152,6 @@ const styles = StyleSheet.create({
 	itemCost: {
 		fontSize: 15,
 		color: "green",
-		textAlign: "center"
+		textAlign: "center",
 	},
 });
