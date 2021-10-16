@@ -203,10 +203,11 @@ io.on('connection', async (socket) => {
     // delete socket connection in connected
     socket.on('logout', (body) => {
         let msg = JSON.parse(body)
-        if (msg.sid in connected) {
-            delete connected[msg.sid];
+        let user = parseInt(msg.sid)
+        if (user in connected) {
+            delete connected[user];
             socket.broadcast.emit('logout', body);
-            console.log("User" + body.sid + " logged out");
+            console.log("User" + user + " logged out");
         }
     });
 
