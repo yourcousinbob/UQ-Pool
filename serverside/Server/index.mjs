@@ -226,7 +226,7 @@ io.on('connection', async (socket) => {
             book.requestPickup(msg, function (payload) {
                 let drivers = []
                 for (let i = 0; i < payload.length; i++){
-                    const result = await book.getDriversForHeuristic(payload[i], function (driver) {
+                    const result = book.getDriversForHeuristic(payload[i], function (driver) {
                         console.log(driver)
                     }).then(driver => {drivers.push(driver)})
                     console.log(drivers)
