@@ -56,9 +56,11 @@ module.exports = {
                                     last_name: rows[0].last_name,
                                     image: rows[0].image
                                 })
+                                console.log("first" + drivers);
                             });
-                            console.log(drivers);
+                            console.log("before" + drivers);
                         }
+                        console.log("after" + drivers);
                         result(drivers)
                     });
                 };
