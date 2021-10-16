@@ -48,6 +48,8 @@ module.exports = {
                                         console.log("Could not pass query")
                                         throw err;
                                     }
+                                    console.log(rows)
+                                    console.log(rows[0].first_name)
                                     drivers.push({
                                         driver_id: driver_heuristics[i][0], 
                                         registration: driver_heuristics[i][1], 
