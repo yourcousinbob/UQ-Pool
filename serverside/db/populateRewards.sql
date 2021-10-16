@@ -1,7 +1,7 @@
 INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     1,
     10000,
-    "UQPool"
+    "UQPool",
     "Official T-Shirt",
     "https://uqpool.xyz:7777/images/rewards/pooltshirt.PNG"
 );
@@ -33,7 +33,7 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
 INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     5,
     8000,
-    "UQ Shop"
+    "UQ Shop",
     "$10 Discount",
     "https://uqpool.xyz:7777/images/rewards/uqshopp.PNG"
 );
