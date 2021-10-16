@@ -34,14 +34,14 @@ module.exports = {
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
                         Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
-                            con.promise().query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
+                            let queryInfo = new Promise(con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     json.msg = "Could not pass query";
                                     result(json)
                                     throw err;
                                 }
-                            }).then(rows => {
+                            })).then(([rows, fields]) => {
                                     const driver = {
                                         driver_id: rows[i].driver_id, 
                                         registration: rows[i].registration, 
