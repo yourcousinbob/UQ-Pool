@@ -9,6 +9,8 @@ module.exports = {
     // rider_id, 
     // location, 
     // destination,
+    // I dont want to touch this ever again if you want to attempt to fix it go
+    // ahead at risk of your own sanity.
     async requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
