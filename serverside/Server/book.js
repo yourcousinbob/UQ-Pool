@@ -54,7 +54,7 @@ module.exports = {
                                     heuristic: driver_heuristics[i][2], 
                                     first_name: info.first_name, 
                                     last_name: info.last_name,
-                                    image: infor.image
+                                    image: info.image
                                 })
                             });
                             }
