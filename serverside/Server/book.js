@@ -58,8 +58,8 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-            + body.location + "', '" + body.registration + "'," + body.capacity)
+            con.query("INSERT INTO activeDriver (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
+            + body.location + "', '" + body.registration + "'," + body.capacity);
             json.msg = "Driver added to queue"
             result(json)
         });
