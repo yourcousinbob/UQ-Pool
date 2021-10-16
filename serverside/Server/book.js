@@ -78,14 +78,38 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-                + body.location + "', '" + body.registration + "'," + body.capacity)
-            json.msg = "Driver added to queue"
-            result(json)
+            const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+            con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
+                if(err) throw err;
+                console.log("Active driver created with sid: " + body.sid);
+                json.msg = "Driver Succesfully Added";
+                result(json);
+            });
         });
     },
 
+    // Removes a driver from the active driver list
+    removeDriver(body, result) {
+        var json = {};
+        pool.getConnection(function(err, con) {
+            if (err) throw err;
+            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
+                if(err) throw err;
+                console.log("Active driver removed sid: " + body.sid);
+                json.msg = "Driver Succesfully Removed";
+                result(json);
+            });
+        });
+    },
 
+    // Make a request to a driver to be picked up
+    requestDriver(body, result) {
+      var json = {};
+      pool.getConnection(function(err, con) {
+        if (err) throw err;
+        con.query("")
+      });
+    },
 
     //Accept a pickup
     //Body requires:

@@ -4,9 +4,9 @@ DROP TABLE history;
 DROP TABLE rating;
 DROP TABLE route;
 DROP TABLE vehicles;
-DROP TABLE user;
-DROP TABLE rewards;
 DROP TABLE userRewards;
+DROP TABLE rewards;
+DROP TABLE user;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -72,6 +72,7 @@ FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 CREATE TABLE rewards (
 reward_id varchar(10) NOT NULL UNIQUE,
 cost varchar(10),
+vendor varchar(100),
 description varchar(100),
 image varchar(100));
 

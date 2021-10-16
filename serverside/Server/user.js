@@ -19,7 +19,7 @@ module.exports = {
     //Log in user
     login(body, result) {
         var json = {};
-            console.log("Attemped Log in for: " + body.sid);
+        console.log("Attemped Log in for: " + body.sid);
             pool.getConnection(function(err, con) {
                 con.query("SELECT sid FROM user WHERE sid='"  + body.sid + "' AND password = '" + getHashedPassword(body.password) + "';", (err, rows) => {
                 if (err) throw err;
@@ -45,7 +45,6 @@ module.exports = {
                     });
                 }
             });
-
         });
     },
 
@@ -102,6 +101,23 @@ module.exports = {
                 }
             });
         });
+    },
+
+    //Gets user details required in handshake
+    getUserForHandshake(body, result) {
+        var json = {};
+        console.log("Attemped Log in for: " + body.sid);
+        pool.getConnection(function(err, con) {
+            con.query("SELECT sid, first_name, last_name, image FROM user where sid='" + body.sid +"';" , (err, rows) => {
+                if (err) throw err;
+                json.first_name = rows[0].first_name;
+                json.last_name = rows[0].last_name;
+                json.sid = rows[0].sid;
+                json.image = rows[0].image;
+                result(json);
+            });
+        });
+        
     },
 
     //Registers a user to be a driver

@@ -17,9 +17,10 @@ export const LINE = {
 };
 
 export const FONT_SIZE = {
+  title: 40,
   heading2: 23,
   heading3: 20,
-  text: 18,
+  text: 16,
 };
 
 export const box = StyleSheet.create({
@@ -28,6 +29,7 @@ export const box = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     shadowColor: "gray",
+    elevation: 3
   },
   base: {
     borderRadius: 20,

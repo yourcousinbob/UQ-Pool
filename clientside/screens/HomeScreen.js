@@ -5,6 +5,7 @@ import { BOX } from "../stylesheets/theme";
 import * as Location from "expo-location";
 
 import DropOffModalButton from "../components/DropOffModalButton";
+import HamburgerButton from "../components/HamburgerButton";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
@@ -30,6 +31,7 @@ export default function HomeScreen() {
 
 	return (
 		<View style={{ flex: 1 }}>
+			<HamburgerButton/>
 			<MapView
 				style={styles.map}
 				showsMyLocationButton={true}
