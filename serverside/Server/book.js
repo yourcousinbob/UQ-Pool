@@ -50,10 +50,15 @@ module.exports = {
                                     last_name: info.last_name,
                                     image: info.image
                                 }
-                                return driver
-                            
+                                Promise.resolve(driver)
+                                .then(driver => {drivers.push(driver)
+                                }).catch((err) => {
+                                    console.log("Could not pass query")
+                                    json.msg = "Could not pass query";
+                                    result(json)
+                                    console.log(err)
+                                })
                             })
-                            }).then(driver => {drivers.push(driver)
                             }).catch((err) => {
                                 console.log("Could not pass query")
                                 json.msg = "Could not pass query";
