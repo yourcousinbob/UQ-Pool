@@ -58,7 +58,7 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            const driver = { sid: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+            const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
             con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
                 if(err) throw err;
                 console.log("Active driver created with sid: " + body.sid);
