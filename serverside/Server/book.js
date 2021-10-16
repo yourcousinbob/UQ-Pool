@@ -19,60 +19,58 @@ module.exports = {
             con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
                 if(err) {
                     console.log("Could not pass query")
+                    json.msg = "Could not pass query";
+                    result(json)
                     throw err;
                 }
                 if (rows.length < 1) {
                     console.log("No available drivers");
                 } else {
-                    let driver_heuristics = [];
+                    let drivers = [];
 
-                    async function getDetour (driver_heuristics, rows) {
-                        for (let i = 0; i < rows.length; i++) {
-                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
-                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
-                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                            heuristic = pickupETA + detourETA - driverETA;
-                            driver_heuristics.push([rows[i].driver_id, rows[i].registration, heuristic])
-                            driver_heuristics.sort((first, second) => {
-                                return first[2] - second[2];
-                            });
-                        }
+                        //async function getDetour (driver_heuristics, rows) {
+                    for (let i = 0; i < rows.length; i++) {
+                        let driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
+                        let pickupETA = navigation.getTravelTime(rows[i].location, body.location);
+                        let detourETA = navigation.getTravelTime(body.location, body.destination) 
+                        Promise.all([driverETA, pickupETA, detourETA]).then(heuristic => {
+                            const heuristic = pickupETA + detourETA - driverETA;
+                            let queryInfo = await con.query("select first_name, last_name, image from user where sid='"+body[0]+"';", (err, info) => {
+                                if(err) {
+                                    console.log("Could not pass query")
+                                    json.msg = "Could not pass query";
+                                    result(json)
+                                    throw err;
+                                }
+                                const driver = {
+                                    driver_id: rows[i].driver_id, 
+                                    registration: rows[i].registration, 
+                                    heuristic: heuristic,
+                                    first_name: info.first_name, 
+                                    last_name: info.last_name,
+                                    image: info.image
+                                }
+                                return driver
+                            }).then(driver => {drivers.push(driver)})
+                            }).catch((err) => {
+                                console.log("Could not pass query")
+                                json.msg = "Could not pass query";
+                                result(json)
+                                console.log(err)
+                        })
                     }
-                    getDetour(driver_heuristics, rows).then(response => {
-                        result(driver_heuristics);
-                    });
+                    drivers.sort((first, second) => {
+                        first.heuristic - second.heuristic;
+                    })
+                    console.log(drivers)
+                    result(drivers);
+                    //}
                     console.log("Successfully parsed drivers for " + body.sid);
                 };
             });
             con.release((err) => {
             });
         });
-    },
-
-    async getDriversForHeuristic(body, result) {
-        pool.getConnection(function(err, con) {
-            if(err) {
-                console.log("Could not connect to server")
-                throw err;
-            }
-            con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
-                if(err) {
-                    console.log("Could not pass query")
-                    throw err;
-                }
-                const driver = {
-                    driver_id: body[0], 
-                    registration: body[1], 
-                    heuristic: body[2], 
-                    first_name: rows[0].first_name, 
-                    last_name: rows[0].last_name,
-                    image: rows[0].image
-                }
-                console.log(driver)
-                result(driver);
-            })
-            }
-        )
     },
 
     // Adds a new driver to the available driver list
