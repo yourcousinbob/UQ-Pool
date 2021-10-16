@@ -51,6 +51,11 @@ module.exports = {
     },
 
     getDriversForHeuristic(body, result) {
+        pool.getConnection(function(err, con) {
+            if(err) {
+                console.log("Could not connect to server")
+                throw err;
+            }
             con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
                 if(err) {
                     console.log("Could not pass query")
@@ -66,6 +71,8 @@ module.exports = {
                 }
                 result(driver);
             })
+            }
+        )
     },
 
     // Adds a new driver to the available driver list
