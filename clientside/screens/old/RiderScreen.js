@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, View} from 'react-native'
-import { COLORS, BOX } from '../stylesheets/theme'
-import Map from '../components/Map'
+import { COLORS, BOX } from '../../stylesheets/theme'
+import Map from '../../components/Map'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import DestinationCard from '../components/DestinationCard'
+import DestinationCard from '../../components/DestinationCard'
 
 
 const RiderScreen = () => {
