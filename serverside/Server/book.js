@@ -41,27 +41,25 @@ module.exports = {
 
                     console.log("Successfully parsed drivers for " + body.sid);
                     getDetour(driver_heuristics, rows).then(response => {
-                            drivers = []
-                            for (let i = 0; i < driver_heuristics.length; i++){
-                                con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
-                                    if(err) {
-                                        console.log("Could not pass query")
-                                        throw err;
-                                    }
-                                    console.log(drivers)
-                                    drivers.push({
-                                        driver_id: driver_heuristics[i][0], 
-                                        registration: driver_heuristics[i][1], 
-                                        heuristic: driver_heuristics[i][2], 
-                                        first_name: rows[0].first_name, 
-                                        last_name: rows[0].last_name,
-                                        image: rows[0].image
-                                    })
-                                    console.log(drivers)
-                                });
-                            }
-                        console.log(drivers);
-                        result(JSON.stringify(drivers))
+                        drivers = []
+                        for (let i = 0; i < driver_heuristics.length; i++){
+                            con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
+                                if(err) {
+                                    console.log("Could not pass query")
+                                    throw err;
+                                }
+                                drivers.push({
+                                    driver_id: driver_heuristics[i][0], 
+                                    registration: driver_heuristics[i][1], 
+                                    heuristic: driver_heuristics[i][2], 
+                                    first_name: rows[0].first_name, 
+                                    last_name: rows[0].last_name,
+                                    image: rows[0].image
+                                })
+                            });
+                            console.log(drivers);
+                        }
+                        result(drivers)
                     });
                 };
             });
