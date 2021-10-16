@@ -56,7 +56,7 @@ module.exports = {
                 console.log("Could not connect to server")
                 throw err;
             }
-            con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
+            return new Promise((res, req) => {con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+body[0]+"';", (err, rows) => {
                 if(err) {
                     console.log("Could not pass query")
                     throw err;
@@ -71,6 +71,7 @@ module.exports = {
                 }
                 result(driver);
             })
+            });
             }
         )
     },
