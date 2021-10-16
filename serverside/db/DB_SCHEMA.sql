@@ -72,6 +72,7 @@ FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 CREATE TABLE rewards (
 reward_id varchar(10) NOT NULL UNIQUE,
 cost varchar(10),
+vendor varchar(100),
 description varchar(100),
 image varchar(100));
 
