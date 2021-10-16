@@ -34,7 +34,7 @@ module.exports = {
                             heuristic = pickupETA + detourETA - driverETA;
                             driver_heuristics.push([rows[i].driver_id, rows[i].registration, heuristic])
                             driver_heuristics.sort((first, second) => {
-                                return first[1] - second[1];
+                                return first[2] - second[2];
                             });
                         }
                     }
@@ -43,11 +43,13 @@ module.exports = {
                     getDetour(driver_heuristics, rows).then(response => {
                             drivers = []
                             for (let i = 0; i < driver_heuristics.length; i++){
+                                console.log(driver_heuristics[i][0])
                                 con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+JSON.stringify(driver_heuristics[i][0])+"';", (err,info) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
                                 }
+                                console.log(info.first_name)
                                 drivers.push({
                                     driver_id: driver_heuristics[i][0], 
                                     registration: driver_heuristics[i][1], 
