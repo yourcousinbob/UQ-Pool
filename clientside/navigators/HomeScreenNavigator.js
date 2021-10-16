@@ -1,5 +1,5 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { Image, Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 /* Screens */
@@ -13,7 +13,10 @@ import BecomeDriverScreen from "../screens/BecomeDriverScreen";
 export default function HomeScreenNavigator() {
 	const Drawer = createDrawerNavigator();
 	return (
-		<Drawer.Navigator initialRouteName='Home'>
+		<Drawer.Navigator
+			initialRouteName='Home'
+			screenOptions={{ headerShown: false }}
+		>
 			<Drawer.Screen name='Home' component={HomeScreen} />
 			<Drawer.Screen name='Ride History' component={RideHistoryScreen} />
 			<Drawer.Screen name='Reward' component={RewardScreen} />
