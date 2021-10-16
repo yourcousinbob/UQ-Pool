@@ -41,7 +41,7 @@ INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
 INSERT INTO rewards(reward_id, cost, vendor, description, image) VALUES (
     6,
     25000,
-    "UQU", 
-    "Rewards 1-Year Membership",
+    "UQU Rewards", 
+    "1-Year Membership",
     "https://uqpool.xyz:7777/images/rewards/uqurewards.PNG"
 );

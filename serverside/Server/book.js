@@ -82,6 +82,15 @@ module.exports = {
         });
     },
 
+    // Make a request to a driver to be picked up
+    requestDriver(body, result) {
+      var json = {};
+      pool.getConnection(function(err, con) {
+        if (err) throw err;
+        con.query("")
+      });
+    },
+
     //Accept a pickup
     //Body requires:
     //driver_id,
