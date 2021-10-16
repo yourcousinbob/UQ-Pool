@@ -49,7 +49,7 @@ module.exports = {
         });
     },
 
-    getDriversForHeuristic(body, result) {
+    async getDriversForHeuristic(body, result) {
         pool.getConnection(function(err, con) {
             if(err) {
                 console.log("Could not connect to server")
