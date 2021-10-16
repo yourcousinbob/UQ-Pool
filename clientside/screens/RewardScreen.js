@@ -66,7 +66,6 @@ const RewardScreen = () => {
 				});
 				const json = await response.json();
 				setRewards(json.rewards);
-				console.log(json.rewards)
 			} catch (error) {
 				console.log("Caught error when retreiving rewards");
 				console.log(error);
