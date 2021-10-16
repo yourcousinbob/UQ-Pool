@@ -39,7 +39,7 @@ module.exports = {
                         }
                     }
 
-                    let drivers = []
+                    const drivers = []
                     console.log("Successfully parsed drivers for " + body.sid);
                     getDetour(driver_heuristics, rows).then(response => {
                         for (let i = 0; i < driver_heuristics.length; i++){
@@ -57,7 +57,9 @@ module.exports = {
                                     image: rows[0].image
                                 })
                             });
+                            console.log("before" + JSON.stringify(drivers));
                         }
+                        console.log("after" + JSON.stringify(drivers));
                         result(drivers)
                     });
                 };
