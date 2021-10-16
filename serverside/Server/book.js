@@ -57,7 +57,7 @@ module.exports = {
                                     image: rows[0].image
                                 }
                                 return driver
-                            }).then(drivers.push(driver));
+                            }).then(driver => {drivers.push(driver)});
                         }
                         console.log(drivers);
                         result(drivers)
