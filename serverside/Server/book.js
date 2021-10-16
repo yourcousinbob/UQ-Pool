@@ -51,13 +51,15 @@ module.exports = {
                                     image: info.image
                                 }
                                 return driver
-                            }).then(driver => {drivers.push(driver)})
+                            
+                            })
+                            }).then(driver => {drivers.push(driver)
                             }).catch((err) => {
                                 console.log("Could not pass query")
                                 json.msg = "Could not pass query";
                                 result(json)
                                 console.log(err)
-                        })
+                            })
                     }
                     drivers.sort((first, second) => {
                         first.heuristic - second.heuristic;
