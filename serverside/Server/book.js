@@ -43,13 +43,11 @@ module.exports = {
                     getDetour(driver_heuristics, rows).then(response => {
                             drivers = []
                             for (let i = 0; i < driver_heuristics.length; i++){
-                                console.log(driver_heuristics[i][0])
-                                con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+JSON.stringify(driver_heuristics[i][0])+"';", (err,rows) => {
+                                con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
                                 }
-                                console.log(rows.first_name)
                                 drivers.push({
                                     driver_id: driver_heuristics[i][0], 
                                     registration: driver_heuristics[i][1], 
