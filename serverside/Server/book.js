@@ -56,6 +56,7 @@ module.exports = {
                                     last_name: rows[0].last_name,
                                     image: rows[0].image
                                 })
+                                console.log("before" + JSON.stringify(drivers));
                             });
                             console.log("before" + JSON.stringify(drivers));
                         }
