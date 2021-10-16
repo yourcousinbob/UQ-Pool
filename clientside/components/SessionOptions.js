@@ -35,15 +35,17 @@ import { UserStatus } from "../enums/UserStatus";
 import DriverListModalButton from "./DriverListModal";
 import BecomeDriverModalButton from "./BecomeDriverModalButton";
 
-
 const options = [
   {
     id: "rider",
     title: "Be a rider",
+    onPress: () => console.log("be a rider"),
+    // onPress: () => getDrivers(sid, origin, destination, dispatch,
   },
   {
     id: "driver",
     title: "Be a driver",
+    onPress: () => console.log("be a driver"),
   },
 ];
 
@@ -172,7 +174,7 @@ const SessionOptions = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity style={[box.base, styles.sessionButtons]}
-                onPress={() => getDrivers(sid, origin, destination, dispatch)}
+                onPress={item.onPress}
                 >
               <View>
                 <Text style={styles.sessionButtonsText}>{item.title}</Text>
