@@ -25,6 +25,7 @@ module.exports = {
                     console.log("No available drivers");
                 } else {
                     driver_heuristics = [];
+                    drivers = []
 
                     async function getDetour (driver_heuristics, rows) {
                         for (let i = 0; i < rows.length; i++) {
@@ -41,13 +42,13 @@ module.exports = {
 
                     console.log("Successfully parsed drivers for " + body.sid);
                     getDetour(driver_heuristics, rows).then(response => {
-                        drivers = []
                         for (let i = 0; i < driver_heuristics.length; i++){
                             con.query("SELECT first_name, last_name, image FROM user WHERE sid='"+driver_heuristics[i][0]+"';", (err,rows) => {
                                 if(err) {
                                     console.log("Could not pass query")
                                     throw err;
                                 }
+                                console.log("1" + rows[0]);
                                 drivers.push({
                                     driver_id: driver_heuristics[i][0], 
                                     registration: driver_heuristics[i][1], 
