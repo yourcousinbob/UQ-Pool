@@ -114,6 +114,12 @@ app.get('/users', authenticateToken, async(req, res) => {
     });
 });
 
+app.post('/driver', async(req, res) => {
+    user.driver(req.body, function (payload) {
+        res.send(payload);
+    });
+});
+
 // History section
 app.get('/history', async(req, res) => {
     user.history(req.body.user, function (payload) {
@@ -180,9 +186,16 @@ io.on('connection', async (socket) => {
     // Add to either activeDriver | activeRider 
     // broadcast to all sockets in connected with locaiton
     socket.on('login', (body) => {
-        connected[body.sid] = socket;
-        socket.broadcast.emit('login', body);
-        console.log("User " + body.sid + " added")
+        let log = "None";
+        let msg = JSON.parse(body)
+        if (msg.sid === "undefined") {
+            log = "Failed to add user"
+        } else {
+            connected[msg.sid] = socket;
+            log = "User " + msg.sid + " added"
+        }
+        connected[msg.sid].emit('login', JSON.stringify({log: log}));
+        console.log(log)
     });
 
     // user x logging out
@@ -207,11 +220,11 @@ io.on('connection', async (socket) => {
     // User a requests to user b    
     // socket searches for user b in connected sockets and sends request
     socket.on('request', (body, result) => {
-
-        if (body.sid in connected) {
-            console.log("Requesting pickup for rider " + body.sid);
-            book.requestPickup(body, function (payload) {
-                connected[body.sid].emit('requestResponse', payload);
+        let msg = JSON.parse(body)
+        if (msg.sid in connected) {
+            console.log("Requesting pickup for rider " + msg.sid);
+            book.requestPickup(msg, function (payload) {
+                connected[msg.sid].emit('request', JSON.stringify({drivers: payload}));
             });
         } else {
             console.log("That user does not exist");
@@ -251,5 +264,28 @@ io.on('connection', async (socket) => {
             console.log("That user does not exist");
         };
    });
+
+   //Driver
+   socket.on('add', (body, request) => {
+        console.log("Adding driver to active drivers: " + msg.sid);
+        book.addDriver(msg, function (payload) {
+            connected[msg.sid].emit('add', JSON.stringify(payload));
+        });
+   });
+
+   // Pool Messaging Section
+   // Once user is joined to a pool they will use the below socket.io calls to chat
+   // and to update GPS locations
+
+   //Send message to a pool chat
+   socket.on('sendMessage', (body, request) => {
+        if (body.sid in pools[body.driverSid]) {
+            chat.sendMessage(body, function (payload) {
+                pool[body.driverSid].emit('message', payload);
+            });
+        } else {
+            console.log("Invalid chat room")
+        };
+    });
 
 });

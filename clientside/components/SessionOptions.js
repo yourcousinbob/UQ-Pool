@@ -24,7 +24,15 @@ import {
   selectOrigin,
   setDestination,
   setOrigin,
+  setStatus,
 } from "../slices/sessionSlice";
+import {
+  selectSID
+} from "../slices/userSlice";
+import SocketConnection from '../socket.js';
+import DriverListModal from "./DriverListModal";
+import { UserStatus } from "../enums/UserStatus";
+
 
 const options = [
   {
@@ -37,6 +45,43 @@ const options = [
   },
 ];
 
+//testing
+async function getDrivers(sid, location, destination, dispatch) {
+    console.log(sid);
+    console.log(location);
+    console.log(destination);
+    connection = SocketConnection.getConnection();
+    let data = ({
+        sid: sid,
+        location: location.description,
+        destination: destination.description
+    });
+    connection.sendPayload('request', data);
+    driver_list = connection.recievePayload('request');
+    dispatch(setStatus(UserStatus.WaitingForDriver));
+};
+
+//testing
+// driver_id, destination, location, registration, capacity
+async function addDriver(sid, location, destination, registration, capacity, dispatch) {
+  console.log(sid);
+  console.log(location);
+  console.log(destination);
+  console.log(registration);
+  console.log(capacity);
+  connection = SocketConnection.getConnection();
+  let data = ({
+      sid: sid,
+      location: location.description,
+      destination: destination.description,
+      registration: registration,
+      capacity: capacity
+  });
+  connection.sendPayload('add', data);
+  driver_list = connection.recievePayload('add');
+  dispatch(setStatus(UserStatus.WaitingForRider));
+};
+
 const SessionOptions = () => {
   Location.installWebGeolocationPolyfill();
   navigator.geolocation.getCurrentPosition(Location.getCurrentPositionAsync());
@@ -44,6 +89,7 @@ const SessionOptions = () => {
   const dispatch = useDispatch();
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
+  const sid = useSelector(selectSID);
 
   const originRef = useRef();
   const destRef = useRef();
@@ -123,7 +169,9 @@ const SessionOptions = () => {
           horizontal
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[box.base, styles.sessionButtons]}>
+            <TouchableOpacity style={[box.base, styles.sessionButtons]}
+                onPress={() => getDrivers(sid, origin, destination, dispatch)}
+                >
               <View>
                 <Text style={styles.sessionButtonsText}>{item.title}</Text>
               </View>

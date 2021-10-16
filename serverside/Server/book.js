@@ -53,6 +53,20 @@ module.exports = {
         });
     },
 
+    // Adds a new driver to the available driver list
+    addDriver(body, result) {
+        var json = {};
+        pool.getConnection(function(err, con) {
+            if (err) throw err;
+            con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
+            + body.location + "', '" + body.registration + "'," + body.capacity)
+            json.msg = "Driver added to queue"
+            result(json)
+        });
+    },
+
+        
+
     //Accept a pickup
     //Body requires:
     //driver_id,
