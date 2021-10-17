@@ -13,12 +13,12 @@ module.exports = {
     // ahead at risk of your own sanity.
     async requestPickup(body, result) {
         var json = {};
-        pool.getConnection(function(err, con) {
+        pool.getConnection(async function(err, con) {
             if(err) {
                 console.log("Could not connect to server")
                 throw err;
             }
-            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
+            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", async (err,rows) => {
                 if(err) {
                     console.log("Could not pass query")
                     json.msg = "Could not pass query";
@@ -28,51 +28,43 @@ module.exports = {
                 if (rows.length < 1) {
                     console.log("No available drivers");
                 } else {
-                    let drivers = [];
+                    let promises = [];
 
-                    for (let i = 0; i < rows.length; i++) {
-                        let driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
-                        let pickupETA = navigation.getTravelTime(rows[i].location, body.location);
-                        let detourETA = navigation.getTravelTime(body.location, body.destination) 
-                        Promise.all([driverETA, pickupETA, detourETA]).then(response => {
+                    for (const row of rows) {
+                        promises.push(new Promise(async (res, rej) => {
+                            let driverETA = await navigation.getTravelTime(row.location, row.destination);
+                            let pickupETA = await navigation.getTravelTime(row.location, body.location);
+                            let detourETA = await navigation.getTravelTime(body.location, body.destination) 
                             const heuristic = pickupETA + detourETA - driverETA;
-                            let queryInfo = new Promise((resolve, reject) => {
-                                con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
+                            let queryInfo = new Promise(async (resolve, reject) => {
+                                con.query("select first_name, last_name, image from user where sid='"+row.driver_id+"';", async (err, info) => {
                                     if(err) {
                                         console.log("Could not pass query")
                                         json.msg = "Could not pass query";
                                         reject(json)
                                         throw err;
                                     }
-                                    const driver = {
-                                        driver_id: rows[i].driver_id, 
-                                        registration: rows[i].registration, 
-                                        heuristic: heuristic,
-                                        first_name: info.first_name, 
-                                        last_name: info.last_name,
-                                        image: info.image
-                                    }
-                                    resolve(driver)
-                            })}).then(driver => {drivers.push(driver)
-                            }).catch((err) => {
-                                console.log("Could not pass query")
-                                json.msg = "Could not pass query";
-                                result(json)
-                                console.log(err)
-                            })
-                        }).catch((err) => {
-                                console.log("Could not pass query")
-                                json.msg = "Could not pass query";
-                                result(json)
-                                console.log(err)
+                                    resolve(info)
+                                })})
+                            let info = await queryInfo
+                            const driver = {
+                                driver_id: row.driver_id, 
+                                registration: row.registration, 
+                                heuristic: heuristic,
+                                first_name: info[0].first_name, 
+                                last_name: info[0].last_name,
+                                image: info[0].image
+                            }
+                            res(driver)
                         })
-                    }
-                    drivers.sort((first, second) => {
-                        first.heuristic - second.heuristic;
-                    })
-                    console.log(drivers)
-                    result(drivers);
-                    console.log("Successfully parsed drivers for " + body.sid);
+                        )}
+                        drivers = await Promise.all(promises)
+                        drivers.sort((first, second) => {
+                            first.heuristic - second.heuristic;
+                        })
+                        console.log(drivers)
+                        result(drivers);
+                        console.log("Successfully parsed drivers for " + body.sid);
                 };
             });
             con.release((err) => {
