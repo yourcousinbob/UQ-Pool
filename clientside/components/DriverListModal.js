@@ -25,9 +25,9 @@ const DriverListModalButton = () => {
 
     
 
-    const driver_list = [
+    let driver_list = [
         {
-            name: "Bob Melham",
+            name: "Bob Melhem",
             sid: 1214312421,
             heuristic: "12",
             image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
@@ -50,7 +50,10 @@ const DriverListModalButton = () => {
             destination: destination.description
         });
         connection.sendPayload('get', data);
-        connection.recievePayload('get');
+        connection.recievePayload('get').then(payload => {
+            driver_list = payload
+            console.log(driver_list)
+        })
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
