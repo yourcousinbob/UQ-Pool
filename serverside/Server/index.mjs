@@ -225,9 +225,9 @@ io.on('connection', async (socket) => {
         let msg = JSON.parse(body)
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
-            bookrequestPickup(msg, async function (result) {
+            book.requestPickup(msg, async function (result) {
                 let payload = await result
-                connected[msg.sid].emit('request', JSON.stringify(payload));
+                connected[msg.sid].emit('get', JSON.stringify({drivers:payload}));
             });
         } else {
             console.log("That user does not exist");
