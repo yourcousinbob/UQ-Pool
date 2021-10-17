@@ -163,6 +163,7 @@ export class RegistrationScreen extends Component {
 								"^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au"
 							}
 							onValidation={(validEmail) => this.setState({ validEmail })}
+							autoCapitalize="none"
 						/>
 
 						<ValidatedTextInput
@@ -174,6 +175,7 @@ export class RegistrationScreen extends Component {
 							value={this.state.phoneNumber}
 							pattern={"^04[0-9]{8,8}$"} // 10 numbers starting with 04
 							onValidation={(validPhone) => this.setState({ validPhone })}
+							keyboardType="number-pad"
 						/>
 
 						<ValidatedTextInput
@@ -184,6 +186,7 @@ export class RegistrationScreen extends Component {
 							placeholder='Password'
 							value={this.state.password}
 							onValidation={(validPassword) => this.setState({ validPassword })}
+							secureTextEntry={true}
 						/>
 
 						<ValidatedTextInput
@@ -196,6 +199,7 @@ export class RegistrationScreen extends Component {
 							onValidation={(validConfirmPassword) =>
 								this.setState({ validConfirmPassword })
 							}
+							secureTextEntry={true}
 						/>
 
 						<TouchableOpacity

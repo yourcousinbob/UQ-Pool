@@ -9,7 +9,9 @@ module.exports = {
     // rider_id, 
     // location, 
     // destination,
-    requestPickup(body, result) {
+    // I dont want to touch this ever again if you want to attempt to fix it go
+    // ahead at risk of your own sanity.
+    async requestPickup(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
             if(err) {
@@ -28,31 +30,37 @@ module.exports = {
                 } else {
                     let drivers = [];
 
-                        //async function getDetour (driver_heuristics, rows) {
                     for (let i = 0; i < rows.length; i++) {
                         let driverETA = navigation.getTravelTime(rows[i].location, rows[i].destination);
                         let pickupETA = navigation.getTravelTime(rows[i].location, body.location);
                         let detourETA = navigation.getTravelTime(body.location, body.destination) 
-                        Promise.all([driverETA, pickupETA, detourETA]).then(heuristic => {
+                        Promise.all([driverETA, pickupETA, detourETA]).then(response => {
                             const heuristic = pickupETA + detourETA - driverETA;
-                            let queryInfo = await con.query("select first_name, last_name, image from user where sid='"+body[0]+"';", (err, info) => {
-                                if(err) {
-                                    console.log("Could not pass query")
-                                    json.msg = "Could not pass query";
-                                    result(json)
-                                    throw err;
-                                }
-                                const driver = {
-                                    driver_id: rows[i].driver_id, 
-                                    registration: rows[i].registration, 
-                                    heuristic: heuristic,
-                                    first_name: info.first_name, 
-                                    last_name: info.last_name,
-                                    image: info.image
-                                }
-                                return driver
-                            }).then(driver => {drivers.push(driver)})
+                            let queryInfo = new Promise((resolve, reject) => {
+                                con.query("select first_name, last_name, image from user where sid='"+rows[i].driver_id+"';", (err, info) => {
+                                    if(err) {
+                                        console.log("Could not pass query")
+                                        json.msg = "Could not pass query";
+                                        reject(json)
+                                        throw err;
+                                    }
+                                    const driver = {
+                                        driver_id: rows[i].driver_id, 
+                                        registration: rows[i].registration, 
+                                        heuristic: heuristic,
+                                        first_name: info.first_name, 
+                                        last_name: info.last_name,
+                                        image: info.image
+                                    }
+                                    resolve(driver)
+                            })}).then(driver => {drivers.push(driver)
                             }).catch((err) => {
+                                console.log("Could not pass query")
+                                json.msg = "Could not pass query";
+                                result(json)
+                                console.log(err)
+                            })
+                        }).catch((err) => {
                                 console.log("Could not pass query")
                                 json.msg = "Could not pass query";
                                 result(json)
@@ -64,7 +72,6 @@ module.exports = {
                     })
                     console.log(drivers)
                     result(drivers);
-                    //}
                     console.log("Successfully parsed drivers for " + body.sid);
                 };
             });
@@ -78,14 +85,38 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-                + body.location + "', '" + body.registration + "'," + body.capacity)
-            json.msg = "Driver added to queue"
-            result(json)
+            const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+            con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
+                if(err) throw err;
+                console.log("Active driver created with sid: " + body.sid);
+                json.msg = "Driver Succesfully Added";
+                result(json);
+            });
         });
     },
 
+    // Removes a driver from the active driver list
+    removeDriver(body, result) {
+        var json = {};
+        pool.getConnection(function(err, con) {
+            if (err) throw err;
+            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
+                if(err) throw err;
+                console.log("Active driver removed sid: " + body.sid);
+                json.msg = "Driver Succesfully Removed";
+                result(json);
+            });
+        });
+    },
 
+    // Make a request to a driver to be picked up
+    requestDriver(body, result) {
+      var json = {};
+      pool.getConnection(function(err, con) {
+        if (err) throw err;
+        con.query("")
+      });
+    },
 
     //Accept a pickup
     //Body requires:

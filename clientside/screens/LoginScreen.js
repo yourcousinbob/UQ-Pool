@@ -131,6 +131,7 @@ export class LoginScreen extends Component {
                         onChangeText={password => {this.setState({password})}}
                         placeholder="Password"
                         value={this.state.password}
+                        secureTextEntry={true}
                     />
                     <TouchableOpacity 
                         onPress={() => this.loginUser()}
