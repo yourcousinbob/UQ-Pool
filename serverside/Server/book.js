@@ -61,7 +61,7 @@ module.exports = {
                         )}
                         let drivers = await Promise.all(promises)
                         drivers.sort((first, second) => {
-                            first.heuristic - second.heuristic;
+                            return first.heuristic - second.heuristic;
                         })
                         console.log(drivers)
                         result(drivers);
