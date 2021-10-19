@@ -12,6 +12,7 @@ import {
 import { COLORS, BOX } from "../stylesheets/theme";
 import { useNavigation } from "@react-navigation/core";
 import ValidatedTextInput from "../components/ValidatedTextInput";
+import { RegistrationFailureAlert, RegisrationSuccessfulAlert, RegistrationSuccessfulAlert } from "../components/alerts/RegistrationAlert";
 
 export class RegistrationScreen extends Component {
 	constructor(props) {
@@ -78,8 +79,10 @@ export class RegistrationScreen extends Component {
 				// alert the user
 				//navigation.navigate("LoginScreen") can't call hooks in function
 				this.props.navigation.navigate("LoginScreen");
+				RegistrationSuccessfulAlert()
 			} else {
 				console.log(json.msg);
+				RegistrationFailureAlert()
 
 				// Switch to the initial state of the app
 			}
