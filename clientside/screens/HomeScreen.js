@@ -6,12 +6,24 @@ import * as Location from "expo-location";
 
 import DropOffModalButton from "../components/DropOffModalButton";
 import HamburgerButton from "../components/HamburgerButton";
+import SocketConnection from "../socket";
+import { RideRequestAlert } from "../components/alerts/RideRequestAlert";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
 	const [longitude, setLongitude] = useState(153.0134);
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
+	connection = SocketConnection.getConnection()
+
+	function getMessage() {
+		connection.recievePayload('ask').then(payload => {
+			RideRequestAlert()
+			console.log(payload)
+			getMessage()
+		})
+	}
+
 
 	useEffect(() => {
 		(async () => {
@@ -26,6 +38,9 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
+
+			getMessage()
+
 		})();
 	}, []);
 
