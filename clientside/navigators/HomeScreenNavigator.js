@@ -9,7 +9,8 @@ import RewardScreen from '../screens/RewardScreen';
 import RideHistoryScreen from '../screens/RideHistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import BecomeDriverScreen from '../screens/BecomeDriverScreen';
-
+import ProfilePage from '../screens/ProfilePage';
+import RideDetails from '../screens/RideDetails';
 
 export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
@@ -23,6 +24,8 @@ export default function HomeScreenNavigator() {
             <Drawer.Screen name="Support" component={SupportScreen} />
             <Drawer.Screen name="Chat" component={ChatScreen} />
             <Drawer.Screen name="Become A Driver" component={BecomeDriverScreen} />
+            <Drawer.Screen name="Profile" component={ProfilePage} />
+            <Drawer.Screen name="Ride Details" component={RideDetails} />
         </Drawer.Navigator>
     );
 }
