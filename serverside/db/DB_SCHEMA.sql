@@ -93,7 +93,7 @@ INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone
 123123123,
 0444777111,
 "I like pancakes and syrup on sunday mornings",
-"https://www.someDomain.com/images/photo.jpg",
+"https://yt3.ggpht.com/ytc/AKedOLTwP9rV2Ls3H1gXjX2BHOgQGAucLuPGm2jhDq8MzQ=s900-c-k-c0x00ffffff-no-rj",
 0
 );
 INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
@@ -105,7 +105,7 @@ INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone
 12312312,
 0444797111,
 "I like ben",
-"https://www.ben.com/images/photo.jpg",
+"https://yt3.ggpht.com/ytc/AKedOLTwP9rV2Ls3H1gXjX2BHOgQGAucLuPGm2jhDq8MzQ=s900-c-k-c0x00ffffff-no-rj",
 0
 );
 INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
@@ -117,7 +117,7 @@ INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone
 12312312,
 0433777111,
 "I like pans",
-"https://www.someDomain.com/images/photo2.jpg",
+"https://yt3.ggpht.com/ytc/AKedOLTwP9rV2Ls3H1gXjX2BHOgQGAucLuPGm2jhDq8MzQ=s900-c-k-c0x00ffffff-no-rj",
 0
 );
 INSERT INTO rating (sid, rating) VALUES(
@@ -148,7 +148,7 @@ INSERT INTO activeDriver (driver_id, destination, location, registration, capaci
 
 -- James' Test Profile + test data
 INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
-45299038,
+99999999,
 "James",
 "Robins",
 "jamesrobins@uq.edu.au",
@@ -156,6 +156,6 @@ INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone
 12312312,
 0412443858,
 "I like ben",
-"https://www.ben.com/images/photo.jpg",
+"https://yt3.ggpht.com/ytc/AKedOLTwP9rV2Ls3H1gXjX2BHOgQGAucLuPGm2jhDq8MzQ=s900-c-k-c0x00ffffff-no-rj",
 0
 );
