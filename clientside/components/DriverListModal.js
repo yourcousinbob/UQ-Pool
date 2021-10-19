@@ -51,12 +51,15 @@ const DriverListModalButton = () => {
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
-    async function requestDriver(sid, dispatch) {
+    async function requestDriver(sid, driver_id, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
             sid: sid,
+            driver_id: driver_id,
         })
-        console.log(sid);
+        connection.sendPayload("request", data)
+        console.log(data);
+
     };
 
     function DriverListModal() {
@@ -98,7 +101,7 @@ const DriverListModalButton = () => {
                                 return (
                                     <View style={styles.driver}>
                                         <View>
-                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(item.sid, dispatch)}>
+                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item.driver_id, dispatch)}>
                                                 <Text style={styles.driverName}>{item.first_name} {item.last_name}</Text>
                                                 <Image style={styles.driverImage} source={{uri:item.image}}/> 
                                                 <Text style={{textAlign:"center"}}>Request This Driver</Text>
