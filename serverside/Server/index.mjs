@@ -202,9 +202,12 @@ io.on('connection', async (socket) => {
     // Get rid of user in either activeDriver | activeRider
     // delete socket connection in connected
     socket.on('logout', (body) => {
-        if (body.sid in connected) {
-            delete connected[body.user];
+        let msg = JSON.parse(body)
+        let user = parseInt(msg.sid)
+        if (user in connected) {
+            delete connected[user];
             socket.broadcast.emit('logout', body);
+            console.log("User sid:" + user + " logged out");
         }
     });
 
@@ -217,18 +220,28 @@ io.on('connection', async (socket) => {
 
     // Booking section
 
-    // User a requests to user b    
-    // socket searches for user b in connected sockets and sends request
-    socket.on('request', (body, result) => {
+    // User requests a list of potential drivers  
+    socket.on('get', (body, result) => {
         let msg = JSON.parse(body)
         if (msg.sid in connected) {
             console.log("Requesting pickup for rider " + msg.sid);
-            book.requestPickup(msg, function (payload) {
-                connected[msg.sid].emit('request', JSON.stringify({drivers: payload}));
+            book.requestPickup(msg, async function (result) {
+                let payload = await result
+                connected[msg.sid].emit('get', JSON.stringify({drivers:payload}));
             });
         } else {
             console.log("That user does not exist");
         };
+    });
+
+    // User requests a specific driver
+    socket.on('request', (body, request) => {
+        let msg = JSON.parse(body)
+        console.log("User " + msg.sid + " is requesting pickup from user" + msg.driver_sid);
+        user.getUserForHandshake(msg, function (payload) {
+            connected[msg.driver_sid].emit('ask', JSON.stringify(payload));
+        });
+        connected[msg.sid].emit('request', ({msg:"Request to driver sent"}));
     });
 
     // user a cancels the request to user b
@@ -266,12 +279,24 @@ io.on('connection', async (socket) => {
    });
 
    //Driver
-   socket.on('add', (body, request) => {
+
+   //Adds a driver to the active driver table
+   socket.on('add', (body) => {
+        let msg = JSON.parse(body)
         console.log("Adding driver to active drivers: " + msg.sid);
         book.addDriver(msg, function (payload) {
             connected[msg.sid].emit('add', JSON.stringify(payload));
         });
    });
+
+   //Removes a driver from the active driver table
+   socket.on('removeDriver', (body) => {
+    let msg = JSON.parse(body)
+    console.log("Removing driver from active drivers: " + msg.sid);
+    book.removeDriver(msg, function (payload) {
+        connected[msg.sid].emit('removeDriver', JSON.stringify(payload));
+    });
+});
 
    // Pool Messaging Section
    // Once user is joined to a pool they will use the below socket.io calls to chat

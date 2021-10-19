@@ -79,7 +79,7 @@ export class LoginScreen extends Component {
                 this.props.setSID(json.sid);
                 connection = SocketConnection.getConnection()
                 connection.sendPayload('login', {sid: json.sid})
-                connection.recievePayload('login')
+                connection.recievePayload('login', () => {})
                 
             } else {
                 console.log(json.msg);
@@ -131,6 +131,7 @@ export class LoginScreen extends Component {
                         onChangeText={password => {this.setState({password})}}
                         placeholder="Password"
                         value={this.state.password}
+                        secureTextEntry={true}
                     />
                     <TouchableOpacity 
                         onPress={() => this.loginUser()}
