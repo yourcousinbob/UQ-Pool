@@ -6,6 +6,7 @@ import { useDispatch, MapDispatchToProps, connect, useSelector } from "react-red
 import { useNavigation } from "@react-navigation/core";
 import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
+import { LoginFailureAlert } from "../components/alerts/LoginAlert";
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -83,6 +84,7 @@ export class LoginScreen extends Component {
                 
             } else {
                 console.log(json.msg);
+                LoginFailureAlert()
                 // Switch to the initial state of the app
             }
 
