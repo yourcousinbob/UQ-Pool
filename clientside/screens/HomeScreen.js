@@ -7,7 +7,7 @@ import * as Location from "expo-location";
 import DropOffModalButton from "../components/DropOffModalButton";
 import HamburgerButton from "../components/HamburgerButton";
 import SocketConnection from "../socket";
-import { RideRequestAlert } from "../components/alerts/RideRequestAlert";
+import RiderRequestModel from "../components/RiderRequestModal";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
@@ -15,11 +15,17 @@ export default function HomeScreen() {
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
 	connection = SocketConnection.getConnection()
+	let rider = null
+
+	const [isRiderRequestModalVisible, setRiderRequestModalVisible] = useState(false);
+	
 
 	function getMessage() {
 		connection.recievePayload('ask').then(payload => {
-			RideRequestAlert()
+			console.log("ask")
 			console.log(payload)
+			rider = payload
+			setRiderRequestModalVisible(true)
 			getMessage()
 		})
 	}
@@ -38,7 +44,6 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
-
 			getMessage()
 
 		})();
@@ -46,6 +51,7 @@ export default function HomeScreen() {
 
 	return (
 		<View style={{ flex: 1 }}>
+			<RiderRequestModel open={isRiderRequestModalVisible} setModalVisible={setRiderRequestModalVisible} rider={rider}/>
 			<HamburgerButton/>
 			<MapView
 				style={styles.map}
