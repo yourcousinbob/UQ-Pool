@@ -20,7 +20,9 @@ export default function HomeScreen() {
         first_name: "Bob",
         last_name:"Melham",
         rider_id: 1214312421,
-        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
+        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
+		origin:"lmao",
+		destination:"lmao"
     }
 
 	const [isRiderRequestModalVisible, setRiderRequestModalVisible] = useState(false);

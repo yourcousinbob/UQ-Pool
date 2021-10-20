@@ -17,9 +17,15 @@ const RiderRequestModel = (props) => {
     const isModalVisible =  props.open
     const setModalVisible = props.setModalVisible
     const dispatch = useDispatch();
+
     const sid = useSelector(selectSID);
+    const origin = useSelector(selectOrigin)
+    const destination = useSelector(selectDestination)
 
     const rider_id = props.rider.sid
+    const rider_origin = props.rider.origin
+    const rider_destination = props.rider_origin
+
     const rider_image = props.rider.image
     const rider_first_name = props.rider.first_name
     const rider_last_name = props.rider.last_name
@@ -35,11 +41,16 @@ const RiderRequestModel = (props) => {
         dispatch(setStatus(UserStatus.WaitingForRider));
     };
 
-    async function acceptRider(sid, rider_id, dispatch) {
+    async function acceptRider(sid, origin, destination, rider_id, rider_origin, rider_destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
-            sid: sid,
+            driver_id: sid,
+            driver_origin: origin,
+            driver_destination: destination,
+
             rider_id: rider_id,
+            rider_origin:rider_origin,
+            rider_destination: rider_destination,
         });
         connection.sendPayload('accept', data);
         dispatch(setStatus(UserStatus.Riding));
@@ -61,12 +72,17 @@ const RiderRequestModel = (props) => {
                     <View style={styles.driver}>
                         <Image style={styles.driverImage} source={{uri:rider_image}}/> 
                         <Text style={styles.driverName}>{rider_first_name} {rider_last_name}</Text>
+                        <Text style={{}}>Location: {rider_origin}</Text>
+                        <Text style={{}}>Destination: {rider_destination} {rider_last_name}</Text>
+
                     </View>
                     <View style={styles.options}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button}
+                        onPress={() => acceptRider(sid, origin, destination, rider_id, rider_origin, rider_destination, dispatch)}>
                             <Text style={{}}>Accept</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button}
+                        onPress={() => rejectRider(sid, rider_id, dispatch)}>
                             <Text style={{}}>Reject</Text>
                         </TouchableOpacity>
                     </View>
