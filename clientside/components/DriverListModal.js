@@ -106,8 +106,8 @@ const DriverListModalButton = () => {
                                             <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item.driver_id, dispatch)}>
                                                 <Text style={styles.driverName}>{item.first_name} {item.last_name}</Text>
                                                 <Image style={styles.driverImage} source={{uri:item.image}}/> 
-                                                <Text style={styles.driverName}>Location: {item.location} {item.last_name}</Text>
-                                                <Text style={styles.driverName}>Destination: {item.destination} {item.last_name}</Text>
+                                                <Text style={styles.driverName}>Location: {item.location}</Text>
+                                                <Text style={styles.driverName}>Destination: {item.destination}</Text>
                                                 <Text style={{textAlign:"center"}}>Request This Driver</Text>
                                             </TouchableOpacity>
                                     </View>
