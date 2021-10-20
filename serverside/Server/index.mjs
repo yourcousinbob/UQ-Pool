@@ -237,9 +237,9 @@ io.on('connection', async (socket) => {
     // User requests a specific driver
     socket.on('request', (body, request) => {
         let msg = JSON.parse(body)
-        console.log("User " + msg.sid + " is requesting pickup from user" + msg.driver_sid);
-        user.getUserForHandshake(msg, function (payload) {
-            connected[msg.driver_sid].emit('ask', JSON.stringify(payload));
+        console.log("User " + msg.sid + " is requesting pickup from user" + msg.driver_id);
+        user.getUser(msg, function (payload) {
+            connected[parseInt(msg.driver_id)].emit('ask', JSON.stringify(payload));
         });
         connected[msg.sid].emit('request', ({msg:"Request to driver sent"}));
     });
