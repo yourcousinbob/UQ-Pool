@@ -15,16 +15,22 @@ export default function HomeScreen() {
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
 	connection = SocketConnection.getConnection()
-	let rider = null
+
+	let base_rider = {
+        first_name: "Bob",
+        last_name:"Melham",
+        rider_id: 1214312421,
+        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
+    }
 
 	const [isRiderRequestModalVisible, setRiderRequestModalVisible] = useState(false);
-	
+	let [rider, setRider] = useState(base_rider);
+
 
 	function getMessage() {
-		connection.recievePayload('ask').then(payload => {
-			console.log("ask")
-			console.log(payload)
-			rider = payload
+		connection.recievePayload('ask').then( payload => {
+			rider = JSON.parse(payload)			 
+			setRider(rider)
 			setRiderRequestModalVisible(true)
 			getMessage()
 		})

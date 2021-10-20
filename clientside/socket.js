@@ -59,7 +59,6 @@ class SocketConnection {
                         break
                     
                     case "ask":
-                        console.log("Request received")
                         resolve(body)
                         break;
                     case "removeDriver":
