@@ -19,7 +19,7 @@ let driver_list = [
         heuristic: "12",
         image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
         location:"",
-        desination:,
+        desination:"",
     },
 ];
 
