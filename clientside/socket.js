@@ -57,7 +57,10 @@ class SocketConnection {
                     case "add":
                         console.log(data.msg)
                         break
-
+                    
+                    case "ask":
+                        resolve(body)
+                        break;
                     case "removeDriver":
                         console.log(data.msg)
                         break

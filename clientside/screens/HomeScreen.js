@@ -6,12 +6,38 @@ import * as Location from "expo-location";
 
 import DropOffModalButton from "../components/DropOffModalButton";
 import HamburgerButton from "../components/HamburgerButton";
+import SocketConnection from "../socket";
+import RiderRequestModel from "../components/RiderRequestModal";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
 	const [longitude, setLongitude] = useState(153.0134);
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
+	connection = SocketConnection.getConnection()
+
+	let base_rider = {
+        first_name: "Bob",
+        last_name:"Melham",
+        rider_id: 1214312421,
+        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
+		origin:"lmao",
+		destination:"lmao"
+    }
+
+	const [isRiderRequestModalVisible, setRiderRequestModalVisible] = useState(false);
+	let [rider, setRider] = useState(base_rider);
+
+
+	function getMessage() {
+		connection.recievePayload('ask').then( payload => {
+			rider = JSON.parse(payload)			 
+			setRider(rider)
+			setRiderRequestModalVisible(true)
+			getMessage()
+		})
+	}
+
 
 	useEffect(() => {
 		(async () => {
@@ -26,11 +52,14 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
+			getMessage()
+
 		})();
 	}, []);
 
 	return (
 		<View style={{ flex: 1 }}>
+			<RiderRequestModel open={isRiderRequestModalVisible} setModalVisible={setRiderRequestModalVisible} rider={rider}/>
 			<HamburgerButton/>
 			<MapView
 				style={styles.map}

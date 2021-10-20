@@ -48,13 +48,26 @@ module.exports = {
                                     resolve(info)
                                 })})
                             let info = await queryInfo
+                            let queryGeoInfo = new Promise(async (resolve, reject) => {
+                                con.query("select location, destination from activeDriver where driver_id='"+row.driver_id+"';", async (err, queryGeoInfo) => {
+                                    if(err) {
+                                        console.log("Could not pass query")
+                                        json.msg = "Could not pass query";
+                                        reject(json)
+                                        throw err;
+                                    }
+                                    resolve(queryGeoInfo)
+                                })})
+                            let geoInfo = await queryGeoInfo
                             const driver = {
                                 driver_id: row.driver_id, 
                                 registration: row.registration, 
                                 heuristic: heuristic,
                                 first_name: info[0].first_name, 
                                 last_name: info[0].last_name,
-                                image: info[0].image
+                                image: info[0].image,
+                                location: geoInfo[0].location,
+                                destination: geoInfo[0].destination
                             }
                             res(driver)
                         })
@@ -93,7 +106,7 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
+            con.query("DELETE FROM activeDriver WHERE driver_id='" + body.sid + "';", (err, row) => {
                 if(err) throw err;
                 console.log("Active driver removed sid: " + body.sid);
                 json.msg = "Driver Succesfully Removed";

@@ -24,7 +24,7 @@ const DropOffModalButton = () => {
 				<Modal
 					isVisible={isModalVisible}
 					onSwipeComplete={() => setModalVisible(false)}
-					// onBackdropPress={() => setModalVisible(false)}
+					onBackdropPress={() => setModalVisible(false)}
 					swipeDirection="down"
 					animationIn="slideInUp"
 					animationOut="slideOutDown"

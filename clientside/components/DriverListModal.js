@@ -17,7 +17,9 @@ let driver_list = [
         last_name:"Melham",
         driver_id: 1214312421,
         heuristic: "12",
-        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
+        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
+        location:"",
+        desination:"",
     },
 ];
 
@@ -51,12 +53,17 @@ const DriverListModalButton = () => {
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
-    async function requestDriver(sid, dispatch) {
+    async function requestDriver(sid, driver_id, origin, destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
             sid: sid,
+            driver_id: driver_id,
+            origin: origin.description,
+            destination: destination.description
         })
-        console.log(sid);
+        connection.sendPayload("request", data)
+        console.log(data);
+
     };
 
     function DriverListModal() {
@@ -98,9 +105,11 @@ const DriverListModalButton = () => {
                                 return (
                                     <View style={styles.driver}>
                                         <View>
-                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(item.sid, dispatch)}>
+                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item.driver_id, origin, destination, dispatch)}>
                                                 <Text style={styles.driverName}>{item.first_name} {item.last_name}</Text>
                                                 <Image style={styles.driverImage} source={{uri:item.image}}/> 
+                                                <Text style={styles.driverName}>Location: {item.location}</Text>
+                                                <Text style={styles.driverName}>Destination: {item.destination}</Text>
                                                 <Text style={{textAlign:"center"}}>Request This Driver</Text>
                                             </TouchableOpacity>
                                     </View>

@@ -103,12 +103,12 @@ module.exports = {
         });
     },
 
-    //Gets user details required in handshake
-    getUserForHandshake(body, result) {
+    //Gets user details for a given sid
+    getUser(body, result) {
         var json = {};
         console.log("Attemped Log in for: " + body.sid);
         pool.getConnection(function(err, con) {
-            con.query("SELECT sid, first_name, last_name, image FROM user where sid='" + body.sid +"';" , (err, rows) => {
+            con.query("SELECT sid, first_name, last_name, image FROM user where sid='" + body.sid + "';" , (err, rows) => {
                 if (err) throw err;
                 json.first_name = rows[0].first_name;
                 json.last_name = rows[0].last_name;
