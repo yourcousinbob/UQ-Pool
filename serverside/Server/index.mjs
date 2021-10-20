@@ -239,6 +239,8 @@ io.on('connection', async (socket) => {
         let msg = JSON.parse(body)
         console.log("User " + msg.sid + " is requesting pickup from user" + msg.driver_id);
         user.getUser(msg, function (payload) {
+            payload.origin = msg.origin
+            payload.destination = msg.destination
             connected[parseInt(msg.driver_id)].emit('ask', JSON.stringify(payload));
         });
         connected[msg.sid].emit('request', ({msg:"Request to driver sent"}));
