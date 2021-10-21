@@ -12,6 +12,7 @@ import SocketConnection from "../socket";
 import RiderRequestModel from "../components/RiderRequestModal";
 
 import ChatButton from "../components/ChatButton";
+import GoogleMapsButton from "../components/GoogleMapsButton";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
@@ -24,6 +25,7 @@ export default function HomeScreen() {
 	var TripMenu = onTrip ? 
 		<View style={styles.bubble}>
 			<ChatButton/>
+			<GoogleMapsButton/>
 			<Text>on a ride</Text>
 		</View>
 		: 
