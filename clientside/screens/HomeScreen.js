@@ -18,6 +18,9 @@ export default function HomeScreen() {
 	const longitudeDelta = 0.005;
 	connection = SocketConnection.getConnection()
 
+    const dispatch = useDispatch();
+    const driver = useSelector(selectDriver)
+
 	let base_rider = {
         first_name: "Bob",
         last_name:"Melhem ducj",
@@ -41,22 +44,23 @@ export default function HomeScreen() {
 		})
 	}
 
-	function getPool() {
-        connection.recievePayload('join').then(payload => {
+	function getPool(dispatch) {
+        connection.recievePayload('join').then(msg => {
+            let payload = JSON.parse(msg)
             let driver = {
                 sid: payload.driver_id,
                 origin: payload.driver_origin,
                 destination: payload.driver_destination
             }
             dispatch(setDriver(driver))
-            const d = useSelector(selectDriver);
-            console.log(d)
+            getPool(dispatch)
         })
 	}
 
 
 	useEffect(() => {
 		(async () => {
+
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			if (status !== "granted") {
 				alert("Permission to access foreground location was denied");
@@ -68,7 +72,8 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
-			getPool()
+			getPool(dispatch)
+            console.log(driver)
 			getMessage()
 		})();
 	}, []);

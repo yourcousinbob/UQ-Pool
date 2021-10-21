@@ -61,6 +61,7 @@ const DriverListModalButton = () => {
             origin: origin.description,
             destination: destination.description
         })
+        connection.sendPayload("request", data)
     };
 
     function DriverListModal() {
