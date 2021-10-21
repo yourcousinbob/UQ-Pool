@@ -31,9 +31,11 @@ const ChatScreen = () => {
             },
         ])
     }, [])
+
     const onSend = useCallback((messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     }, [])
+    
     const renderInputToolbar = (props) => {
         return (
             <InputToolbar{...props}

@@ -18,7 +18,7 @@ export default function HomeScreen() {
 
 	let base_rider = {
         first_name: "Bob",
-        last_name:"Melham",
+        last_name:"Melham ducj",
         rider_id: 1214312421,
         image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
 		origin:"lmao",
@@ -35,6 +35,13 @@ export default function HomeScreen() {
 			setRider(rider)
 			setRiderRequestModalVisible(true)
 			getMessage()
+			"ask driver to join pool lmao"
+		})
+	}
+
+	function getPool() {
+		connection.recievePayload('join').then( payload => {
+			console.log("join pool lmao")
 		})
 	}
 
