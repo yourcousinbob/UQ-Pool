@@ -64,6 +64,10 @@ class SocketConnection {
                     case "removeDriver":
                         console.log(data.msg)
                         break
+                    case "join":
+                        console.log(data.msg)
+                        resolve(body)
+                        break
                 }
             })
         });

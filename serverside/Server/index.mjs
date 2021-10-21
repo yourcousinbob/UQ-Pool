@@ -261,23 +261,13 @@ io.on('connection', async (socket) => {
     });
 
     //User has accepted a driver
-    socket.on('accept', (body, request) => {
-
-        if (body.sid in connected) {
-            if (driver_id in pools) {
-                pool[driver_id].push(body.sid)
-            } else {
-                pool[driver_id] = [body.sid]
-            };
-            //TODO: Validate driver and car wants pickup 
-            book.acceptPickup(body, function (payload) {
-                console.log("User accepted driver " + body.sid);
-                connected[body.driver].emit('confirm', payload);
-                connected[body.sid].emit('confirm', payload);
-            });
-        } else {
-            console.log("That user does not exist");
-        };
+    //Add both drivers 
+    socket.on('accept', (body, result) => {
+        connected[body.driver_id].join(body.driver_id);
+        connected[body.rider_id].join(body.driver_id);
+        pools[body.driver_id] = body.driver_id
+        connected[body.driver_id].emit('join', (body))
+        connected[body.rider_id].emit('join', (body))
    });
 
    //Driver
@@ -306,10 +296,8 @@ io.on('connection', async (socket) => {
 
    //Send message to a pool chat
    socket.on('sendMessage', (body, request) => {
-        if (body.sid in pools[body.driverSid]) {
-            chat.sendMessage(body, function (payload) {
-                pool[body.driverSid].emit('message', payload);
-            });
+        if (body.driver_id in pools[body.driver_id]) {
+            io.to(pools[body.driver_id]).emit("message", body);
         } else {
             console.log("Invalid chat room")
         };
