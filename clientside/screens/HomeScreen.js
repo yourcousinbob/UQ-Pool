@@ -9,12 +9,27 @@ import HamburgerButton from "../components/HamburgerButton";
 import SocketConnection from "../socket";
 import RiderRequestModel from "../components/RiderRequestModal";
 
+import ChatButton from "../components/ChatButton";
+
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
 	const [longitude, setLongitude] = useState(153.0134);
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
+	const [onTrip, setOnTrip] = useState(false);
 	connection = SocketConnection.getConnection()
+
+	var TripMenu = onTrip ? 
+		<View style={styles.bubble}>
+			<ChatButton/>
+			<Text>on a ride</Text>
+		</View>
+		: 
+		<View style={styles.bubble}>
+			<DropOffModalButton/>
+			<Text>Book a ride</Text>
+		</View> 
+		;
 
 	let base_rider = {
         first_name: "Bob",
@@ -85,11 +100,10 @@ export default function HomeScreen() {
 						longitude: longitude,
 					}}
 				/>
+				
 			</MapView>
-			<View style={styles.bubble}>
-				<DropOffModalButton/>
-				<Text>Book a ride</Text>
-			</View>
+			{TripMenu}
+			
 		</View>
 	);
 }
@@ -102,6 +116,16 @@ const styles = StyleSheet.create({
 		zIndex: -1,
 	},
 	bubble: {
+		backgroundColor: "white",
+		borderRadius: BOX.borderRadius,
+		marginHorizontal: "10%",
+		padding: 15,
+		width: "80%",
+		position: "absolute",
+		bottom: "15%",
+		display: "flex",
+	},
+	tripoptions: {
 		backgroundColor: "white",
 		borderRadius: BOX.borderRadius,
 		marginHorizontal: "10%",
