@@ -24,31 +24,45 @@ class SocketConnection {
     }
 
     recievePayload(message) {
-        this.socket.on(message, (body) => {
-            let data = JSON.parse(body)
+        return new Promise( resolve => {
+            this.socket.on(message, (body) => {
+                let data = JSON.parse(body)
 
-            switch(message){
+                switch(message){
 
-            case "login":
-                console.log(data.log)
+                    case "login":
+                        console.log(data.log)
+                        break
 
-            case "logout":
+                    case "logout":
+                        console.log(data.msg)
+                        break
 
-            case "location":
+                    case "location":
+                        break
 
-            case "request":
-                console.log(data.drivers)
+                    case "get":
+                        resolve(body)
+                        break
 
-            case "cancel":
+                    case "cancel":
+                        break
 
-            case "accept":
+                    case "accept":
+                        break
 
-            case "reject":
+                    case "reject":
+                        break
 
-            case "add":
-                console.log(data.msg)
-                
-            }
+                    case "add":
+                        console.log(data.msg)
+                        break
+
+                    case "removeDriver":
+                        console.log(data.msg)
+                        break
+                }
+            })
         });
     } 
 

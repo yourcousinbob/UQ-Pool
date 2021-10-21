@@ -50,6 +50,9 @@ export default class ValidatedTextInput extends Component {
             value,
             onChangeText,
             placeholder,
+            autoCapitalize,
+            keyboardType,
+            secureTextEntry,
             ...props
         } = this.props;
 
@@ -65,6 +68,9 @@ export default class ValidatedTextInput extends Component {
                 onChangeText={value => this.onChange(value)}
                 value={value}
                 placeholder={placeholder}
+                autoCapitalize={autoCapitalize}
+                keyboardType={keyboardType}
+                secureTextEntry={secureTextEntry}
             />
         )
     }

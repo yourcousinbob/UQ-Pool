@@ -29,6 +29,7 @@ const DropOffModalButton = () => {
 					animationIn="slideInUp"
 					animationOut="slideOutDown"
 					swipeThreshold={300}
+					avoidKeyboard={false}
 					style={{
 						margin: 0,
 					}}

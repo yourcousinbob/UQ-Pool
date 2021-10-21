@@ -4,7 +4,7 @@ import SampleButton from '../components/Samples/SampleButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default class Help extends Component {
+export default class ProfilePage extends Component {
 
   constructor(props) {
     super(props);
@@ -88,15 +88,6 @@ export default class Help extends Component {
               </View>
             )
           }}/>
-
-        {/* help button code if needed
-        <TouchableOpacity style={styles.helpButton} >
-            <Text style={{ fontWeight: 'bold', fontSize:25, color:'white' }}>
-                Help!
-            </Text>
-        </TouchableOpacity>
-        */}
-
       </View>
 
     );

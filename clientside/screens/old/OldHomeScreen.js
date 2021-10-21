@@ -1,10 +1,10 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
-import SessionOptions from '../components/SessionOptions';
+import SessionOptions from '../../components/SessionOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import { useDispatch } from "react-redux";
-import { setDestination, setOrigin } from "../slices/sessionSlice"
+import { setDestination, setOrigin } from "../../slices/sessionSlice"
 
 const OldHomeScreen = () => {
     const dispatch = useDispatch();

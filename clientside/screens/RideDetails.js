@@ -4,7 +4,7 @@ import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, F
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default class Help extends Component {
+export default class RideDetails extends Component {
 
     constructor(props) {
         super(props);

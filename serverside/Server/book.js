@@ -9,43 +9,63 @@ module.exports = {
     // rider_id, 
     // location, 
     // destination,
-    requestPickup(body, result) {
+    // I dont want to touch this ever again if you want to attempt to fix it go
+    // ahead at risk of your own sanity.
+    async requestPickup(body, result) {
         var json = {};
-        pool.getConnection(function(err, con) {
+        pool.getConnection(async function(err, con) {
             if(err) {
                 console.log("Could not connect to server")
                 throw err;
             }
-            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", (err,rows) => {
+            con.query("SELECT driver_id, registration, location, destination FROM activeDriver;", async (err,rows) => {
                 if(err) {
                     console.log("Could not pass query")
+                    json.msg = "Could not pass query";
+                    result(json)
                     throw err;
                 }
                 if (rows.length < 1) {
                     console.log("No available drivers");
                 } else {
-                    driver_heuristics = [];
-                    //Distance calc assuming all entries sound might
-                    //be better way to do async tried lots fix if u can.
+                    let promises = [];
 
-                    async function getDetour (driver_heuristics, rows) {
-                        for (let i = 0; i < rows.length; i++) {
-                            driverETA = await navigation.getTravelTime(rows[i].location, rows[i].destination);
-                            pickupETA = await navigation.getTravelTime(rows[i].location, body.location);
-                            detourETA = await navigation.getTravelTime(body.location, body.destination) 
-                            heuristic = pickupETA + detourETA - driverETA;
-                            driver_heuristics.push([rows[i].registration, heuristic])
-                        }
-                        driver_heuristics.sort((first, second) => {
-                            return first[1] - second[1];
-                        });
-                    }
-
+                    for (const row of rows) {
+                        promises.push(new Promise(async (res, rej) => {
+                            let driverETA = await navigation.getTravelTime(row.location, row.destination);
+                            let pickupETA = await navigation.getTravelTime(row.location, body.location);
+                            let dropoffETA = await navigation.getTravelTime(body.location, body.destination) 
+                            let detourETA = await navigation.getTravelTime(body.destination, row.destination) 
+                            const heuristic = pickupETA + dropoffETA + detourETA - driverETA;
+                            let queryInfo = new Promise(async (resolve, reject) => {
+                                con.query("select first_name, last_name, image from user where sid='"+row.driver_id+"';", async (err, info) => {
+                                    if(err) {
+                                        console.log("Could not pass query")
+                                        json.msg = "Could not pass query";
+                                        reject(json)
+                                        throw err;
+                                    }
+                                    resolve(info)
+                                })})
+                            let info = await queryInfo
+                            const driver = {
+                                driver_id: row.driver_id, 
+                                registration: row.registration, 
+                                heuristic: heuristic,
+                                first_name: info[0].first_name, 
+                                last_name: info[0].last_name,
+                                image: info[0].image
+                            }
+                            res(driver)
+                        })
+                        )}
+                        let drivers = await Promise.all(promises)
+                        drivers.sort((first, second) => {
+                            return first.heuristic - second.heuristic;
+                        })
+                        console.log(drivers)
+                        result(drivers);
                         console.log("Successfully parsed drivers for " + body.sid);
-                        getDetour(driver_heuristics, rows).then(response => {
-                            console.log(driver_heuristics);
-                            result(driver_heuristics)
-                        });
                 };
             });
             con.release((err) => {
@@ -58,14 +78,38 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("INSERT INTO activeDRIVER (driver_id, destination, location, registration, capacity) VALUES(" + body.sid + ", '" + body.destination + "', '"
-            + body.location + "', '" + body.registration + "'," + body.capacity)
-            json.msg = "Driver added to queue"
-            result(json)
+            const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+            con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
+                if(err) throw err;
+                console.log("Active driver created with sid: " + body.sid);
+                json.msg = "Driver Succesfully Added";
+                result(json);
+            });
         });
     },
 
-        
+    // Removes a driver from the active driver list
+    removeDriver(body, result) {
+        var json = {};
+        pool.getConnection(function(err, con) {
+            if (err) throw err;
+            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
+                if(err) throw err;
+                console.log("Active driver removed sid: " + body.sid);
+                json.msg = "Driver Succesfully Removed";
+                result(json);
+            });
+        });
+    },
+
+    // Make a request to a driver to be picked up
+    requestDriver(body, result) {
+      var json = {};
+      pool.getConnection(function(err, con) {
+        if (err) throw err;
+        con.query("")
+      });
+    },
 
     //Accept a pickup
     //Body requires:
@@ -91,14 +135,14 @@ module.exports = {
                     });
                 }
             }),
-            con.query('INSERT INTO route SET ?', body, (err, response) => {
-                if(err) throw err;
-                console.log("Successfully accepted pickup.");
-                json.msg = "successfully accepted pickup.";
-                result(json);
-                con.release((err) => {
+                con.query('INSERT INTO route SET ?', body, (err, response) => {
+                    if(err) throw err;
+                    console.log("Successfully accepted pickup.");
+                    json.msg = "successfully accepted pickup.";
+                    result(json);
+                    con.release((err) => {
+                    });
                 });
-            });
         });
     },
 
