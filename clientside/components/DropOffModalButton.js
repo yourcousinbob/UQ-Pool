@@ -5,7 +5,6 @@ import {
 	View,
 	TouchableOpacity,
 	Dimensions,
-	TextInput,
 } from "react-native";
 import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
@@ -25,19 +24,19 @@ const DropOffModalButton = () => {
 					isVisible={isModalVisible}
 					onSwipeComplete={() => setModalVisible(false)}
 					onBackdropPress={() => setModalVisible(false)}
-					swipeDirection="down"
-					animationIn="slideInUp"
-					animationOut="slideOutDown"
+					swipeDirection='down'
+					animationIn='slideInUp'
+					animationOut='slideOutDown'
 					swipeThreshold={300}
-					avoidKeyboard={false}
+					avoidKeyboard={true}
 					style={{
 						margin: 0,
 					}}
 				>
 					<View style={styles.modal}>
-						<Icon type="ionicon" name="remove-outline" size={25} />
+						<Icon type='ionicon' name='remove-outline' size={25} />
 						<Text style={styles.modalHeader}>Drop off</Text>
-						<SessionOptions/>
+						<SessionOptions />
 					</View>
 				</Modal>
 			</View>
@@ -49,7 +48,7 @@ const DropOffModalButton = () => {
 			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
 				Where to?
 			</Text>
-			<DropOffModal/>
+			<DropOffModal />
 		</TouchableOpacity>
 	);
 };
@@ -60,11 +59,11 @@ const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: "white",
 		position: "absolute",
-		bottom: 0,
+		top: "10%",
 		borderTopLeftRadius: BOX.borderRadius,
 		borderTopRightRadius: BOX.borderRadius,
 		width: "100%",
-		minHeight: Dimensions.get("window").height * 0.75,
+		minHeight: Dimensions.get("window").height * 90,
 		padding: 15,
 		paddingTop: 5,
 	},
