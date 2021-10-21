@@ -269,7 +269,6 @@ io.on('connection', async (socket) => {
             } else {
                 pool[driver_id] = [body.sid]
             };
-            //TODO: Validate driver and car wants pickup 
             book.acceptPickup(body, function (payload) {
                 console.log("User accepted driver " + body.sid);
                 connected[body.driver].emit('confirm', payload);
@@ -315,4 +314,8 @@ io.on('connection', async (socket) => {
         };
     });
 
+   socket.on('disconnect', () => {
+       connected.delete(socket)
+    })
 });
+
