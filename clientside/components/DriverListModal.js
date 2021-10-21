@@ -47,7 +47,7 @@ const DriverListModalButton = () => {
         connection.recievePayload('get').then(payload => {
             driver_list = JSON.parse(payload).drivers
             console.log("Drivers List")
-            console.log(driver_list)
+            //console.log(driver_list)
             toggleModal()
         })
         dispatch(setStatus(UserStatus.WaitingForDriver));

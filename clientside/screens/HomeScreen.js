@@ -4,7 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import { BOX } from "../stylesheets/theme";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
-import {setDriver, selectDriver} from "../slices/sessionSlice";
+import {setDriver, setLocation, selectDriver, selectOrigin, selectDestination} from "../slices/sessionSlice";
 
 import DropOffModalButton from "../components/DropOffModalButton";
 import HamburgerButton from "../components/HamburgerButton";
@@ -13,6 +13,7 @@ import RiderRequestModel from "../components/RiderRequestModal";
 
 import ChatButton from "../components/ChatButton";
 import GoogleMapsButton from "../components/GoogleMapsButton";
+import Map from '../components/Map'
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
@@ -36,6 +37,8 @@ export default function HomeScreen() {
 		;
     const dispatch = useDispatch();
     const driver = useSelector(selectDriver)
+    const origin = useSelector(selectOrigin)
+    const destination = useSelector(selectDestination)
 
 	let base_rider = {
         first_name: "Bob",
@@ -87,8 +90,8 @@ export default function HomeScreen() {
 			let location = await Location.getCurrentPositionAsync({
 				accuracy: Location.Accuracy.BestForNavigation,
 			});
-			setLatitude(location.coords.latitude);
-			setLongitude(location.coords.longitude);
+
+            dispatch(setLocation(location))
 			getPool(dispatch, setOnTrip)
             console.log(driver)
 			getMessage()
@@ -99,6 +102,11 @@ export default function HomeScreen() {
 		<View style={{ flex: 1 }}>
 			<RiderRequestModel open={isRiderRequestModalVisible} setModalVisible={setRiderRequestModalVisible} rider={rider}/>
 			<HamburgerButton/>
+            <Map/>{TripMenu}
+            </View>
+	);
+}
+/*
 			<MapView
 				style={styles.map}
 				showsMyLocationButton={true}
@@ -118,11 +126,9 @@ export default function HomeScreen() {
 				/>
 				
 			</MapView>
-			{TripMenu}
+            */
 			
-		</View>
-	);
-}
+			
 
 const styles = StyleSheet.create({
 	map: {
