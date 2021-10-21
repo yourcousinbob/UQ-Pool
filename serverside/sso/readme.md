@@ -102,3 +102,9 @@ logs for any errors in the php are in:
 # /var/log/php/errors.log Insertion on word: /
 
 
+# Using SSOWebView.js in /clientSide/components/
+
+The SSOWebView should take in sid and password originally input by the user in the registration form, then can be injected into the proper page after which the following sequence occurs:
+
+mySignet authentication page > information sharing authorisation page > mytimetable page module choice > student's own mytimetable page > download of iCal > push json payload to server to save time table > go back to home screen.
+

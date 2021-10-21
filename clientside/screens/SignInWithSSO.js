@@ -4,9 +4,10 @@ import { COLORS, BOX } from "../stylesheets/theme";
 import SSOWebView from "../components/SSOWebView.js";
 
 function SingInButton() {
+        
 	return (
 		<TouchableOpacity
-			onPress={() => console.log("Pressed button to open webview")}
+			onPress={() => console.log("go into sso")}
 			style={styles.button}
 		>
 			<Text style={styles.buttonText}>Sign in with SSO</Text>

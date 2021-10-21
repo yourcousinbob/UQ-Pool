@@ -33,14 +33,14 @@ class SSOWebView extends Component {
                           const json = response.json();
 
                           if (json.msg =="timetable added") {      
+                              console.log("go back to the home screen");
                           } else {
-                              console.log(json.msg);
+                              console.log("failed to add time table");
                               // Switch to the initial state of the app
                           }
 
 
                       } catch (error) {
-                          console.log("Caught Error")
                           console.log(error);
                   }
               });
