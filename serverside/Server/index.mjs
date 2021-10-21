@@ -262,11 +262,12 @@ io.on('connection', async (socket) => {
     //User has accepted a driver
     //Add both drivers 
     socket.on('accept', (body, result) => {
-        connected[body.driver_id].join(body.driver_id);
-        connected[body.rider_id].join(body.driver_id);
-        pools[body.driver_id] = body.driver_id
-        connected[body.driver_id].emit('join', (body))
-        connected[body.rider_id].emit('join', (body))
+        let msg = JSON.parse(body)
+        connected[msg.driver_id].join(msg.driver_id);
+        connected[msg.rider_id].join(msg.driver_id);
+        pools[msg.driver_id] = msg.driver_id
+        connected[msg.driver_id].emit('join', (body))
+        connected[msg.rider_id].emit('join', (body))
    });
 
    //Driver

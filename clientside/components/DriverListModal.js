@@ -7,14 +7,14 @@ import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
-import { selectOrigin, selectDestination, setStatus } from "../slices/sessionSlice";
+import { selectOrigin, selectDestination, setStatus , setDriver, selectDriver} from "../slices/sessionSlice";
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
 let driver_list = [
     {
         first_name: "Bob",
-        last_name:"Melham",
+        last_name:"Melhem",
         driver_id: 1214312421,
         heuristic: "12",
         image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
@@ -62,8 +62,6 @@ const DriverListModalButton = () => {
             destination: destination.description
         })
         connection.sendPayload("request", data)
-        console.log(data);
-
     };
 
     function DriverListModal() {
