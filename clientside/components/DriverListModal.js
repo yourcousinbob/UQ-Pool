@@ -45,7 +45,7 @@ const DriverListModalButton = () => {
         });
         connection.sendPayload('get', data);
         connection.recievePayload('get').then(payload => {
-            driver_list = JSON.parse(payload).drivers
+            driver_list = payload.drivers
             console.log("Drivers List")
             //console.log(driver_list)
             toggleModal()

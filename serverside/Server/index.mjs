@@ -263,11 +263,11 @@ io.on('connection', async (socket) => {
     //Add both drivers 
     socket.on('accept', (body, result) => {
         let msg = JSON.parse(body)
-        connected[msg.driver_id].join(msg.driver_id);
-        connected[msg.rider_id].join(msg.driver_id);
-        pools[msg.driver_id] = msg.driver_id
-        connected[msg.driver_id].emit('join', (body))
-        connected[msg.rider_id].emit('join', (body))
+        connected[msg.driver_id].join(String(msg.driver_id));
+        connected[msg.rider_id].join(String(msg.driver_id));
+        pools[String(msg.driver_id)] = String(msg.driver_id)
+	console.log("pool created for " + msg.driver_id)
+        io.to(pools[String(msg.driver_id)]).emit('join', (body))
    });
 
    //Driver
@@ -296,7 +296,11 @@ io.on('connection', async (socket) => {
 
    //Send message to a pool chat
    socket.on('sendMessage', (body, request) => {
-        io.to(pools[body.driver_id]).emit("sendMessage", body);
+	let msg = JSON.parse(body)
+	console.log("Message Sent")
+	console.log(msg)
+        io.to(pools[String(msg.driver_id)]).emit("sendMessage", JSON.stringify(msg));
+	console.log(pools[msg.driver_id])
     });
 
    socket.on('disconnect', () => {
