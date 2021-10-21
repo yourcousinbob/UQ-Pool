@@ -3,6 +3,8 @@ import { Text, StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { BOX } from "../stylesheets/theme";
 import * as Location from "expo-location";
+import { useDispatch, useSelector } from "react-redux";
+import {setDriver, selectDriver} from "../slices/sessionSlice";
 
 import DropOffModalButton from "../components/DropOffModalButton";
 import HamburgerButton from "../components/HamburgerButton";
@@ -18,7 +20,7 @@ export default function HomeScreen() {
 
 	let base_rider = {
         first_name: "Bob",
-        last_name:"Melham ducj",
+        last_name:"Melhem ducj",
         rider_id: 1214312421,
         image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
 		origin:"lmao",
@@ -40,9 +42,16 @@ export default function HomeScreen() {
 	}
 
 	function getPool() {
-		connection.recievePayload('join').then( payload => {
-			console.log("join pool lmao")
-		})
+        connection.recievePayload('join').then(payload => {
+            let driver = {
+                sid: payload.driver_id,
+                origin: payload.driver_origin,
+                destination: payload.driver_destination
+            }
+            dispatch(setDriver(driver))
+            const d = useSelector(selectDriver);
+            console.log(d)
+        })
 	}
 
 
@@ -59,8 +68,8 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
+			getPool()
 			getMessage()
-
 		})();
 	}, []);
 
