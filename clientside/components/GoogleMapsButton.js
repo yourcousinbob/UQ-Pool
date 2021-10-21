@@ -13,19 +13,25 @@ import { Icon } from "react-native-elements";
 import SessionOptions from "./SessionOptions";
 import { useNavigation } from "@react-navigation/core";
 
-const ChatButton = () => {
 
-	const navigation = useNavigation();
+
+
+const GoogleMapsButton = () => {
+
+	function openGoogleMaps() {
+		console.log("google maps called")
+	}
+
 	return (
-		<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Chat")}>
+		<TouchableOpacity style={styles.button} onPress={() => openGoogleMaps()}>
 			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
-				Open Chat
+				Open Google Maps
 			</Text>
 		</TouchableOpacity>
 	);
 };
 
-export default ChatButton;
+export default GoogleMapsButton;
 
 const styles = StyleSheet.create({
 	modal: {

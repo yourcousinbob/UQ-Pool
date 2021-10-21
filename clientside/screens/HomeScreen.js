@@ -12,6 +12,7 @@ import SocketConnection from "../socket";
 import RiderRequestModel from "../components/RiderRequestModal";
 
 import ChatButton from "../components/ChatButton";
+import GoogleMapsButton from "../components/GoogleMapsButton";
 
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
@@ -24,6 +25,7 @@ export default function HomeScreen() {
 	var TripMenu = onTrip ? 
 		<View style={styles.bubble}>
 			<ChatButton/>
+			<GoogleMapsButton/>
 			<Text>on a ride</Text>
 		</View>
 		: 
@@ -50,23 +52,22 @@ export default function HomeScreen() {
 
 	function getMessage() {
 		connection.recievePayload('ask').then( payload => {
-			rider = JSON.parse(payload)			 
-			setRider(rider)
+			setRider(payload)
 			setRiderRequestModalVisible(true)
 			getMessage()
 			"ask driver to join pool lmao"
 		})
 	}
 
-	function getPool(dispatch) {
-        connection.recievePayload('join').then(msg => {
-            let payload = JSON.parse(msg)
+	function getPool(dispatch, setOnTrip) {
+        connection.recievePayload('join').then(payload => {
             let driver = {
                 sid: payload.driver_id,
                 origin: payload.driver_origin,
                 destination: payload.driver_destination
             }
             dispatch(setDriver(driver))
+			setOnTrip(true)
             getPool(dispatch)
         })
 	}
@@ -86,7 +87,7 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
-			getPool(dispatch)
+			getPool(dispatch, setOnTrip)
             console.log(driver)
 			getMessage()
 		})();

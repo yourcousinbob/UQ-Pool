@@ -20,13 +20,13 @@ export const sessionSlice = createSlice({
             state.destination = action.payload;
         },
         setTravelTimeInformation: (state, action) => {
-            state.setTravelTimeInformation = action.payload;
+            state.travelTimeInformation = action.payload;
         },
         setDriver: (state, action) => {
-            state.setDriver = action.payload;
+            state.driver = action.payload;
         },
         setStatus: (state, action) => {
-            state.setStatus = action.payload;
+            state.status = action.payload;
         }
     }
 });
