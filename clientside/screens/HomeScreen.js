@@ -58,7 +58,7 @@ export default function HomeScreen() {
 		})
 	}
 
-	function getPool(dispatch) {
+	function getPool(dispatch, setOnTrip) {
         connection.recievePayload('join').then(msg => {
             let payload = JSON.parse(msg)
             let driver = {
@@ -67,6 +67,7 @@ export default function HomeScreen() {
                 destination: payload.driver_destination
             }
             dispatch(setDriver(driver))
+			setOnTrip(true)
             getPool(dispatch)
         })
 	}
@@ -86,7 +87,7 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
-			getPool(dispatch)
+			getPool(dispatch, setOnTrip)
             console.log(driver)
 			getMessage()
 		})();
