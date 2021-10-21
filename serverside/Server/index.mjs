@@ -296,11 +296,7 @@ io.on('connection', async (socket) => {
 
    //Send message to a pool chat
    socket.on('sendMessage', (body, request) => {
-        if (body.driver_id in pools[body.driver_id]) {
-            io.to(pools[body.driver_id]).emit("message", body);
-        } else {
-            console.log("Invalid chat room")
-        };
+        io.to(pools[body.driver_id]).emit("sendMessage", body);
     });
 
    socket.on('disconnect', () => {
