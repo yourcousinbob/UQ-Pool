@@ -7,7 +7,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
-import { selectOrigin, selectDestination, setStatus } from "../slices/sessionSlice";
+import { selectOrigin, selectDestination, setStatus , setDriver, selectDriver} from "../slices/sessionSlice";
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
@@ -62,8 +62,16 @@ const DriverListModalButton = () => {
             destination: destination.description
         })
         connection.sendPayload("request", data)
-        console.log(data);
-
+        connection.recievePayload('join').then(payload => {
+            let driver = {
+                sid: payload.driver_id,
+                origin: payload.driver_origin,
+                destination: payload.driver_destination
+            }
+            dispatch(setDriver(driver))
+            const d = useSelector(selectDriver);
+            console.log(d)
+        })
     };
 
     function DriverListModal() {
