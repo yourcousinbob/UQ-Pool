@@ -52,8 +52,7 @@ export default function HomeScreen() {
 
 	function getMessage() {
 		connection.recievePayload('ask').then( payload => {
-			rider = JSON.parse(payload)			 
-			setRider(rider)
+			setRider(payload)
 			setRiderRequestModalVisible(true)
 			getMessage()
 			"ask driver to join pool lmao"
@@ -61,8 +60,7 @@ export default function HomeScreen() {
 	}
 
 	function getPool(dispatch, setOnTrip) {
-        connection.recievePayload('join').then(msg => {
-            let payload = JSON.parse(msg)
+        connection.recievePayload('join').then(payload => {
             let driver = {
                 sid: payload.driver_id,
                 origin: payload.driver_origin,

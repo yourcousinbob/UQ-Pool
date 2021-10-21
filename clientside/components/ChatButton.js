@@ -17,7 +17,7 @@ const ChatButton = () => {
 
 	const navigation = useNavigation();
 	return (
-		<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Root", {screen: "Chat"})}>
+		<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Chat")}>
 			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
 				Open Chat
 			</Text>
