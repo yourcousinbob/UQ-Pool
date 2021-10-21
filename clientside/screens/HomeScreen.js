@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { BOX } from "../stylesheets/theme";
+import { BOX, box } from "../stylesheets/theme";
 import * as Location from "expo-location";
 
 import DropOffModalButton from "../components/DropOffModalButton";
@@ -14,30 +14,29 @@ export default function HomeScreen() {
 	const [longitude, setLongitude] = useState(153.0134);
 	const latitudeDelta = 0.005;
 	const longitudeDelta = 0.005;
-	connection = SocketConnection.getConnection()
+	connection = SocketConnection.getConnection();
 
 	let base_rider = {
-        first_name: "Bob",
-        last_name:"Melham",
-        rider_id: 1214312421,
-        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
-		origin:"lmao",
-		destination:"lmao"
-    }
+		first_name: "Bob",
+		last_name: "Melham",
+		rider_id: 1214312421,
+		image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
+		origin: "lmao",
+		destination: "lmao",
+	};
 
-	const [isRiderRequestModalVisible, setRiderRequestModalVisible] = useState(false);
+	const [isRiderRequestModalVisible, setRiderRequestModalVisible] =
+		useState(false);
 	let [rider, setRider] = useState(base_rider);
 
-
 	function getMessage() {
-		connection.recievePayload('ask').then( payload => {
-			rider = JSON.parse(payload)			 
-			setRider(rider)
-			setRiderRequestModalVisible(true)
-			getMessage()
-		})
+		connection.recievePayload("ask").then((payload) => {
+			rider = JSON.parse(payload);
+			setRider(rider);
+			setRiderRequestModalVisible(true);
+			getMessage();
+		});
 	}
-
 
 	useEffect(() => {
 		(async () => {
@@ -52,15 +51,18 @@ export default function HomeScreen() {
 			});
 			setLatitude(location.coords.latitude);
 			setLongitude(location.coords.longitude);
-			getMessage()
-
+			getMessage();
 		})();
 	}, []);
 
 	return (
 		<View style={{ flex: 1 }}>
-			<RiderRequestModel open={isRiderRequestModalVisible} setModalVisible={setRiderRequestModalVisible} rider={rider}/>
-			<HamburgerButton/>
+			<RiderRequestModel
+				open={isRiderRequestModalVisible}
+				setModalVisible={setRiderRequestModalVisible}
+				rider={rider}
+			/>
+			<HamburgerButton />
 			<MapView
 				style={styles.map}
 				showsMyLocationButton={true}
@@ -79,8 +81,8 @@ export default function HomeScreen() {
 					}}
 				/>
 			</MapView>
-			<View style={styles.bubble}>
-				<DropOffModalButton/>
+			<View style={[styles.bubble]}>
+				<DropOffModalButton />
 				<Text>Book a ride</Text>
 			</View>
 		</View>
@@ -103,5 +105,10 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		bottom: "15%",
 		display: "flex",
+		shadowOffset: { height: 4 },
+		shadowOpacity: 0.6,
+		shadowRadius: 8,
+		shadowColor: "gray",
+		elevation: 7,
 	},
 });
