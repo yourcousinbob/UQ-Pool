@@ -176,7 +176,6 @@ webhooks requiring persistent connections
 */
 
 io.on('connection', async (socket) => {
-    console.log('a user connected');
 
     // User section
     // Broadcasting user has logged in or out
@@ -303,4 +302,13 @@ io.on('connection', async (socket) => {
         };
     });
 
+   socket.on('disconnect', () => {
+        for (const sid in connected){
+            if (connected[user] == socket) {
+                delete connected[socket]
+                console.log(sid + "disconnected")
+            }
+        }
+    })
 });
+
