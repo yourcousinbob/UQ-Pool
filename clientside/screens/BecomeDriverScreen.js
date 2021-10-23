@@ -13,6 +13,7 @@ import { COLORS, BOX } from "../stylesheets/theme";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 import { MapStateToProps, connect, useSelector } from "react-redux";
 import { selectSID } from "../slices/userSlice";
+import BackButton from "../components/BackButton";
 
 class BecomeDriverScreen extends Component {
 	constructor(props) {
@@ -85,6 +86,7 @@ class BecomeDriverScreen extends Component {
 					paddingTop: 50,
 				}}
 			>
+				<BackButton/>
 				<View style={{ height: "40%", width: "100%", padding: 20 }}>
 					<Image
 						style={{

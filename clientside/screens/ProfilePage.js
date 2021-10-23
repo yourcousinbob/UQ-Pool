@@ -4,7 +4,7 @@ import SampleButton from '../components/Samples/SampleButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import { selectFirst, selectLast } from '../slices/userSlice';
-
+import BackButton from '../components/BackButton';
 
 export default function ProfilePage() {
 
@@ -28,7 +28,7 @@ export default function ProfilePage() {
   
   return (
     <View style={styles.container}>
-
+			<BackButton />
         <View>
               <ImageBackground 
                   style={styles.bImage}

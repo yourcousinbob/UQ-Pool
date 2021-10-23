@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import BackButton from "../components/BackButton";
+import { selectTokens } from "../slices/userSlice";
 import { selectSID } from "../slices/userSlice";
 import { box, BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 

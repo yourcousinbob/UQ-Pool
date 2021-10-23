@@ -30,7 +30,10 @@ export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
     return (
         
-        <Drawer.Navigator initialRouteName="Home" drawerContent={props => <CustomDrawerContent {...props} />} >
+        <Drawer.Navigator 
+        initialRouteName="Home" 
+        drawerContent={props => <CustomDrawerContent {...props} />}
+        screenOptions={{headerShown: false}} >
             <Drawer.Screen name="Home" component={HomeScreen} />
             <Drawer.Screen name="Ride History" component={RideDetails} />
             <Drawer.Screen name="Reward" component={RewardScreen} />
