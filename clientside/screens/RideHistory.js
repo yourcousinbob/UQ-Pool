@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
-
+import BackButton from '../components/BackButton';
 
 export default class History extends Component {
 
@@ -22,18 +22,13 @@ export default class History extends Component {
     }
 
 
-    Redeem = () => {
-        Alert.alert('Success', 'Hi')
-        /**/
-    }
-
-
 
   render() {
     return (
         
         <View style={styles.container}>
-            <View>
+            <BackButton/>
+            <View style={styles.container2}>
                 <ImageBackground 
                     style={styles.bImage}
                     source={require('../assets/historyBack.png')}>  
@@ -41,7 +36,7 @@ export default class History extends Component {
                 </ImageBackground>
             </View>   
 
-            <FlatList style={styles2.list, styles2.container}
+            <FlatList style={styles2.list, styles.container3}
                 data={this.state.data}
                 contentContainerStyle={styles2.listContainer}
                 numColumns={1}
@@ -88,10 +83,21 @@ export default class History extends Component {
 /*Style sheet 1 */
 //background styling
 const styles = StyleSheet.create({
-
+    //used to square back button
     container:{
         flex:1,
-        marginTop:180,
+        marginTop:3,
+    },
+    //bIMG and title
+    container2:{
+        flex:1,
+        marginTop:250,
+    },
+
+    //ride history details
+    container3:{
+        flex:1,
+        marginTop:-620,
     },
 
     //map image
