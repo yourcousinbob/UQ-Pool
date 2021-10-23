@@ -3,37 +3,57 @@ import { View, Text, StyleSheet } from "react-native";
 import { Bubble, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from 'react-redux';
+import { selectDriver } from '../slices/sessionSlice';
+import { selectSID } from '../slices/userSlice';
+import SocketConnection from '../socket';
 
 const ChatScreen = () => {
 
     const [messages, setMessages] = useState([]);
+    const driver_id = useSelector(selectDriver).sid;
+    const sid = useSelector(selectSID)
+    connection = SocketConnection.getConnection();
+
+    function getMessage(messages) {
+		connection.recievePayload('sendMessage').then(payload => {
+            console.log(payload)
+            console.log("lol")
+            console.log(messages)
+
+			setMessages(messages => GiftedChat.append(messages, payload.messages));
+            getMessage(messages);
+		})
+	}
+
+    function sendMessage(sid, driver_id, message) {
+
+        let data = ({
+            sid: sid,
+            driver_id: driver_id,
+            message: message,
+        });
+        console.log(data)
+        connection.sendPayload("sendMessage", data)
+    }
+
     useEffect(() => {
         setMessages([
             {
-                _id: 1,
-                text: 'STOP TALKING TO ME',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'dirver',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-            {
-                _id: 2,
+                _id: 69,
                 text: 'whaaaat up?',
                 createdAt: new Date(),
                 user: {
                     _id: 1,
                     name: 'passenger',
-                    avatar: 'https://placeimg.com/140/140/any',
                 },
             },
         ])
+        console.log("lmao")
+        console.log(messages)
+        getMessage(messages)
     }, [])
-    const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, [])
+
     const renderInputToolbar = (props) => {
         return (
             <InputToolbar{...props}
@@ -83,7 +103,7 @@ const ChatScreen = () => {
     return (
         <GiftedChat
             messages={messages}
-            onSend={messages => onSend(messages)}
+            onSend={message => sendMessage(sid, driver_id, message)}
             user={{
                 _id: 1,
             }}

@@ -53,7 +53,7 @@ const RiderRequestModel = (props) => {
             rider_destination: rider_destination,
         });
         connection.sendPayload('accept', data);
-        dispatch(setStatus(UserStatus.Riding));
+        dispatch(setStatus(UserStatus.Driving));
     }
 
     return (

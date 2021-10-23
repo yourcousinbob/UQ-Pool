@@ -105,6 +105,10 @@ export default function HomeScreen() {
 			getMessage()
 			getPool(dispatch, sid)
 
+            dispatch(setLocation(location))
+			getPool(dispatch, setOnTrip)
+            console.log(driver)
+			getMessage()
 		})();
 	}, []);
 

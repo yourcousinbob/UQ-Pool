@@ -1,39 +1,50 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect ,useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useSelector } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_API_KEY } from "@env";
-import { selectOrigin, selectDestination } from "../slices/sessionSlice";
+import { selectLocation, selectOrigin, selectDestination } from "../slices/sessionSlice";
+import * as Location from "expo-location";
 
-const Map = () => {
-  const origin = useSelector(selectOrigin);
-  const destination = useSelector(selectDestination);
-  const mapRef = useRef(null);
+export default function Map() {
+    const [latitude, setLatitude] = useState(-27.497);
+	const [longitude, setLongitude] = useState(153.0134);
+	const latitudeDelta = 0.005;
+	const longitudeDelta = 0.005;
+    const origin = useSelector(selectOrigin);
+    const destination = useSelector(selectDestination);
+    const location = useSelector(selectLocation);
+    const mapRef = useRef(null);
 
-  useEffect(() => {
-    if (!origin || !destination) return;
+ 	useEffect(() => {
+        if (location) {
+		    setLatitude(location.coords.latitude);
+		    setLongitude(location.coords.longitude);
+    	}
+    }, [origin, destination]);
 
-    // Zoom & Fit to markers
-    mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
-      edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-    });
-  }, [origin, destination]);
+    const animateMap = () => {
+        mapRef.current.animateToRegion({
+            latitude: origin.location.latitude,
+            longitude: origin.location.longitude,
+            longitudeDelta: longitudeDelta,
+            latitudeDelta: latitudeDelta,
+	    }, 1000)
+    }
 
   return (
     <MapView
+      style={styles.map}
+      showsMyLocationButton={true}
+	  showsUserLocation={true}
       ref={mapRef}
-      style={{
-        display: "flex",
-        flex: 1,
-      }}
-      mapType='mutedStandard'
-      initialRegion={{
-        latitude: origin.location.lat,
-        longitude: origin.location.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      }}
+      region={{
+	    latitude: latitude,
+		longitude: longitude,
+		longitudeDelta: longitudeDelta,
+		latitudeDelta: latitudeDelta,
+	    }}
     >
       {origin && destination && (
         <MapViewDirections
@@ -43,6 +54,16 @@ const Map = () => {
           lineDashPattern={[1]}
           strokeWidth={3}
           strokeColor='purple'
+          onStart={(params) => {
+              console.log(`Started routing between "${params.origin}" and "${params.destination}"`)
+          }}
+          onReady={result => {
+              console.log(`Distance: ${result.distance} km`)
+              console.log(`Duration: ${result.duration} min.`)
+                        }}
+          onError={(errorMessage) => {
+              console.log(errorMessage)
+          }}
         />
       )}
 
@@ -68,11 +89,24 @@ const Map = () => {
           description={destination.description}
           identifier='destination'
         />
-      )}
+        )}
+      {!destination && !origin && (
+            <Marker
+			    coordinate={{
+				    latitude: latitude,
+					longitude: longitude,
+				}}
+			/>
+        )}
     </MapView>
   );
 };
 
-export default Map;
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	map: {
+		width: "100%",
+		height: "100%",
+		position: "absolute",
+		zIndex: -1,
+    }
+});
