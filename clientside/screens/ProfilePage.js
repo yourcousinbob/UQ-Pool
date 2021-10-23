@@ -2,96 +2,96 @@ import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
 import SampleButton from '../components/Samples/SampleButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import { selectFirst, selectLast } from '../slices/userSlice';
 
 
-export default class ProfilePage extends Component {
+export default function ProfilePage() {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        /*can only get images to work with links, not through assets folder */
-        {id:1, title: "Member Since         ", Text:"2019"},
-        {id:2, title: "UQ Degree               ", Text:"Bachelor of Finance"} ,
+
+  const data = [
+        {id:1, title: "Member Since         ", Text:"2021"},
+        {id:2, title: "UQ Degree               ", Text:"Bachelor of Science"} ,
         {id:3, title: "Distance Travelled ", Text:"6943434343" + " km"}, 
-      ]
-    };
-  }
+      ];
+  
+  const name = useSelector(selectFirst) + " " + useSelector(selectLast);
+  
 
   
-  Redeem = () => {
+  const Redeem = () => {
     Alert.alert('Success', 'Hi')
     /**/
     
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
+  
+  return (
+    <View style={styles.container}>
 
-         <View>
-                <ImageBackground 
-                    style={styles.bImage}
-                    source={require('../assets/riderBack.png')}>  
-                        <Text style={styles.nameTitle}>Name Here</Text>
-                </ImageBackground>
+        <View>
+              <ImageBackground 
+                  style={styles.bImage}
+                  source={require('../assets/riderBack.png')}>  
+                      <Text style={styles.nameTitle}>{name}</Text>
+              </ImageBackground>
+
+    
+            <TouchableOpacity style={styles.phoneButton} onPress={()=>{alert("you clicked me")}}>
+              <Image source={require("../assets/phone.png")}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.dotsButton} onPress={()=>{alert("you clicked me")}}>
+              <Image source={require("../assets/dots.png")}/>
+            </TouchableOpacity>
+
+            
+            <Image style={styles.starImage} source={require("../assets/star.png")}/>
+            <Text style={styles.ratingText} >4.20</Text> 
+      </View>   
 
       
-              <TouchableOpacity style={styles.phoneButton} onPress={()=>{alert("you clicked me")}}>
-                <Image source={require("../assets/phone.png")}/>
-              </TouchableOpacity>
+      
+      <FlatList style={styles.list}
+        data={data}
+        contentContainerStyle={styles.listContainer}
+        numColumns={1}
+        horizontal={false}
 
-              <TouchableOpacity style={styles.dotsButton} onPress={()=>{alert("you clicked me")}}>
-                <Image source={require("../assets/dots.png")}/>
-              </TouchableOpacity>
-
+        keyExtractor= {(item) => {
+          return item.id;
+        }}
+        /*Padding between rows */
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={styles.verticalSeparator}/>
+          )
+        }}
+        renderItem={(post) => {
+          const item = post.item;
+          return (
+            <View style={styles.items}>
               
-              <Image style={styles.starImage} source={require("../assets/star.png")}/>
-              <Text style={styles.ratingText} >4.20</Text> 
-        </View>   
-
-        
-        
-        <FlatList style={styles.list}
-          data={this.state.data}
-          contentContainerStyle={styles.listContainer}
-          numColumns={1}
-          horizontal={false}
-
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          /*Padding between rows */
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.verticalSeparator}/>
-            )
-          }}
-          renderItem={(post) => {
-            const item = post.item;
-            return (
-              <View style={styles.items}>
-               
-               <View style={styles.itemHead}>
-                  <View>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.itemBody}>{item.Text}</Text>
-                  </View>
+              <View style={styles.itemHead}>
+                <View>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.itemBody}>{item.Text}</Text>
                 </View>
-                
-                <View style={styles.itemFooter}>
-                  <View style={styles.barContainer}>
-                    <View style={styles.barSection}>
-                    </View>
+              </View>
+              
+              <View style={styles.itemFooter}>
+                <View style={styles.barContainer}>
+                  <View style={styles.barSection}>
                   </View>
                 </View>
               </View>
-            )
-          }}/>
-      </View>
+            </View>
+          )
+        }}/>
+    </View>
 
-    );
-  }
+  );
+  
 }
 
 
