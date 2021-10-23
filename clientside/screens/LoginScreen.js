@@ -4,8 +4,9 @@ import { COLORS, BOX } from "../stylesheets/theme";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 import { useDispatch, MapDispatchToProps, connect, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID } from "../slices/userSlice";
+import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID, setTokens } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
+import { LoginFailureAlert } from "../components/alerts/LoginAlert";
 
 function RegistrationButton() {
     const navigation = useNavigation();
@@ -77,12 +78,14 @@ export class LoginScreen extends Component {
                 this.props.setPhone(json.phone);
                 this.props.setFirst(json.first_name);
                 this.props.setSID(json.sid);
+                this.props.setTokens(json.tokens)
                 connection = SocketConnection.getConnection()
                 connection.sendPayload('login', {sid: json.sid})
                 connection.recievePayload('login', () => {})
                 
             } else {
                 console.log(json.msg);
+                LoginFailureAlert()
                 // Switch to the initial state of the app
             }
 
@@ -169,6 +172,9 @@ const mapDispatchToProps = (dispatch) => {
 
     setEmail: (email) =>
       dispatch(setEmail(email)),
+
+    setTokens: (tokens) =>
+      dispatch(setTokens(tokens)),
   };
 };
 

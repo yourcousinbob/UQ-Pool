@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
-import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE, box } from "../stylesheets/theme";
 import { colors, Icon } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
-import { selectOrigin, selectDestination, setStatus } from "../slices/sessionSlice";
+import { selectOrigin, selectDestination, setStatus , setDriver, selectDriver} from "../slices/sessionSlice";
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
 let driver_list = [
     {
         first_name: "Bob",
-        last_name:"Melham",
+        last_name:"Melhem",
         driver_id: 1214312421,
         heuristic: "12",
-        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg"
+        image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
+        location:"",
+        desination:"",
     },
 ];
 
@@ -43,20 +45,21 @@ const DriverListModalButton = () => {
         });
         connection.sendPayload('get', data);
         connection.recievePayload('get').then(payload => {
-            driver_list = JSON.parse(payload).drivers
-            console.log("Drivers List")
-            console.log(driver_list)
+            driver_list = payload.drivers
             toggleModal()
         })
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
-    async function requestDriver(sid, dispatch) {
+    async function requestDriver(sid, driver_id, origin, destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
             sid: sid,
+            driver_id: driver_id,
+            origin: origin.description,
+            destination: destination.description
         })
-        console.log(sid);
+        connection.sendPayload("request", data)
     };
 
     function DriverListModal() {
@@ -98,9 +101,11 @@ const DriverListModalButton = () => {
                                 return (
                                     <View style={styles.driver}>
                                         <View>
-                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(item.sid, dispatch)}>
+                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item.driver_id, origin, destination, dispatch)}>
                                                 <Text style={styles.driverName}>{item.first_name} {item.last_name}</Text>
                                                 <Image style={styles.driverImage} source={{uri:item.image}}/> 
+                                                <Text style={styles.driverName}>Location: {item.location}</Text>
+                                                <Text style={styles.driverName}>Destination: {item.destination}</Text>
                                                 <Text style={{textAlign:"center"}}>Request This Driver</Text>
                                             </TouchableOpacity>
                                     </View>
@@ -116,8 +121,8 @@ const DriverListModalButton = () => {
     }
 
     return (
-		<TouchableOpacity style={styles.button} onPress={() => getDrivers(sid, origin, destination, dispatch)}>
-			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
+		<TouchableOpacity style={[box.base, styles.sessionButtons]} onPress={() => getDrivers(sid, origin, destination, dispatch)}>
+			<Text style={styles.sessionButtonsText}>
 				Be A Rider
 			</Text>
 			<DriverListModal/>
@@ -148,6 +153,16 @@ const styles = StyleSheet.create({
 		padding: 15,
 		marginBottom: 10,
 	},
+    sessionButtons: {
+        backgroundColor: COLORS.primary,
+        marginHorizontal: 15,
+    },
+    sessionButtonsText: {
+        fontSize: FONT_SIZE.text,
+        color: "white",
+    },
+
+
 	modalHeader: {
         textAlign: 'center',
 		fontSize: FONT_SIZE.heading3,

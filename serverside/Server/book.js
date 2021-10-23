@@ -48,13 +48,27 @@ module.exports = {
                                     resolve(info)
                                 })})
                             let info = await queryInfo
+                            let queryGeoInfo = new Promise(async (resolve, reject) => {
+                                con.query("select location, destination from activeDriver where driver_id='"+row.driver_id+"';", async (err, queryGeoInfo) => {
+                                    if(err) {
+                                        console.log("Could not pass query")
+                                        json.msg = "Could not pass query";
+                                        reject(json)
+                                        throw err;
+                                    }
+                                    resolve(queryGeoInfo)
+                                })})
+                            let geoInfo = await queryGeoInfo
                             const driver = {
                                 driver_id: row.driver_id, 
                                 registration: row.registration, 
                                 heuristic: heuristic,
                                 first_name: info[0].first_name, 
                                 last_name: info[0].last_name,
-                                image: info[0].image
+                                image: info[0].image,
+                                location: geoInfo[0].location,
+                                destination: geoInfo[0].destination,
+                                eta: pickupETA
                             }
                             res(driver)
                         })
@@ -73,18 +87,36 @@ module.exports = {
         });
     },
 
-    // Adds a new driver to the available driver list
+    // Adds a new driver to the available driver list if already exists deletes
+    // and updates other info.
     addDriver(body, result) {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
-            con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
-                if(err) throw err;
-                console.log("Active driver created with sid: " + body.sid);
-                json.msg = "Driver Succesfully Added";
-                result(json);
-            });
+
+            let duplicate = new Promise((resolve) => {
+                const driver = { driver_id: body.sid, location: body.location, destination: body.destination, registration: body.registration, capacity: body.capacity };
+                con.query("SELECT driver_id FROM activeDriver WHERE driver_id='"+body.sid+"';", (err, rows) => {
+                    if(err) throw err;
+                    if (rows.length > 0) {
+                        con.query("DELETE FROM activeDriver WHERE driver_id='"+body.sid+"';", (err, row) => {
+                            if(err) throw err;
+                            console.log("Duplicate driver removed sid: "+body.sid);
+                            resolve(driver)
+                        });
+                    } else {
+                        resolve(driver)
+                    }
+                })
+            }).then(driver => {
+                con.query('INSERT INTO activeDriver SET ?', driver, (err, response) => {
+                    if(err) throw err;
+                    console.log("Active driver created with sid: " + driver.driver_id);
+                    json.msg = "Driver Succesfully Added";
+                    result(json);
+                })
+            })
+
         });
     },
 
@@ -93,7 +125,7 @@ module.exports = {
         var json = {};
         pool.getConnection(function(err, con) {
             if (err) throw err;
-            con.query("DELETE FROM activeDriver WHERE driver_sid='" + body.sid + "';", (err, row) => {
+            con.query("DELETE FROM activeDriver WHERE driver_id='" + body.sid + "';", (err, row) => {
                 if(err) throw err;
                 console.log("Active driver removed sid: " + body.sid);
                 json.msg = "Driver Succesfully Removed";
