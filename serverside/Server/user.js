@@ -30,7 +30,7 @@ module.exports = {
                 } else {
                     // Log in user and send user details to app
                     console.log("Successful login for " + body.sid);
-                    con.query("SELECT sid, phone, first_name, last_name, email, image FROM user where sid='" + body.sid +"';" , (err, rows) => {
+                    con.query("SELECT sid, phone, first_name, last_name, email, image, tokens FROM user where sid='" + body.sid +"';" , (err, rows) => {
                         if (err) throw err;
                         const authToken = generateAuthenticationToken(body.sid);
                         console.log("Auth token generated");
@@ -40,6 +40,7 @@ module.exports = {
                         json.phone = rows[0].phone;
                         json.sid = rows[0].sid;
                         json.auth_token = authToken;
+                        json.tokens = rows[0].tokens,
                         json.msg = "Successful Login";
                         result(json);
                     });
