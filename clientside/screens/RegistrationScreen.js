@@ -13,6 +13,7 @@ import { COLORS, BOX } from "../stylesheets/theme";
 import { useNavigation } from "@react-navigation/core";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 import { RegistrationFailureAlert, RegisrationSuccessfulAlert, RegistrationSuccessfulAlert } from "../components/alerts/RegistrationAlert";
+import BackButton from "../components/BackButton";
 
 export class RegistrationScreen extends Component {
 	constructor(props) {
@@ -103,6 +104,7 @@ export class RegistrationScreen extends Component {
 					paddingTop: 50,
 				}}
 			>
+				<BackButton/>
 				<View style={{ height: "40%", width: "100%", padding: 20 }}>
 					<Image
 						style={{

@@ -7,7 +7,9 @@ const initialState = {
     email: null,
     phone: null,
     authentication_token: null,
-}
+    profile_image: null,
+    tokens: 0,
+};
 
 export const userSlice = createSlice({
     name: "profile", 
@@ -31,6 +33,12 @@ export const userSlice = createSlice({
         setAuthentication: (state, action) => {
             state.authentication_token = action.payload;
         },
+        setTokens: (state, action) => {
+            state.tokens = action.payload;
+        },
+        setProfileImage: (state, action) => {
+            state.profile_image = action.payload;
+        },
         clearAuthentication: (state) => {
             state.authentication_token = null;
         }
@@ -38,7 +46,7 @@ export const userSlice = createSlice({
 });
 
 export const { setSID, setFirst, clearAuthentication,
-    setLast, setEmail, setPhone, setAuthentication} = userSlice.actions;
+    setLast, setEmail, setPhone, setAuthentication, setTokens, setProfileImage} = userSlice.actions;
 
 // Selectors
 export const selectSID = (state) => state.user.sid;
@@ -47,5 +55,7 @@ export const selectLast = (state) => state.user.last_name;
 export const selectEmail = (state) => state.user.email;
 export const selectPhone = (state) => state.user.phone;
 export const selectAuthentication = (state) => state.user.authentication_token;
+export const selectTokens = (state) => state.user.tokens;
+export const selectProfileImage = (state) => state.user.profile_image;
 
 export default userSlice.reducer;

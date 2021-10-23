@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
-import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE, box } from "../stylesheets/theme";
 import { Icon } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
@@ -89,8 +89,8 @@ const BecomeDriverModalButton = () => {
     }
 
     return (
-		<TouchableOpacity style={styles.button} onPress={toggleModal}>
-			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
+		<TouchableOpacity style={[box.base, styles.sessionButtons]} onPress={toggleModal}>
+			<Text style={styles.sessionButtonsText}>
 				Be A Driver
 			</Text>
 			<BecomeDriverModal/>
@@ -115,6 +115,16 @@ const styles = StyleSheet.create({
 		padding: 15,
 		paddingTop: 5,
 	},
+    sessionButtons: {
+        backgroundColor: COLORS.primary,
+        marginHorizontal: 15,
+    },
+    sessionButtonsText: {
+        fontSize: FONT_SIZE.text,
+        color: "white",
+    },
+
+
 	button: {
 		backgroundColor: COLORS.primary,
 		borderRadius: BOX.borderRadius,

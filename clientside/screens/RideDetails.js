@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import BackButton from '../components/BackButton';
 
 export default class RideDetails extends Component {
 
@@ -31,6 +30,7 @@ export default class RideDetails extends Component {
     return (
         
         <View style={styles.container}>
+            <BackButton/>
             <View>
                 <ImageBackground 
                     style={styles.bImage}

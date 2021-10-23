@@ -39,13 +39,13 @@ const options = [
   {
     id: "rider",
     title: "Be a rider",
-    onPress: () => console.log("be a rider"),
+    button: DriverListModalButton,
     // onPress: () => getDrivers(sid, origin, destination, dispatch,
   },
   {
     id: "driver",
     title: "Be a driver",
-    onPress: () => console.log("be a driver"),
+    button: BecomeDriverModalButton,
   },
 ];
 
@@ -173,18 +173,10 @@ const SessionOptions = () => {
           horizontal
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[box.base, styles.sessionButtons]}
-                onPress={item.onPress}
-                >
-              <View>
-                <Text style={styles.sessionButtonsText}>{item.title}</Text>
-              </View>
-            </TouchableOpacity>
+            <item.button/>
           )}
         />
       </View>
-      <DriverListModalButton/>
-      <BecomeDriverModalButton/>
     </View>
   );
 };
