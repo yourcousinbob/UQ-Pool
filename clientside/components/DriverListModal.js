@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
-import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE, box } from "../stylesheets/theme";
 import { colors, Icon } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
@@ -121,8 +121,8 @@ const DriverListModalButton = () => {
     }
 
     return (
-		<TouchableOpacity style={styles.button} onPress={() => getDrivers(sid, origin, destination, dispatch)}>
-			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
+		<TouchableOpacity style={[box.base, styles.sessionButtons]} onPress={() => getDrivers(sid, origin, destination, dispatch)}>
+			<Text style={styles.sessionButtonsText}>
 				Be A Rider
 			</Text>
 			<DriverListModal/>
@@ -153,6 +153,16 @@ const styles = StyleSheet.create({
 		padding: 15,
 		marginBottom: 10,
 	},
+    sessionButtons: {
+        backgroundColor: COLORS.primary,
+        marginHorizontal: 15,
+    },
+    sessionButtonsText: {
+        fontSize: FONT_SIZE.text,
+        color: "white",
+    },
+
+
 	modalHeader: {
         textAlign: 'center',
 		fontSize: FONT_SIZE.heading3,
