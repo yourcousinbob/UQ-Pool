@@ -7,7 +7,8 @@ const initialState = {
     location: null,
     travelTimeInformation: null,
     driver: null,
-    status: UserStatus.Waiting
+    status: UserStatus.Waiting,
+    chatMessages: []
 }
 
 export const sessionSlice = createSlice({
@@ -32,11 +33,14 @@ export const sessionSlice = createSlice({
         setStatus: (state, action) => {
             state.status = action.payload;
         },
+        setChatMessages: (state, action) => {
+            state.chatMessages = action.payload
+        }
     }
 });
 
 export const { setOrigin, setDestination, setLocation,
-    setTravelTimeInformation, setDriver, setStatus } = sessionSlice.actions;
+    setTravelTimeInformation, setDriver, setStatus, setChatMessages } = sessionSlice.actions;
 
 // Selectors
 export const selectOrigin = (state) => state.session.origin;
@@ -44,6 +48,7 @@ export const selectDestination = (state) => state.session.destination;
 export const selectLocation = (state) => state.session.location;
 export const selectTravelTimeInformation = (state) => state.session.travelTimeInformation;
 export const selectDriver = (state) => state.session.driver;
-export const selectStatus = (state) => state.session.driver;
+export const selectStatus = (state) => state.session.status;
+export const selectChatMessages = (state) => state.session.chatMessages;
 
 export default sessionSlice.reducer;
