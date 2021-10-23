@@ -12,7 +12,9 @@ import {
 	ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 import BackButton from "../components/BackButton";
+import { selectSID } from "../slices/userSlice";
 import { box, BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 
 const Redeem = () => {
@@ -24,6 +26,9 @@ const Redeem = () => {
 };
 
 const RewardsHeader = () => {
+	const points = useSelector(selectTokens)
+	const sid = useSelector(selectSID)	
+
 	return (
 		<View style={styles.header}>
 			<SafeAreaView style={{ width: Dimensions.get("window").width }}>
@@ -41,7 +46,7 @@ const RewardsHeader = () => {
 				<View style={{ height: "40%", display: "flex", alignItems: "center" }}>
 					<View style={[box.shadows, styles.pointsDisplay]}>
 						<Text style={{ fontSize: FONT_SIZE.text, color: "white" }}>
-							Points: 80
+							Points: {points}
 						</Text>
 					</View>
 				</View>
@@ -52,6 +57,7 @@ const RewardsHeader = () => {
 
 const RewardScreen = () => {
 	const [rewards, setRewards] = useState(null);
+
 
 	useEffect(() => {
 		const getRewards = async () => {
