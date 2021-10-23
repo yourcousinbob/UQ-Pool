@@ -147,7 +147,7 @@ app.get('/rewards', async(req, res) => {
     });
 });
 
-app.post('/rewards', async(req, res) => {
+app.post('/points', async(req, res) => {
     reward.getPoints(req.body, function (payload) {
         res.send(payload);
     });
@@ -176,7 +176,6 @@ webhooks requiring persistent connections
 */
 
 io.on('connection', async (socket) => {
-    console.log('a user connected');
 
     // User section
     // Broadcasting user has logged in or out
@@ -261,23 +260,14 @@ io.on('connection', async (socket) => {
     });
 
     //User has accepted a driver
-    socket.on('accept', (body, request) => {
-
-        if (body.sid in connected) {
-            if (driver_id in pools) {
-                pool[driver_id].push(body.sid)
-            } else {
-                pool[driver_id] = [body.sid]
-            };
-            //TODO: Validate driver and car wants pickup 
-            book.acceptPickup(body, function (payload) {
-                console.log("User accepted driver " + body.sid);
-                connected[body.driver].emit('confirm', payload);
-                connected[body.sid].emit('confirm', payload);
-            });
-        } else {
-            console.log("That user does not exist");
-        };
+    //Add both drivers 
+    socket.on('accept', (body, result) => {
+        let msg = JSON.parse(body)
+        connected[msg.driver_id].join(String(msg.driver_id));
+        connected[msg.rider_id].join(String(msg.driver_id));
+        pools[String(msg.driver_id)] = String(msg.driver_id)
+	console.log("pool created for " + msg.driver_id)
+        io.to(pools[String(msg.driver_id)]).emit('join', (body))
    });
 
    //Driver
@@ -306,13 +296,20 @@ io.on('connection', async (socket) => {
 
    //Send message to a pool chat
    socket.on('sendMessage', (body, request) => {
-        if (body.sid in pools[body.driverSid]) {
-            chat.sendMessage(body, function (payload) {
-                pool[body.driverSid].emit('message', payload);
-            });
-        } else {
-            console.log("Invalid chat room")
-        };
+	let msg = JSON.parse(body)
+	console.log("Message Sent")
+	console.log(msg)
+        io.to(pools[String(msg.driver_id)]).emit("sendMessage", JSON.stringify(msg));
+	console.log(pools[msg.driver_id])
     });
 
+   socket.on('disconnect', () => {
+        for (const sid in connected){
+            if (connected[user] == socket) {
+                delete connected[socket]
+                console.log(sid + "disconnected")
+            }
+        }
+    })
 });
+
