@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	TextInput,
+	Linking,
 } from "react-native";
 import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
@@ -15,11 +16,17 @@ import { useNavigation } from "@react-navigation/core";
 
 
 
-
 const GoogleMapsButton = () => {
 
 	function openGoogleMaps() {
-		console.log("google maps called")
+		const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+		const latLng = `${-27.512802},${153}`;
+		const label = 'Custom Label';
+		const url = Platform.select({
+	  		ios: `${scheme}${label}@${latLng}`,
+	  		android: `${scheme}${latLng}(${label})`
+		});
+		Linking.openURL(url)
 	}
 
 	return (
