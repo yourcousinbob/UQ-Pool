@@ -42,7 +42,7 @@ class SocketConnection {
                         break
 
                     case "get":
-                        resolve(body)
+                        resolve(data)
                         break
 
                     case "cancel":
@@ -59,10 +59,17 @@ class SocketConnection {
                         break
                     
                     case "ask":
-                        resolve(body)
+                        resolve(data)
                         break;
                     case "removeDriver":
                         console.log(data.msg)
+                        break
+                    case "join":
+                        resolve(data)
+                        break
+
+                    case "sendMessage":
+                        resolve(data)
                         break
                 }
             })
