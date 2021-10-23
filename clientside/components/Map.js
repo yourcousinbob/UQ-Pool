@@ -22,7 +22,7 @@ export default function Map() {
 		    setLatitude(location.coords.latitude);
 		    setLongitude(location.coords.longitude);
     	}
-    }, [origin, destination]);
+    }, [origin, destination, location]);
 
     const animateMap = () => {
         mapRef.current.animateToRegion({

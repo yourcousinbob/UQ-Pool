@@ -13,6 +13,7 @@ import RiderRequestModel from "../components/RiderRequestModal";
 
 import ChatButton from "../components/ChatButton";
 import GoogleMapsButton from "../components/GoogleMapsButton";
+import EndTripButton from "../components/EndTripButton"
 import Map from '../components/Map'
 
 import { UserStatus } from "../enums/UserStatus";
@@ -30,6 +31,7 @@ export default function HomeScreen() {
 		<View style={styles.bubble}>
 			<ChatButton/>
 			<GoogleMapsButton/>
+			<EndTripButton/>
 			<Text>On a Ride</Text>
 		</View>
 		: 
