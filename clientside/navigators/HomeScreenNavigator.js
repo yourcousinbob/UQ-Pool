@@ -11,6 +11,7 @@ import RewardScreen from '../screens/RewardScreen';
 import BecomeDriverScreen from '../screens/BecomeDriverScreen';
 import ProfilePage from '../screens/ProfilePage';
 import RideDetails from '../screens/RideDetails';
+import RideHistory from '../screens/RideHistory';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSID } from '../slices/userSlice';
@@ -35,7 +36,8 @@ export default function HomeScreenNavigator() {
         drawerContent={props => <CustomDrawerContent {...props} />}
         screenOptions={{headerShown: false}} >
             <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Ride History" component={RideDetails} />
+            <Drawer.Screen name="Ride Details" component={RideDetails} />
+            <Drawer.Screen name="Ride History" component={RideHistory} />
             <Drawer.Screen name="Reward" component={RewardScreen} />
             <Drawer.Screen name="Support" component={SupportScreen} />
             <Drawer.Screen name="Become A Driver" component={BecomeDriverScreen} />

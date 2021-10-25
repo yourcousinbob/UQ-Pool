@@ -3,6 +3,10 @@ import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, F
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BackButton from '../components/BackButton';
 
+
+
+
+
 export default class RideDetails extends Component {
 
     constructor(props) {
@@ -26,12 +30,13 @@ export default class RideDetails extends Component {
 
 
 
+
   render() {
     return (
         
         <View style={styles.container}>
             <BackButton/>
-            <View>
+            <View style={styles.container3}>
                 <ImageBackground 
                     style={styles.bImage}
                     source={require('../assets/map.png')}>  
@@ -42,7 +47,7 @@ export default class RideDetails extends Component {
 
 
         
-            <FlatList style={styles.list}
+            <FlatList style={styles.list, styles.container2}
                 data={this.state.data}
                 contentContainerStyle={styles.listContainer}
                 numColumns={1}
@@ -90,7 +95,7 @@ export default class RideDetails extends Component {
                 }}/>
 
 
-            <FlatList style={styles2.list, styles2.container}
+            <FlatList style={styles2.list, styles.container4}
                 data={this.state.data}
                 contentContainerStyle={styles2.listContainer}
                 numColumns={1}
@@ -132,16 +137,33 @@ export default class RideDetails extends Component {
 
 /*Style sheet1, so bottom container of page aka driver details */
 const styles = StyleSheet.create({
-
+    //used to square backButton
     container:{
         flex:1,
-        marginTop:180,
+        marginTop:3,
     },
+    //driver details container
+    container2:{
+        flex:1,
+        marginTop:220,
+    },
+    //bIMG
+    container3:{
+        flex:1,
+        marginTop:220,
+    },
+    //ride detail container
+    container4:{
+        flex:1,
+        position:'absolute', top:290
+    },
+    
 
     /* padding between card and edge of screen */
     list: {
         paddingHorizontal: 6,
         backgroundColor:"#f3f2f2",
+        //position:'absolute',top:10
     },
     listContainer:{
         alignItems:'center',
@@ -242,7 +264,7 @@ const styles = StyleSheet.create({
     driverText:{
         color: "black",
         fontSize: 22,
-        position:'absolute', top:310,left:35,
+        position:'absolute', top:580,left:35,
         fontWeight:'bold',
     },
 
