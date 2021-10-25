@@ -5,4 +5,5 @@ export const UserStatus = {
     Waiting: 'Waiting',
     Driving: 'Driving',
     Riding: 'Riding',
+    Idle: 'Idle'
   };
