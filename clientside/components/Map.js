@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect ,useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useSelector } from "react-redux";
@@ -27,6 +27,7 @@ export default function Map() {
 		    setLongitude(location.coords.longitude);
     	}
     }, [origin, destination, location]);
+
 	const animateMap = () => {
 		mapRef.current.animateToRegion(
 			{
@@ -75,7 +76,6 @@ export default function Map() {
 					}}
 				/>
 			)}
-
 			{origin?.location && (
 				<Marker
 					coordinate={{
@@ -103,6 +103,7 @@ export default function Map() {
 	);
 }
 
+//stylesheet
 const styles = StyleSheet.create({
 	map: {
 		width: "100%",

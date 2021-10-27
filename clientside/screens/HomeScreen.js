@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
 import { BOX, FONT_SIZE } from "../stylesheets/theme";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +27,9 @@ import Map from '../components/Map'
 import { UserStatus } from "../enums/UserStatus";
 import { selectFirst, selectSID } from "../slices/userSlice";
 
+/**
+ * App's Home Screen
+ */
 export default function HomeScreen() {
 	const [latitude, setLatitude] = useState(-27.497);
 	const [longitude, setLongitude] = useState(153.0134);
@@ -66,6 +68,7 @@ export default function HomeScreen() {
 	const origin = useSelector(selectOrigin);
 	const destination = useSelector(selectDestination);
 
+	//testing
 	let base_rider = {
 		first_name: "Bob",
 		last_name: "Melhem ducj",
@@ -79,15 +82,17 @@ export default function HomeScreen() {
 		useState(false);
 	let [rider, setRider] = useState(base_rider);
 
+	//action of getting a message
 	function getMessage() {
-		connection.recievePayload("ask").then((payload) => {
-			setRider(payload);
-			setRiderRequestModalVisible(true);
-			getMessage();
-			("ask driver to join pool lmao");
-		});
+		connection.recievePayload('ask').then( payload => {
+			setRider(payload)
+			setRiderRequestModalVisible(true)
+			getMessage()
+			"ask driver to join pool"
+		})
 	}
 
+	//action of receiving driver 'pool'
 	function getPool(dispatch, sid) {
 		connection.recievePayload("join").then((payload) => {
 			let driver = {
@@ -110,6 +115,7 @@ export default function HomeScreen() {
 		});
 	}
 
+	//run following commands
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -131,18 +137,14 @@ export default function HomeScreen() {
 
 	return (
 		<View style={{ flex: 1 }}>
-			<RiderRequestModel
-				open={isRiderRequestModalVisible}
-				setModalVisible={setRiderRequestModalVisible}
-				rider={rider}
-			/>
-			<HamburgerButton />
-			<Map />
-			{TripMenu}
-		</View>
+			<RiderRequestModel open={isRiderRequestModalVisible} setModalVisible={setRiderRequestModalVisible} rider={rider}/>
+			<HamburgerButton/>
+            <Map/>{TripMenu}
+        </View>
 	);
-}
-
+}		
+			
+//stylesheet
 const styles = StyleSheet.create({
 	map: {
 		width: "100%",

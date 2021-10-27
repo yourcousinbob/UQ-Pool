@@ -5,12 +5,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Icon } from "react-native-elements";
 import { CommonActions } from "@react-navigation/native";
 
+/**
+ * This creates a back button, when
+ * clicked navigates the user to the
+ * previous page.
+ */
 const BackButton = () => {
+	//needed to navigate through pages
 	const navigation = useNavigation();
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<Pressable onPress={() => navigation.dispatch(CommonActions.goBack())}>
+				{/*Icon is a left arrow */}
 				<Icon
 					type='ionicon'
 					name='chevron-back-outline'
@@ -23,6 +30,7 @@ const BackButton = () => {
 	);
 };
 
+//allows us to import into other pages
 export default BackButton;
 
 const styles = StyleSheet.create({
@@ -30,7 +38,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 0,
 		left: 0,
-		zIndex: 9999,
+		zIndex: 9999, //needed for ios systems
 		
 	},
 	button: {
@@ -45,6 +53,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 8,
 		shadowColor: "gray",
-		elevation: 5,
+		elevation: 5, //needed for android systems
 	},
 });

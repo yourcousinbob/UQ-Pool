@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { TextInput, StyleSheet, View } from 'react-native'
-import ThemedListItem from 'react-native-elements/dist/list/ListItem';
-import { COLORS, BOX } from '../stylesheets/theme'
 
+/**
+ * Checks the validity of text based on attributes,
+ * such as text size and key words
+ */
 export default class ValidatedTextInput extends Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ export default class ValidatedTextInput extends Component {
         onChangeText(input);
         onValidation(isValid);
         
+        //if valid display green, else red
         if (!isValid) {
             this.state.style = [style, {borderColor: "red"}]
         } else {

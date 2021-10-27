@@ -11,7 +11,7 @@ import { selectOrigin, selectDestination, setStatus , setDriver, selectDriver} f
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
-
+//driver details
 let driver_list = [
     {
         first_name: "Bob",
@@ -25,6 +25,10 @@ let driver_list = [
     },
 ];
 
+/**
+ * 
+ * 
+ */
 const DriverListModalButton = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const toggleModal = () => {
@@ -36,8 +40,15 @@ const DriverListModalButton = () => {
     const origin = useSelector(selectOrigin);
     const sid = useSelector(selectSID);
 
+    //testing
+    /**
+     * Fetches the list of drivers from backend
+     * @param {String} sid UQ student ID
+     * @param {String} location starting location address
+     * @param {String} destination end location address
+     * @param {any} dispatch dispatch function
+     */
     async function getDrivers(sid, location, destination, dispatch) {
-
         connection = SocketConnection.getConnection();
         let data = ({
             sid: sid,
@@ -52,6 +63,14 @@ const DriverListModalButton = () => {
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
+    /**
+     * Action of requesting a driver
+     * @param {String} sid UQ student ID
+     * @param {String} driver_id Unique Driver ID
+     * @param {String} origin starting location address
+     * @param {String} destination end location address
+     * @param {any} dispatch dispatch function
+     */
     async function requestDriver(sid, driver, origin, destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
@@ -64,9 +83,10 @@ const DriverListModalButton = () => {
         dispatch(setDriver(driver))
     };
 
+    /**
+     * Frontend display of available drivers
+     */
     function DriverListModal() {
-        
-
         return (
             <View>
                 <Modal
@@ -133,6 +153,7 @@ const DriverListModalButton = () => {
 	);
 }
 
+//allows us to import to other pages
 export default DriverListModalButton;
 
 const styles = StyleSheet.create({

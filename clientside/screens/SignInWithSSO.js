@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { COLORS, BOX } from "../stylesheets/theme";
-import SSOWebView from "../components/SSOWebView.js";
 
-function SingInButton() {
-        
+//button functionality
+function SignInButton() {
 	return (
 		<TouchableOpacity
 			onPress={() => console.log("go into sso")}
@@ -15,6 +14,7 @@ function SingInButton() {
 	);
 }
 
+//frontend page design
 const SignInWithSSO = () => {
 	return (
 		<View style={styles.view}>
@@ -38,14 +38,16 @@ const SignInWithSSO = () => {
 					paddingVertical: 25,
 				}}
 			>
-				<SingInButton />
+				<SignInButton />
 			</View>
 		</View>
 	);
 };
 
 export default SignInWithSSO;
+//allows us to import to other pages
 
+//stylesheet
 const styles = StyleSheet.create({
 	view: {
 		backgroundColor: COLORS.primary,

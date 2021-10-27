@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import BackButton from '../components/BackButton';
 
-
-
-
-
+/**
+ * App's Ride Details page
+ */
 export default class RideDetails extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             data: [
-                /*can only get images to work with links, not through assets folder */
                 {id:1, title: "James Robins" , rating: "4.20",
-                startingLocation:"1 Underhill Street, St Luciaaaaaaa" + "\n", endingLocation:"2 Underhill Street, St Luciaaaaaaaaaaaaaaaaaaaaa  ",
+                startingLocation:"1 Underhill Street, St Lucia, Queensland" + "\n", endingLocation:"2 Underhill Street, St Lucia, Queensland",
                 startingTime:"12:38", endingTime:"14:28", 
                 avatar:"https://i.gyazo.com/04338e95abcdeafd86c9d5450dbefcea.png"},
             ]
         };
     }
 
-
+    //action when button is pressed
     Redeem = () => {
         Alert.alert('Success', 'Hi')
         /**/
@@ -31,19 +27,18 @@ export default class RideDetails extends Component {
 
 
 
-  render() {
-    return (
-        
-        <View style={styles.container}>
-            <BackButton/>
-            <View style={styles.container3}>
-                <ImageBackground 
-                    style={styles.bImage}
-                    source={require('../assets/map.png')}>  
-                        <Text style={styles.textTitle}>Ride Details</Text>
-                </ImageBackground>
-            </View>   
-            <Text style={styles.driverText}>Driver</Text>
+    render() {
+        return (
+            <View style={styles.container}>
+                <BackButton/>
+                <View style={styles.container3}>
+                    <ImageBackground 
+                        style={styles.bImage}
+                        source={require('../assets/map.png')}>  
+                            <Text style={styles.textTitle}>Ride Details</Text>
+                    </ImageBackground>
+                </View>   
+                <Text style={styles.driverText}>Driver</Text>
 
 
         
@@ -67,32 +62,30 @@ export default class RideDetails extends Component {
                     const item = post.item;
                     return (
                         <View style={styles.items}>
-               
                             <View style={styles.itemHead}>
                                 <View>
                                     <Text style={styles.title}>{item.title}</Text>
                                     <Image style={styles.starImage} source={require("../assets/star.png")}/>
                                     <Text style={styles.rating}>{item.rating}</Text>
-                    
+    
                                     {/*Top line gathers image from assests/local folders. Bottom line from URL */}
                                     {/*<Image style={styles.avatarImage} source={require("../assets/exampleAvatar.png")}/>*/}
                                     <Image style={styles.avatarImage} source={{uri:item.avatar}}/> 
-
                                 </View>
                             </View>
-                
                             <View style={styles.itemFooter}>
                                 <View style={styles.barContainer}>
                                     <View style={styles.barSection}>
                                         <TouchableOpacity style={styles.barButton} onPress={() => this.Redeem()}>
                                             <Image style={styles.arrow} source={require('../assets/arrow.png')}/>
-                                         </TouchableOpacity>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
                         </View>
                     )
-                }}/>
+                }}
+            />
 
 
             <FlatList style={styles2.list, styles.container4}
@@ -110,12 +103,10 @@ export default class RideDetails extends Component {
                 <View style={styles2.verticalSeparator}/>
                 )
                 }}
-
                 renderItem={(post) => {
                     const item = post.item;
                     return (
                         <View style={styles2.items}>
-               
                             <View style={styles2.itemHead}>
                                 <View>
                                     <Image style={styles2.dotArrow} source={require("../assets/dotArrow.png")}/>
@@ -123,16 +114,15 @@ export default class RideDetails extends Component {
                                     <Text style={styles2.endingTimeText}>{item.endingTime}</Text>
                                     <Text style={styles2.title}>{item.startingLocation} </Text>
                                     <Text style={styles2.title}>{item.endingLocation}</Text>
-                    
                                 </View>
                             </View>
                         </View>
                     )
-                }}/>
-        </View>    
-    );
-  }
-
+                }}
+            />
+            </View>    
+        );
+    }
 }
 
 /*Style sheet1, so bottom container of page aka driver details */
@@ -192,7 +182,7 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingHorizontal: 19,
     },
-  
+
     /* Individual item elements */
     title:{
         fontSize:20,
@@ -270,8 +260,7 @@ const styles = StyleSheet.create({
 
 });
 
-
-/********************style 2********************************* */
+/*************style 2************ */
 const styles2 = StyleSheet.create({
     container:{
         flex:1,
@@ -281,7 +270,7 @@ const styles2 = StyleSheet.create({
     
     /****** item box design**********/
     items:{
-      /*padding between boxes */
+        /*padding between boxes */
         marginVertical: 1,
         backgroundColor:"white",
         flexBasis: '48%',
@@ -316,7 +305,6 @@ const styles2 = StyleSheet.create({
 
     //arrow and dot image
     dotArrow:{
-        
         position:'relative', left: 10, top:60
         },
 

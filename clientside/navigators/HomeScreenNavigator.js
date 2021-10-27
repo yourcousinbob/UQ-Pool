@@ -27,10 +27,12 @@ function CustomDrawerContent(props) {
     );
 }
 
+/**
+ * App navigation options from homepage
+ */
 export default function HomeScreenNavigator() {
     const Drawer = createDrawerNavigator();
     return (
-        
         <Drawer.Navigator 
         initialRouteName="Home" 
         drawerContent={props => <CustomDrawerContent {...props} />}

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//initialising
 const initialState = {
     sid: null,
     first_name: null,
@@ -11,6 +12,7 @@ const initialState = {
     tokens: 0,
 };
 
+//slicing
 export const userSlice = createSlice({
     name: "profile", 
     initialState,
@@ -58,4 +60,5 @@ export const selectAuthentication = (state) => state.user.authentication_token;
 export const selectTokens = (state) => state.user.tokens;
 export const selectProfileImage = (state) => state.user.profile_image;
 
+//allows us to import to other pages
 export default userSlice.reducer;

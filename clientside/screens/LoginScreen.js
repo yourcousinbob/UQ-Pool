@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Image, SafeAreaView, Text, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import { COLORS, BOX } from "../stylesheets/theme";
 import ValidatedTextInput from "../components/ValidatedTextInput";
-import { useDispatch, MapDispatchToProps, connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import userSlice, { selectAuthentication, setAuthentication, setFirst, setLast, setEmail, setPhone, setSID, setTokens } from "../slices/userSlice";
+import { setAuthentication, setFirst, setLast, setEmail, setPhone, setSID, setTokens } from "../slices/userSlice";
 import SocketConnection from "../socket.js";
 import { LoginFailureAlert } from "../components/alerts/LoginAlert";
 
+/**
+ * Registration button actions
+ */
 function RegistrationButton() {
     const navigation = useNavigation();
-  
     return (
         <TouchableOpacity 
         onPress={() => navigation.navigate("RegistrationScreen")}
@@ -25,8 +27,9 @@ function RegistrationButton() {
     );
 }
 
-
-
+/**
+ * App's login screen 
+ */
 export class LoginScreen extends Component {
 
     constructor(props) {
@@ -44,11 +47,11 @@ export class LoginScreen extends Component {
     If so, don't render and just go straight to initial page
     else render    
     */
-
     componentDidMount() {}
 
+    //actions of logging in
+    //checking if all fields are correct
     async loginUser() {
-
         // Check that all fields are valid
         if (!(this.state.validSid)) {
             console.log("Invalid Student ID Format");
@@ -89,110 +92,93 @@ export class LoginScreen extends Component {
                 // Switch to the initial state of the app
             }
 
-
-        } catch (error) {
+            //error handling
+        } 
+        catch (error) {
             console.log("Caught Error")
-            console.log(error);
-            
-        } finally {
+            console.log(error);  
+        } 
+        finally {
             // Just in case this is required
         }
     }
-  
-  render() {
 
-    return (
-			<View style={{ backgroundColor: COLORS.primary, height: "100%" }}>
-				<View
-					style={{ display: "flex", flexDirection: "column", paddingTop: 50 }}
-				>
-					<View style={{ height: "40%", width: "100%", padding: 20 }}>
-						<Image
-							style={{
-								resizeMode: "contain",
-								height: "100%",
-								width: "100%",
-							}}
-							source={require("../assets/stacked_logo.png")}
-						/>
-					</View>
+//render frontend elements
+    render() {
 
-					<View
-						style={{
-							height: "60%",
-							width: "100%",
-							backgroundColor: "white",
-							borderTopStartRadius: 20,
-							borderTopEndRadius: 20,
-							paddingVertical: 25,
-						}}
-					>
-						<Image
-							style={{
-								resizeMode: "contain",
-								height: "30%",
-								width: "100%",
-							}}
-							source={require("../assets/UQ_Auth.png")}
-						/>
-						<ValidatedTextInput
-							style={styles.input}
-							onChangeText={(sid) => {
-								this.setState({ sid });
-							}}
-							placeholder='UQ Username'
-							value={this.state.sid}
-							//pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
-							//pattern={'^(s|uq)\d{7}$'}
-							pattern={"^[0-9]{8}$"}
-							onValidation={(validSid) => this.setState({ validSid })}
-						/>
+        return (
+            <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
+                <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
+                    <View style={{height: "55%", width: "100%", padding: 20}}>
+                        <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: "90%",
+                                width: "100%"
+                            }}
+                            source={
+                                require('../assets/loginPicture.png')
+                            }
+                        />
+                    </View>
+                    <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
+                        <ValidatedTextInput
+                            style={styles.input}
+                            onChangeText={sid => {this.setState({sid})}}
+                            placeholder="Student ID"
+                            value={this.state.sid}
+                            //pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
+                            //pattern={'^(s|uq)\d{7}$'}
+                            pattern={'^[0-9]{8}$'}
+                            onValidation={validSid => this.setState({validSid})}
+                        />
+                    
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={password => {this.setState({password})}}
+                            placeholder="Password"
+                            value={this.state.password}
+                            secureTextEntry={true}
+                        />
+                        <TouchableOpacity 
+                            onPress={() => this.loginUser()}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>
+	    		            Login
+                            </Text>
+                        </TouchableOpacity>
+                        <RegistrationButton/>
+                    </View>
+                </View>
+            </View>
+        );
+    }};
 
-						<TextInput
-							style={styles.input}
-							onChangeText={(password) => {
-								this.setState({ password });
-							}}
-							placeholder='Password'
-							value={this.state.password}
-							secureTextEntry={true}
-						/>
-						<TouchableOpacity
-							onPress={() => this.loginUser()}
-							style={styles.button}
-						>
-							<Text style={styles.buttonText}>Login</Text>
-						</TouchableOpacity>
-						<RegistrationButton />
-					</View>
-				</View>
-			</View>
-		);
-}};
-
+//dispatching details
 const mapDispatchToProps = (dispatch) => {
-  return {
-    setAuthentication: (authentication_token) =>
-      dispatch(setAuthentication(authentication_token)),
+    return {
+        setAuthentication: (authentication_token) =>
+            dispatch(setAuthentication(authentication_token)),
 
-    setSID: (sid) =>
-      dispatch(setSID(sid)),
+        setSID: (sid) =>
+            dispatch(setSID(sid)),
 
-    setFirst: (first_name) =>
-      dispatch(setFirst(first_name)),
+        setFirst: (first_name) =>
+            dispatch(setFirst(first_name)),
 
-    setLast: (last_name) =>
-      dispatch(setLast(last_name)),
+        setLast: (last_name) =>
+            dispatch(setLast(last_name)),
 
-    setPhone: (phone) =>
-      dispatch(setPhone(phone)),
+        setPhone: (phone) =>
+            dispatch(setPhone(phone)),
 
-    setEmail: (email) =>
-      dispatch(setEmail(email)),
+        setEmail: (email) =>
+            dispatch(setEmail(email)),
 
-    setTokens: (tokens) =>
-      dispatch(setTokens(tokens)),
-  };
+        setTokens: (tokens) =>
+            dispatch(setTokens(tokens)),
+    };
 };
 
 
@@ -202,8 +188,10 @@ function mapStateToProps(state) {
     }
 }
 
+//allows us to import to other pages
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
-  
+
+//stylesheet
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',

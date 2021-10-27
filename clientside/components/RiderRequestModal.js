@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
-import { Icon } from "react-native-elements";
-import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +9,9 @@ import { selectOrigin, selectDestination, setStatus } from "../slices/sessionSli
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
-
+/**
+ * Rider Request actions
+ */
 const RiderRequestModel = (props) => {
 
     const isModalVisible =  props.open
@@ -30,6 +30,12 @@ const RiderRequestModel = (props) => {
     const rider_first_name = props.rider.first_name
     const rider_last_name = props.rider.last_name
 
+    /**
+     * sends request to reject rider
+     * @param {String} sid UQ student ID
+     * @param {int} rider_id unique rider ID
+     * @param {any} dispatch dispatch function
+     */
     async function rejectRider(sid, rider_id, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
@@ -41,6 +47,16 @@ const RiderRequestModel = (props) => {
         dispatch(setStatus(UserStatus.WaitingForRider));
     };
 
+    /**
+     * sends request to accept rider
+     * @param {String} sid UQ student ID
+     * @param {String} origin driver starting location
+     * @param {String} destination driver destination address
+     * @param {int} rider_id rider unique ID
+     * @param {String} rider_origin ride starting location address
+     * @param {String} rider_destination rider destination address
+     * @param {any} dispatch dispatch function
+     */
     async function acceptRider(sid, origin, destination, rider_id, rider_origin, rider_destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
@@ -56,6 +72,7 @@ const RiderRequestModel = (props) => {
         dispatch(setStatus(UserStatus.Driving));
     }
 
+    //Front end modal view of rider request
     return (
         <View>
             <Modal

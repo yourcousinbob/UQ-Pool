@@ -70,11 +70,11 @@ const EndTripButton = () => {
                 console.log("Trip cancelled")
                 //Nav to home screen
             }
-            dispatch(setStatus(UserStatus.Waiting))
-            navigation.navigate("Rate")
         } else if (status == UserStatus.Driving) {
             //Add disconnect users
         }
+        dispatch(setStatus(UserStatus.Waiting))
+        navigation.navigate("Rate")
         
 	}
 

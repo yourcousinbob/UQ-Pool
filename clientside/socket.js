@@ -85,6 +85,7 @@ class SocketConnection {
         }
     }
 
+    //action of getting a socket connection
     static getConnection() {
         if(!connection) {
             throw 'No active connection';
@@ -93,4 +94,5 @@ class SocketConnection {
     }
 }
 
+//allows us to import to other pages
 export default SocketConnection;
