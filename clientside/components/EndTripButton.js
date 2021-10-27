@@ -11,30 +11,30 @@ import {
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { selectOrigin, selectDestination, selectLocation , selectDriver} from "../slices/sessionSlice";
+import { selectOrigin, selectDestination, selectLocation } from "../slices/sessionSlice";
 import { selectSID } from "../slices/userSlice";
 import { selectStatus, setStatus } from "../slices/sessionSlice";
 import { UserStatus } from "../enums/UserStatus";
 import fetch from 'node-fetch'; 
-import { Rating } from 'react-native-ratings';
+import { useNavigation } from "@react-navigation/core";
 
 
 const EndTripButton = () => {
     const dispatch = useDispatch();
     const destination = useSelector(selectDestination);
     const location = useSelector(selectLocation);
-    const driver = useSelector(selectDriver);
     const sid = useSelector(selectSID);
     const status = useSelector(selectStatus);
     const latitude = location.coords.latitude
     const longitude = location.coords.longitude
+    const navigation = useNavigation();
 
 	const [isModalVisible, setModalVisible] = useState(false);
 	const toggleModal = () => {
 		setModalVisible(!isModalVisible);
 	};
 
-	async function endTrip() {
+	async function endTrip(navigation) {
         if (status == UserStatus.Riding) {
             let eta = await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&region=au&origins='+latitude+','+longitude+'&destinations='+destination.description+'&key='+GOOGLE_MAPS_API_KEY)
             .then(res => res.json())
@@ -71,38 +71,15 @@ const EndTripButton = () => {
                 //Nav to home screen
             }
             dispatch(setStatus(UserStatus.Waiting))
+            navigation.navigate("Rate")
         } else if (status == UserStatus.Driving) {
             //Add disconnect users
         }
-        return (
-            <View>
-                <Rating
-                    showRating
-                    onFinishRating={ratingCompleted}
-                    style={{ paddingVertical: 10 }}
-                    />
-            </View>
-        );
-
+        
 	}
 
-    async function ratingCompleted(rating) {
-        const postRating = await fetch('https://uqpool.xyz:7777/rate', {
-            method: 'POST',
-            headers: {
-                accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                sid: driver.driver_id,
-                rating: rating
-            })
-        })
-        console.log("User" + sid + "rated driver" + driver.driver_id + " a " + rating)
-    }
-
     return (
-        <TouchableOpacity style={styles.button} onPress={() => endTrip()}>
+        <TouchableOpacity style={styles.button} onPress={() => endTrip(navigation)}>
             <Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
             End Trip
             </Text>
