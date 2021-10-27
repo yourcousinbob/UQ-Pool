@@ -16,6 +16,7 @@ import { selectSID } from "../slices/userSlice";
 import { selectStatus, setStatus } from "../slices/sessionSlice";
 import { UserStatus } from "../enums/UserStatus";
 import fetch from 'node-fetch'; 
+import { Rating } from 'react-native-ratings';
 
 
 const EndTripButton = () => {
@@ -25,9 +26,13 @@ const EndTripButton = () => {
     const driver = useSelector(selectDriver);
     const sid = useSelector(selectSID);
     const status = useSelector(selectStatus);
-    const navigation = useNavigation();
     const latitude = location.coords.latitude
     const longitude = location.coords.longitude
+
+	const [isModalVisible, setModalVisible] = useState(false);
+	const toggleModal = () => {
+		setModalVisible(!isModalVisible);
+	};
 
 	async function endTrip() {
         if (status == UserStatus.Riding) {
@@ -65,23 +70,44 @@ const EndTripButton = () => {
                 console.log("Trip cancelled")
                 //Nav to home screen
             }
-
-            dispatch(setStatus(UserStatus.Idle))
-
+            dispatch(setStatus(UserStatus.Waiting))
         } else if (status == UserStatus.Driving) {
-            
             //Add disconnect users
-            dispatch(setStatus(UserStatus.Idle))
         }
+        return (
+            <View>
+                <Rating
+                    showRating
+                    onFinishRating={ratingCompleted}
+                    style={{ paddingVertical: 10 }}
+                    />
+            </View>
+        );
+
 	}
 
-	return (
-		<TouchableOpacity style={styles.button} onPress={() => endTrip()}>
-			<Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
-                End Trip
-			</Text>
-		</TouchableOpacity>
-	);
+    async function ratingCompleted(rating) {
+        const postRating = await fetch('https://uqpool.xyz:7777/rate', {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sid: driver.driver_id,
+                rating: rating
+            })
+        })
+        console.log("User" + sid + "rated driver" + driver.driver_id + " a " + rating)
+    }
+
+    return (
+        <TouchableOpacity style={styles.button} onPress={() => endTrip()}>
+            <Text style={{ fontSize: FONT_SIZE.heading2, color: "white" }}>
+            End Trip
+            </Text>
+        </TouchableOpacity>
+    );
 };
 
 export default EndTripButton;
