@@ -27,10 +27,6 @@ import { UserStatus } from "../enums/UserStatus";
 import { selectFirst, selectSID } from "../slices/userSlice";
 
 export default function HomeScreen() {
-	const [latitude, setLatitude] = useState(-27.497);
-	const [longitude, setLongitude] = useState(153.0134);
-	const latitudeDelta = 0.005;
-	const longitudeDelta = 0.005;
 	const userStatus = useSelector(selectStatus);
 	connection = SocketConnection.getConnection();
 	const name = useSelector(selectFirst);
@@ -119,10 +115,6 @@ export default function HomeScreen() {
 			});
 
 			dispatch(setLocation(location));
-			getMessage();
-			getPool(dispatch, sid);
-
-			dispatch(setLocation(location));
 			console.log(driver);
 			getMessage();
 			getPool(dispatch, sid);
@@ -142,27 +134,6 @@ export default function HomeScreen() {
 		</View>
 	);
 }
-/*
-			<MapView
-				style={styles.map}
-				showsMyLocationButton={true}
-				showsUserLocation={true}
-				region={{
-					latitude: latitude,
-					longitude: longitude,
-					longitudeDelta: longitudeDelta,
-					latitudeDelta: latitudeDelta,
-				}}
-			>
-				<Marker
-					coordinate={{
-						latitude: latitude,
-						longitude: longitude,
-					}}
-				/>
-				
-			</MapView>
-            */
 
 const styles = StyleSheet.create({
 	map: {
