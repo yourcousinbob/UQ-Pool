@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'; //required to move to another page
+//required to move to another page
+import { useNavigation } from '@react-navigation/native'; 
 
 /**
  * This is a sample button which takes you to another page. 
@@ -15,7 +16,8 @@ const SampleButton = ( {/* Here you can add input variables and use them in your
     
     return (
         <TouchableOpacity 
-            onPress={() => navigation.navigate("HomeScreen")} // change this to whatever screen you want and add screen to App.js
+            // change this to whatever screen you want and add screen to App.js
+            onPress={() => navigation.navigate("HomeScreen")} 
             style={styles.button}
         >
             <Text>This is a sample touchable opacity button.</Text>
@@ -24,9 +26,10 @@ const SampleButton = ( {/* Here you can add input variables and use them in your
         </TouchableOpacity>
     )
 }
-
+//allows this button to be imported to other pages
 export default SampleButton
 
+//styles for the button
 const styles = StyleSheet.create({
     button: {
         backgroundColor: "green",

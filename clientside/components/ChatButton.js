@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	StyleSheet,
 	Text,
-	View,
 	TouchableOpacity,
 	Dimensions,
-	TextInput,
 } from "react-native";
-import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
-import { Icon } from "react-native-elements";
-import SessionOptions from "./SessionOptions";
 import { useNavigation } from "@react-navigation/core";
 
+/**
+ * Creates a button that opens a chat
+ * between driver and riders for a specfic
+ * route.
+ */
 const ChatButton = () => {
-
 	const navigation = useNavigation();
 	return (
 		<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Chat")}>
@@ -25,6 +24,7 @@ const ChatButton = () => {
 	);
 };
 
+//allows us to import to other pages
 export default ChatButton;
 
 const styles = StyleSheet.create({

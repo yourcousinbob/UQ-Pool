@@ -5,9 +5,14 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { useDispatch } from 'react-redux';
 import { setDestination } from '../slices/sessionSlice';
 
+/**
+ * Destination button on homescreen.
+ * When clicked allows the user to select 
+ * starting and end destination, then book a trip
+ * either as a driver or rider
+ */
 const DestinationCard = () => {
     const dispatch = useDispatch();
-
     return (
         <SafeAreaView style={styles.card}>
             <Text style={styles.text}>Good Morning, Nathan</Text>
@@ -18,7 +23,6 @@ const DestinationCard = () => {
                             container: {
                                 flex: 0,
                                 backgroundColor: "white",
-                                // padding: 10,
                             },
                             textInput: {
                                 fontSize:18,
@@ -54,8 +58,10 @@ const DestinationCard = () => {
     )
 }
 
+//allows us to import to other pages
 export default DestinationCard
 
+//stylesheet
 const styles = StyleSheet.create({
     card: {
       flex: 1,

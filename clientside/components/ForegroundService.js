@@ -1,6 +1,7 @@
-/* based on the blog:
+/* Code Influenced from:
 https://javascript.plainenglish.io/react-native-foreground-service-f7fc8e617fba
 */
+
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import RNLocation from 'react-native-location';
 

@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 import { withTheme } from "react-native-elements";
 
+/**
+ * This page lists our apps colour codes
+ * and font sizes, to be used as a reference
+ * in designing elements in other pages
+ */
+
 export const COLORS = {
   primary: "#65388E",
   secodary: "#65388E",

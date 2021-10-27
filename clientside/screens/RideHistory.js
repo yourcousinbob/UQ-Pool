@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
+import {StyleSheet,Text,View, Image,ImageBackground, FlatList} from 'react-native';
 import BackButton from '../components/BackButton';
 
+/**
+ * App's Ride History Page
+ */
 export default class History extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             data: [
-                /*can only get images to work with links, not through assets folder */
                 {id:1,
                 startingLocation:"1 Underhill Street, St Luciaaaaaaa" + "\n", 
                 endingLocation:"2 Underhill Street, St Luciaaaaaaaaaaaaaaaaaaaaa  ",
@@ -23,61 +25,58 @@ export default class History extends Component {
 
 
 
-  render() {
-    return (
-        
-        <View style={styles.container}>
-            <BackButton/>
-            <View style={styles.container2}>
-                <ImageBackground 
-                    style={styles.bImage}
-                    source={require('../assets/historyBack.png')}>  
-                        <Text style={styles.textTitle}>Ride History</Text>
-                </ImageBackground>
-            </View>   
+    render() {
+        return (
+            <View style={styles.container}>
+                <BackButton/>
+                <View style={styles.container2}>
+                    <ImageBackground 
+                        style={styles.bImage}
+                        source={require('../assets/historyBack.png')}>  
+                            <Text style={styles.textTitle}>Ride History</Text>
+                    </ImageBackground>
+                </View>   
 
-            <FlatList style={styles2.list, styles.container3}
-                data={this.state.data}
-                contentContainerStyle={styles2.listContainer}
-                numColumns={1}
-                horizontal={false}
+                <FlatList style={styles2.list, styles.container3}
+                    data={this.state.data}
+                    contentContainerStyle={styles2.listContainer}
+                    numColumns={1}
+                    horizontal={false}
 
-                keyExtractor= {(item) => {
-                    return item.id;
-                }}
-                /*Padding between rows */
-                ItemSeparatorComponent={() => {
-                    return (
-                <View style={styles2.verticalSeparator}/>
-                )
-                }}
+                    keyExtractor= {(item) => {
+                        return item.id;
+                    }}
+                    /*Padding between rows */
+                    ItemSeparatorComponent={() => {
+                        return (
+                            <View style={styles2.verticalSeparator}/>
+                    )
+                    }}
 
-                renderItem={(post) => {
-                    const item = post.item;
-                    return (
-                        <View style={styles2.items}>
-               
-                            <View style={styles2.itemHead}>
-                                <View>
-                                    <Image style={styles2.linebreakImg} source={require("../assets/linebreak.png")}/>
-                                    {item.cancelled == true ? <Text style={styles2.cancelledText}>Cancelled</Text>:null}
-                                    <Text style={styles2.dateText}>{item.date}</Text>
-                                    <Text style={styles2.cancelledText}>{item.cancelled}</Text>
-                                    <Image style={styles2.dotArrow} source={require("../assets/dotArrow.png")}/>
-                                    <Text style={styles2.startingTimeText}>{item.startingTime}</Text>
-                                    <Text style={styles2.endingTimeText}>{item.endingTime}</Text>
-                                    <Text style={styles2.startLocationText}>{item.startingLocation} </Text>
-                                    <Text style={styles2.endLocationText}>{item.endingLocation}</Text>
-                    
+                    renderItem={(post) => {
+                        const item = post.item;
+                        return (
+                            <View style={styles2.items}>
+                                <View style={styles2.itemHead}>
+                                    <View>
+                                        <Image style={styles2.linebreakImg} source={require("../assets/linebreak.png")}/>
+                                        {item.cancelled == true ? <Text style={styles2.cancelledText}>Cancelled</Text>:null}
+                                        <Text style={styles2.dateText}>{item.date}</Text>
+                                        <Text style={styles2.cancelledText}>{item.cancelled}</Text>
+                                        <Image style={styles2.dotArrow} source={require("../assets/dotArrow.png")}/>
+                                        <Text style={styles2.startingTimeText}>{item.startingTime}</Text>
+                                        <Text style={styles2.endingTimeText}>{item.endingTime}</Text>
+                                        <Text style={styles2.startLocationText}>{item.startingLocation} </Text>
+                                        <Text style={styles2.endLocationText}>{item.endingLocation}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    )
-                }}/>
-        </View>    
-    );
-  }
-
+                        )
+                    }}
+                />
+            </View>    
+        );
+    }
 }
 
 /*Style sheet 1 */

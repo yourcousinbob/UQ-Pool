@@ -13,10 +13,10 @@ export class SampleSocketIOComponent extends Component {
         super(props);
         this.state = {
            username: ""
-
         };
      }
 
+    //setting up the ability to load data from an endpoint
     componentDidMount() {
         this.socket = io("http://127.0.0.1:7777");
     }
@@ -49,4 +49,5 @@ export class SampleSocketIOComponent extends Component {
     }
 }
 
+//allows us to import this to other pages
 export default SampleSocketIOComponent

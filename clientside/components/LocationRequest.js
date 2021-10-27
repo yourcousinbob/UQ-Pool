@@ -10,7 +10,7 @@ https://itnext.io/react-native-background-location-tracking-without-timeout-and-
 
 import { PermissionsAndroid } from 'react-native';
 
-//request the permission before starting the service.
+//request location permission before starting the service.
 const backgroundgranted = await PermissionsAndroid.request(
   PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION,
   {
@@ -24,5 +24,5 @@ const backgroundgranted = await PermissionsAndroid.request(
   },
 );
 if (backgroundgranted === PermissionsAndroid.RESULTS.GRANTED) {
-  //do your thing!
+  //continue
 }

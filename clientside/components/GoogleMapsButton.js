@@ -2,20 +2,16 @@ import React, { useState } from "react";
 import {
 	StyleSheet,
 	Text,
-	View,
 	TouchableOpacity,
 	Dimensions,
-	TextInput,
 	Linking,
 } from "react-native";
-import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
-import { Icon } from "react-native-elements";
-import SessionOptions from "./SessionOptions";
-import { useNavigation } from "@react-navigation/core";
 
-
-
+/**
+ * Opens google maps integration
+ * automatically centred on UQ campus
+ */
 const GoogleMapsButton = () => {
 
 	function openGoogleMaps() {
@@ -38,8 +34,10 @@ const GoogleMapsButton = () => {
 	);
 };
 
+//allows us to import to other pages
 export default GoogleMapsButton;
 
+//stylesheet
 const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: "white",

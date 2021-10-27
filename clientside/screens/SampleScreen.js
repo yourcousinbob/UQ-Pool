@@ -12,18 +12,15 @@
 import React from 'react'
 import { StyleSheet, View, Image} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import SampleButton from '../components/Samples/SampleButton';
-import { getDrivers } from '../screens/RiderScreen'
+
  
- const SampleScreen = () => {     
-     return (
-       
-         <SafeAreaView> 
-         {/* SafeAreaView prevents content from going into the notch of a phone*/}
+const SampleScreen = () => {     
+    return (
+        /* SafeAreaView prevents content from going into the notch of a phone*/
+        <SafeAreaView> 
             {/* Pages are usually contained in a view */}
             <View>  
-
                 {/* I've add an image here */}
                 <Image 
                     style={styles.image}
@@ -31,26 +28,22 @@ import { getDrivers } from '../screens/RiderScreen'
                         require('../assets/logo.png')
                     }
                 />
-
                 {/* Here I have imported a sample component */}
                 <SampleButton/>
-
-
             </View>
-         </SafeAreaView>
-         
-         
-     )
- }
- 
- export default SampleScreen // You need this so you can use SampleScreen in other files
- 
+        </SafeAreaView>
+    )
+}
+
+export default SampleScreen 
+// You need this so you can use SampleScreen in other files
+
 // Apply styles to your components, similiar to CSS 
 const styles = StyleSheet.create({
-     image: {
+    image: {
         width: 200, 
         height: 100, 
         resizeMode: 'contain'
-     },
- })
- 
+    },
+})
+

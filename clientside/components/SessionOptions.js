@@ -1,40 +1,20 @@
 import React, { useRef, useEffect } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  Image,
-} from "react-native";
+import {FlatList,StyleSheet,View} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import {
-  BOX,
-  FONT_SIZE,
-  box,
-  LINE,
-  cantPress,
-  COLORS,
-} from "../stylesheets/theme";
+import {FONT_SIZE,box,LINE,cantPress,COLORS} from "../stylesheets/theme";
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDestination,
-  selectOrigin,
-  setDestination,
-  setOrigin,
-  setStatus,
+
+import {selectDestination,selectOrigin,setDestination,setOrigin,setStatus,
 } from "../slices/sessionSlice";
-import {
-  selectSID
-} from "../slices/userSlice";
+import {selectSID} from "../slices/userSlice";
 import SocketConnection from '../socket.js';
-import DriverListModal from "./DriverListModal";
 import { UserStatus } from "../enums/UserStatus";
 import DriverListModalButton from "./DriverListModal";
 import BecomeDriverModalButton from "./BecomeDriverModalButton";
 
+/**User frontend options */
 const options = [
   {
     id: "rider",
@@ -181,8 +161,10 @@ const SessionOptions = () => {
   );
 };
 
+//allows us to import to other pages
 export default SessionOptions;
 
+//stylesheet
 const styles = StyleSheet.create({
   font: {
     fontSize: FONT_SIZE.text,

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserStatus } from "../enums/UserStatus";
 
+//initialising
 const initialState = {
     origin: null,
     destination: null,
@@ -11,6 +12,7 @@ const initialState = {
     chatMessages: []
 }
 
+//slice
 export const sessionSlice = createSlice({
     name: "session", 
     initialState,
@@ -51,4 +53,5 @@ export const selectDriver = (state) => state.session.driver;
 export const selectStatus = (state) => state.session.status;
 export const selectChatMessages = (state) => state.session.chatMessages;
 
+//allows us to import to other pages
 export default sessionSlice.reducer;

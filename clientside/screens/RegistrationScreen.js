@@ -1,20 +1,21 @@
 import React, { Component } from "react";
+import { COLORS, BOX } from "../stylesheets/theme";
+import ValidatedTextInput from "../components/ValidatedTextInput";
+import BackButton from "../components/BackButton";
+import { RegistrationFailureAlert, RegisrationSuccessfulAlert, RegistrationSuccessfulAlert,
+} from "../components/alerts/RegistrationAlert";
 import {
 	StyleSheet,
 	View,
 	Image,
-	SafeAreaView,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-import { COLORS, BOX } from "../stylesheets/theme";
-import { useNavigation } from "@react-navigation/core";
-import ValidatedTextInput from "../components/ValidatedTextInput";
-import { RegistrationFailureAlert, RegisrationSuccessfulAlert, RegistrationSuccessfulAlert } from "../components/alerts/RegistrationAlert";
-import BackButton from "../components/BackButton";
 
+/**
+ * App's registration screen
+ */
 export class RegistrationScreen extends Component {
 	constructor(props) {
 		super(props);
@@ -95,6 +96,7 @@ export class RegistrationScreen extends Component {
 		}
 	}
 
+	//render frontend components
 	render() {
 		return (
 			<View
@@ -221,8 +223,10 @@ export class RegistrationScreen extends Component {
 	}
 }
 
+//allows us to import to other pages
 export default RegistrationScreen;
 
+//stylesheet
 const styles = StyleSheet.create({
 	input: {
 		backgroundColor: "white",

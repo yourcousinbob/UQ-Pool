@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'; //required to move to another page
 
 /**
- * This is a sample button which takes you to another page. 
+ * This is a sample button which takes you to home page. 
  * 
  * To render this component on a page, you must add 
  *  ' <ReturnHomeButton/> ' to the page and ensure it has been imported like below 
@@ -22,8 +22,10 @@ const ReturnHomeButton = ( {/* Here you can add input variables and use them in 
     )
 }
 
+//allows us to import to other pages
 export default ReturnHomeButton
 
+//stylesheet
 const styles = StyleSheet.create({
     button: {
         width: 40,

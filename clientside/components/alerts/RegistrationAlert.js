@@ -12,10 +12,10 @@ export const RegistrationFailureAlert = () =>
 
 /* Alert for a successful registration attempt */
 export const RegistrationSuccessfulAlert = () =>
-Alert.alert(
-    "Registration has been successful",
-    "Welcome to UQPool!",
-[
-    { text: "Ok"},
-]
+    Alert.alert(
+        "Registration has been successful",
+        "Welcome to UQPool!",
+    [
+        { text: "Ok"},
+    ]
 );

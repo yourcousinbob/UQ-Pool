@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Bubble, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import BackButton from '../components/BackButton';
@@ -10,6 +9,9 @@ import { selectFirst, selectLast, selectSID } from '../slices/userSlice';
 import SocketConnection from '../socket';
 import { COLORS } from "../stylesheets/theme"
 
+/**
+ * App's Chat Screen
+ */
 const ChatScreen = () => {
     const dispatch = useDispatch()
     const [messages, setMessages] = useState([]);
@@ -19,6 +21,11 @@ const ChatScreen = () => {
     let name = useSelector(selectFirst) + ' '  + useSelector(selectLast)
     connection = SocketConnection.getConnection();
 
+    /**
+     * Action of getting a message
+     * @param {String} messages messages sent in a chat
+     * @param {any} dispatch dispatch method
+     */
     async function getMessage(messages, dispatch) {
 		let new_message = await connection.recievePayload('sendMessage')
         if  (!(new_message == null)){
@@ -29,8 +36,13 @@ const ChatScreen = () => {
         }
 	}
 
+    /**
+     * Action of sending a message
+     * @param {String} sid UQ student ID
+     * @param {Int} driver_id Unique driver ID
+     * @param {String} message message sent
+     */
     function sendMessage(sid, driver_id, message) {
-
         let data = ({
             sid: sid,
             driver_id: driver_id,
@@ -39,11 +51,13 @@ const ChatScreen = () => {
         connection.sendPayload("sendMessage", data)
     }
 
+    //run these functions
     useEffect(() => {
         setMessages(message_log)
         getMessage(messages, dispatch)
     }, [])
 
+    //render frontend element
     const renderInputToolbar = (props) => {
         return (
             <InputToolbar{...props}
@@ -52,6 +66,8 @@ const ChatScreen = () => {
             </InputToolbar>
         )
     }
+
+    //render frontend element
     const renderSend = (props) => {
         return (
             <Send {...props}>
@@ -66,6 +82,7 @@ const ChatScreen = () => {
         )
     }
 
+    //render frontend element
     const renderBubble = (props) => {
         return (
             <Bubble
@@ -115,8 +132,10 @@ const ChatScreen = () => {
     );
 };
 
+//allows us to import to other pages
 export default ChatScreen;
 
+//stylesheet
 const styles = StyleSheet.create({
     container: {
         flex: 1,

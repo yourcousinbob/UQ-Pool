@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+import BackButton from "../components/BackButton";
+import { selectTokens } from "../slices/userSlice";
+import { selectSID } from "../slices/userSlice";
+import { box, BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import {
 	Dimensions,
 	StyleSheet,
@@ -7,17 +13,10 @@ import {
 	FlatList,
 	Image,
 	TouchableOpacity,
-	SectionList,
 	Alert,
-	ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
-import BackButton from "../components/BackButton";
-import { selectTokens } from "../slices/userSlice";
-import { selectSID } from "../slices/userSlice";
-import { box, BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 
+//action when clicking redeem button
 const Redeem = () => {
 	Alert.alert(
 		"Success",
@@ -26,6 +25,7 @@ const Redeem = () => {
 	/*Display a random qr/bar code image, with a button saying finished HERE*/
 };
 
+//rendering rewards frontend
 const RewardsHeader = () => {
 	const points = useSelector(selectTokens)
 	const sid = useSelector(selectSID)	
@@ -56,10 +56,9 @@ const RewardsHeader = () => {
 	);
 };
 
+//retreiving rewards from backend values
 const RewardScreen = () => {
 	const [rewards, setRewards] = useState(null);
-
-
 	useEffect(() => {
 		const getRewards = async () => {
 			try {
@@ -81,6 +80,7 @@ const RewardScreen = () => {
 		getRewards();
 	}, []);
 
+	//render frontend components
 	return (
 		<View style={{ backgroundColor: COLORS.primary, height: "100%" }}>
 			<BackButton />
@@ -112,8 +112,10 @@ const RewardScreen = () => {
 	);
 };
 
+//allows us to import to other screens
 export default RewardScreen;
 
+//stylesheet
 const styles = StyleSheet.create({
 	header: {
 		backgroundColor: "white",

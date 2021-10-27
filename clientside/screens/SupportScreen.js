@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
 import BackButton from '../components/BackButton';
 
-
+/**
+ * App's Support Page
+ */
 export default class Help extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -20,27 +19,24 @@ export default class Help extends Component {
     };
   }
 
-  
+  //on button press
   Redeem = () => {
     Alert.alert('Success', 'Hi')
     /**/
     
   }
 
+  //render front end components
   render() {
     return (
-      
-       
-
-
       <View style={styles.container}>
         <BackButton/>
-         <View style = {styles.container2}>
-                <ImageBackground 
-                    style={styles.bImage}
-                    source={require('../assets/helpBackground.png')}>  
-                        <Text style={styles.textTitle}>Get Help</Text>
-                </ImageBackground>
+        <View style = {styles.container2}>
+            <ImageBackground 
+                style={styles.bImage}
+                source={require('../assets/helpBackground.png')}>  
+                    <Text style={styles.textTitle}>Get Help</Text>
+            </ImageBackground>
         </View>   
         
         <FlatList style={styles.list}
@@ -62,33 +58,29 @@ export default class Help extends Component {
             const item = post.item;
             return (
               <View style={styles.items}>
-               
-               <View style={styles.itemHead}>
-                  <View>
-                    <Text style={styles.title}>{item.title}</Text>
-                    
+                  <View style={styles.itemHead}>
+                      <View>
+                        <Text style={styles.title}>{item.title}</Text>
+                      </View>
                   </View>
-                </View>
-                
-                <View style={styles.itemFooter}>
-                  <View style={styles.barContainer}>
-                    <View style={styles.barSection}>
-                      <TouchableOpacity style={styles.barButton} onPress={() => this.Redeem()}>
-                        <Image style={styles.shoppingIcon} source={require('../assets/arrow.png')}/>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <View style={styles.itemFooter}>
+                      <View style={styles.barContainer}>
+                          <View style={styles.barSection}>
+                              <TouchableOpacity style={styles.barButton} onPress={() => this.Redeem()}>
+                                  <Image style={styles.shoppingIcon} source={require('../assets/arrow.png')}/>
+                              </TouchableOpacity>
+                          </View>
+                      </View>
                 </View>
               </View>
             )
           }}/>
       </View>
-
     );
   }
 }
 
-
+//stylesheet
 const styles = StyleSheet.create({
   //used to square backButton
   container:{
@@ -157,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 6,
   },
   
-   bImage: {
+  bImage: {
     width: 400, 
     height: 100, 
     resizeMode: 'contain',
@@ -174,6 +166,4 @@ textTitle:{
     textAlign:'center',
     marginTop:-100
 },
-
 });  
- 

@@ -9,6 +9,9 @@ import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import ChatScreen from "../screens/ChatScreen";
 
+/**
+ * Authentifaction screen/s navigation options
+ */
 export default function AuthNavigator() {
 	const Stack = createNativeStackNavigator();
 	const authentication_token = useSelector(selectAuthentication);
@@ -16,6 +19,7 @@ export default function AuthNavigator() {
 		<Stack.Navigator>
 			{authentication_token == null ? (
 				<>
+					{/*Display Login screen first */}
 					<Stack.Screen
 						name="LoginScreen"
 						component={LoginScreen}

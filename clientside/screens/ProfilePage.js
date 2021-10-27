@@ -1,34 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
-import SampleButton from '../components/Samples/SampleButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import { selectFirst, selectLast } from '../slices/userSlice';
 import BackButton from '../components/BackButton';
-import { useNavigation } from "@react-navigation/native";
 
-
+/**
+ * App's Profile Page
+ */
 export default function ProfilePage() {
-  
-  const data = [
+    const data = [
         {id:1, title: "Member Since         ", Text:"2021"},
         {id:2, title: "UQ Degree               ", Text:"Bachelor of Science"} ,
         {id:3, title: "Distance Travelled ", Text:"6943434343" + " km"}, 
-      ];
-  
+    ];
   const name = useSelector(selectFirst) + " " + useSelector(selectLast);
   
   return (
-    <SafeAreaView style={styles.container}>
-        <BackButton/>
-        <View style={styles.container2}>
+      <SafeAreaView style={styles.container}>
+          <BackButton/>
+          <View style={styles.container2}>
               <ImageBackground 
                   style={styles.bImage}
                   source={require('../assets/riderBack.png')}>  
                       <Text style={styles.nameTitle}>{name}</Text>
               </ImageBackground>
 
-            
             <TouchableOpacity style={styles.phoneButton} onPress={()=>{alert("you clicked me")}}>
               <Image source={require("../assets/phone.png")}/>
             </TouchableOpacity>
@@ -37,58 +34,50 @@ export default function ProfilePage() {
               <Image source={require("../assets/dots.png")}/>
             </TouchableOpacity>
 
-            
             <Image style={styles.starImage} source={require("../assets/star.png")}/>
             <Text style={styles.ratingText} >4.20</Text> 
-      </View>   
+          </View>   
 
-      
-      
-      <FlatList style={styles.list, styles.container3}
-        data={data}
-        contentContainerStyle={styles.listContainer}
-        numColumns={1}
-        horizontal={false}
+          <FlatList style={styles.list, styles.container3}
+              data={data}
+              contentContainerStyle={styles.listContainer}
+              numColumns={1}
+              horizontal={false}
 
-        keyExtractor= {(item) => {
-          return item.id;
-        }}
-        /*Padding between rows */
-        ItemSeparatorComponent={() => {
-          return (
-            <View style={styles.verticalSeparator}/>
-          )
-        }}
-        renderItem={(post) => {
-          const item = post.item;
-          return (
-            <View style={styles.items}>
+              keyExtractor= {(item) => {
+              return item.id;
+              }}
+            /*Seperator */
+              ItemSeparatorComponent={() => {
+                return (
+                    <View style={styles.verticalSeparator}/>
+                )
+              }}
+              renderItem={(post) => {
+              const item = post.item;
+              return (
+                  <View style={styles.items}>
+                      <View style={styles.itemHead}>
+                          <View>
+                              <Text style={styles.title}>{item.title}</Text>
+                              <Text style={styles.itemBody}>{item.Text}</Text>
+                          </View>
+                      </View>
               
-              <View style={styles.itemHead}>
-                <View>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.itemBody}>{item.Text}</Text>
-                  
-                </View>
-              </View>
-              
-              <View style={styles.itemFooter}>
-                <View style={styles.barContainer}>
-                  <View style={styles.barSection}>
+                      <View style={styles.itemFooter}>
+                          <View style={styles.barContainer}>
+                              <View style={styles.barSection}>
+                              </View>
+                          </View>
+                      </View>
                   </View>
-                </View>
-              </View>
-            </View>
-          )
-        }}/>
-    </SafeAreaView>
-
-    
-
+              )
+              }}/>
+        </SafeAreaView>
   );
 }
 
-
+//stylesheet
 const styles = StyleSheet.create({
   //had to change margin to 0 to accommodate backButton
   container:{

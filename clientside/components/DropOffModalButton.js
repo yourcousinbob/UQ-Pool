@@ -11,12 +11,18 @@ import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import { Icon } from "react-native-elements";
 import SessionOptions from "./SessionOptions";
 
+/**
+ * Creates a drop off button
+ */
 const DropOffModalButton = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const toggleModal = () => {
 		setModalVisible(!isModalVisible);
 	};
 
+	/**
+	 * Frontend drop off interface
+	 */
 	function DropOffModal() {
 		return (
 			<View>
@@ -53,8 +59,10 @@ const DropOffModalButton = () => {
 	);
 };
 
+//allows us to import to other pages
 export default DropOffModalButton;
 
+//stylesheet
 const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: "white",

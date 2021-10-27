@@ -1,20 +1,21 @@
 import React, { Component } from "react";
+import { COLORS, BOX } from "../stylesheets/theme";
+import ValidatedTextInput from "../components/ValidatedTextInput";
+import { connect } from "react-redux";
+import { selectSID } from "../slices/userSlice";
+import BackButton from "../components/BackButton";
 import {
 	StyleSheet,
 	View,
 	Image,
-	SafeAreaView,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-import { COLORS, BOX } from "../stylesheets/theme";
-import ValidatedTextInput from "../components/ValidatedTextInput";
-import { MapStateToProps, connect, useSelector } from "react-redux";
-import { selectSID } from "../slices/userSlice";
-import BackButton from "../components/BackButton";
 
+/**Become Driver Screen backend requests,
+ * frontend design and data
+*/
 class BecomeDriverScreen extends Component {
 	constructor(props) {
 		super(props);
@@ -32,6 +33,7 @@ class BecomeDriverScreen extends Component {
     */
 	componentDidMount() {}
 
+	//register driver actions
 	async registerDriver() {
 		// Check that all fields are valid
 		if (
@@ -52,7 +54,6 @@ class BecomeDriverScreen extends Component {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					// not sure if we need the stringify tbh
 					sid: this.props.sid,
 					registration: this.state.registration,
                     capacity: this.state.capacity
@@ -144,9 +145,10 @@ class BecomeDriverScreen extends Component {
 function mapStateToProps(state) { 
 	return { sid: selectSID(state) }
 }
-
+//allows us to import to other pages
 export default connect(mapStateToProps, null)(BecomeDriverScreen);
 
+//stylesheet
 const styles = StyleSheet.create({
 	input: {
 		backgroundColor: "white",

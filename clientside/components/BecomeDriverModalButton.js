@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { BOX, COLORS, FONT_SIZE, box } from "../stylesheets/theme";
 import { Icon } from "react-native-elements";
-import { FlatList } from "react-native-gesture-handler";
-import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOrigin, selectDestination, setStatus } from "../slices/sessionSlice";
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
-
+/**
+ * Registers the user as a driver in the backend,
+ * by pressing this button.
+ */
 const BecomeDriverModalButton = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const toggleModal = () => {
@@ -25,6 +26,15 @@ const BecomeDriverModalButton = () => {
     const registration = "ABC444";
     const capacity = 2;
 
+    /**
+     * Adds to the driver list in the backend
+     * @param {string} sid UQ student ID
+     * @param {string} location current driver location address
+     * @param {string} destination driver destination address
+     * @param {string} registration drivers car registration
+     * @param {int} capacity capacity of car
+     * @param {any} dispatch dispatch function
+     */
     async function becomeDriver(sid, location, destination, registration, capacity, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
@@ -40,6 +50,11 @@ const BecomeDriverModalButton = () => {
         dispatch(setStatus(UserStatus.WaitingForRider));
     };
 
+    /**
+     * Removes driver from list in backend
+     * @param {string} sid UQ student ID
+     * @param {any} dispatch dispatch function
+     */
     async function removeDriver(sid, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
@@ -50,8 +65,12 @@ const BecomeDriverModalButton = () => {
         dispatch(setStatus(UserStatus.Waiting));
     }
 
+    /**
+     * Function that allows the user to 
+     * set themselves as a driver and wait
+     * in a queue for riders
+     */
     function BecomeDriverModal() {
-        
         return (
             <View>
                 <Modal
@@ -74,14 +93,12 @@ const BecomeDriverModalButton = () => {
                         >
                             <Text style ={styles.sessionButtonsText}>Click to join the active drivers queue and be assigned a rider</Text>
                         </TouchableOpacity>
-
                         <TouchableOpacity 
                             onPress={() => removeDriver(sid, dispatch)}
                             style={styles.sessionButtons}
                         >
                             <Text style ={styles.sessionButtonsText}>Exit the queue</Text>
                         </TouchableOpacity>
-
                     </View>
                 </Modal>
             </View>
@@ -98,8 +115,10 @@ const BecomeDriverModalButton = () => {
 	);
 }
 
+//allows us to import to other pages
 export default BecomeDriverModalButton;
 
+//styling of components
 const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: "white",
