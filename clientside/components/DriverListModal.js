@@ -11,6 +11,7 @@ import { selectOrigin, selectDestination, setStatus , setDriver, selectDriver} f
 import { selectSID } from "../slices/userSlice";
 import SocketConnection from '../socket.js';
 
+
 let driver_list = [
     {
         first_name: "Bob",
@@ -20,6 +21,7 @@ let driver_list = [
         image: "http://media.e2save.com/images/community/2015/02/Crazy-Frog.jpg",
         location:"",
         desination:"",
+        eta:1
     },
 ];
 
@@ -34,7 +36,6 @@ const DriverListModalButton = () => {
     const origin = useSelector(selectOrigin);
     const sid = useSelector(selectSID);
 
-    //testing
     async function getDrivers(sid, location, destination, dispatch) {
 
         connection = SocketConnection.getConnection();
@@ -51,15 +52,16 @@ const DriverListModalButton = () => {
         dispatch(setStatus(UserStatus.WaitingForDriver));
     };
 
-    async function requestDriver(sid, driver_id, origin, destination, dispatch) {
+    async function requestDriver(sid, driver, origin, destination, dispatch) {
         connection = SocketConnection.getConnection();
         let data = ({
             sid: sid,
-            driver_id: driver_id,
+            driver_id: driver.driver_id,
             origin: origin.description,
             destination: destination.description
         })
         connection.sendPayload("request", data)
+        dispatch(setDriver(driver))
     };
 
     function DriverListModal() {
@@ -101,7 +103,7 @@ const DriverListModalButton = () => {
                                 return (
                                     <View style={styles.driver}>
                                         <View>
-                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item.driver_id, origin, destination, dispatch)}>
+                                            <TouchableOpacity style={styles.driverRequestButton} onPress={() => requestDriver(sid, item, origin, destination, dispatch)}>
                                                 <Text style={styles.driverName}>{item.first_name} {item.last_name}</Text>
                                                 <Image style={styles.driverImage} source={{uri:item.image}}/> 
                                                 <Text style={styles.driverName}>Location: {item.location}</Text>
@@ -121,6 +123,7 @@ const DriverListModalButton = () => {
     }
 
     return (
+
 		<TouchableOpacity style={[box.base, styles.sessionButtons]} onPress={() => getDrivers(sid, origin, destination, dispatch)}>
 			<Text style={styles.sessionButtonsText}>
 				Be A Rider

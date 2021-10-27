@@ -20,14 +20,13 @@ export default function Map() {
 	const location = useSelector(selectLocation);
 	const mapRef = useRef(null);
 
-	useEffect(() => {
-		if (location) {
-			setLatitude(location.coords.latitude);
-			setLongitude(location.coords.longitude);
-			animateMap();
-		}
-	}, [location]);
 
+ 	useEffect(() => {
+        if (location) {
+		    setLatitude(location.coords.latitude);
+		    setLongitude(location.coords.longitude);
+    	}
+    }, [origin, destination, location]);
 	const animateMap = () => {
 		mapRef.current.animateToRegion(
 			{

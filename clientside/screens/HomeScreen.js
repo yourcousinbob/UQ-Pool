@@ -21,14 +21,20 @@ import RiderRequestModel from "../components/RiderRequestModal";
 
 import ChatButton from "../components/ChatButton";
 import GoogleMapsButton from "../components/GoogleMapsButton";
-import Map from "../components/Map";
+
+import EndTripButton from "../components/EndTripButton"
+import Map from '../components/Map'
 
 import { UserStatus } from "../enums/UserStatus";
 import { selectFirst, selectSID } from "../slices/userSlice";
 
 export default function HomeScreen() {
-	const userStatus = useSelector(selectStatus);
-	connection = SocketConnection.getConnection();
+	const [latitude, setLatitude] = useState(-27.497);
+	const [longitude, setLongitude] = useState(153.0134);
+	const latitudeDelta = 0.005;
+	const longitudeDelta = 0.005;
+	const userStatus = useSelector(selectStatus)
+	connection = SocketConnection.getConnection()
 	const name = useSelector(selectFirst);
 
 	var TripMenu =
@@ -36,6 +42,7 @@ export default function HomeScreen() {
 			<View style={styles.bubble}>
 				<ChatButton />
 				<GoogleMapsButton />
+        <EndTripButton/>
 				<Text>On a Ride</Text>
 			</View>
 		) : (
@@ -52,6 +59,7 @@ export default function HomeScreen() {
 				<DropOffModalButton />
 			</View>
 		);
+
 	const sid = useSelector(selectSID);
 	const dispatch = useDispatch();
 	const driver = useSelector(selectDriver);
