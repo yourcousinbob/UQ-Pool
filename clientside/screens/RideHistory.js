@@ -12,12 +12,12 @@ export default class History extends Component {
         this.state = {
             data: [
                 {id:1,
-                startingLocation:"1 Underhill Street, St Luciaaaaaaa" + "\n", 
-                endingLocation:"2 Underhill Street, St Luciaaaaaaaaaaaaaaaaaaaaa  ",
+                startingLocation:"1 Underhill Street, St Lucia" + "\n", 
+                endingLocation:"2 Underhill Street, St Lucia",
                 startingTime:"12:38", endingTime:"14:28", date:"07/10/2021", cancelled:true},
                 {id:2,
-                startingLocation:"3 Underhill Street, St Luciaaaaaaa" + "\n", 
-                endingLocation:"4 Underhill Street, St Luciaaaaaaaaaaaaaaaaaaaaa  ",
+                startingLocation:"3 Underhill Street, St Lucia" + "\n", 
+                endingLocation:"4 Underhill Street, St Lucia",
                 startingTime:"14:38", endingTime:"16:28", date:"08/10/2021", cancelled: false},
             ]
         };

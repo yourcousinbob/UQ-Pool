@@ -8,6 +8,8 @@ import HomeScreenNavigator from "./HomeScreenNavigator";
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import ChatScreen from "../screens/ChatScreen";
+import RateTripScreen from '../screens/RateTripScreen';
+
 
 /**
  * Authentifaction screen/s navigation options
@@ -41,6 +43,11 @@ export default function AuthNavigator() {
 					<Stack.Screen
 						name="Chat"
 						component={ChatScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="Rate"
+						component={RateTripScreen}
 						options={{ headerShown: false }}
 					/>
 				</>

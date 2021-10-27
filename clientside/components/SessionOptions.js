@@ -20,7 +20,6 @@ const options = [
     id: "rider",
     title: "Be a rider",
     button: DriverListModalButton,
-    // onPress: () => getDrivers(sid, origin, destination, dispatch,
   },
   {
     id: "driver",
@@ -28,43 +27,6 @@ const options = [
     button: BecomeDriverModalButton,
   },
 ];
-
-//testing
-async function getDrivers(sid, location, destination, dispatch) {
-    console.log(sid);
-    console.log(location);
-    console.log(destination);
-    connection = SocketConnection.getConnection();
-    let data = ({
-        sid: sid,
-        location: location.description,
-        destination: destination.description
-    });
-    connection.sendPayload('request', data);
-    driver_list = connection.recievePayload('request');
-    dispatch(setStatus(UserStatus.WaitingForDriver));
-};
-
-//testing
-// driver_id, destination, location, registration, capacity
-async function addDriver(sid, location, destination, registration, capacity, dispatch) {
-  console.log(sid);
-  console.log(location);
-  console.log(destination);
-  console.log(registration);
-  console.log(capacity);
-  connection = SocketConnection.getConnection();
-  let data = ({
-      sid: sid,
-      location: location.description,
-      destination: destination.description,
-      registration: registration,
-      capacity: capacity
-  });
-  connection.sendPayload('add', data);
-  driver_list = connection.recievePayload('add');
-  dispatch(setStatus(UserStatus.WaitingForRider));
-};
 
 const SessionOptions = () => {
   Location.installWebGeolocationPolyfill();

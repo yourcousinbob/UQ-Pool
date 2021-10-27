@@ -11,7 +11,7 @@ export default class RideDetails extends Component {
         this.state = {
             data: [
                 {id:1, title: "James Robins" , rating: "4.20",
-                startingLocation:"1 Underhill Street, St Luciaaaaaaa" + "\n", endingLocation:"2 Underhill Street, St Luciaaaaaaaaaaaaaaaaaaaaa  ",
+                startingLocation:"1 Underhill Street, St Lucia, Queensland" + "\n", endingLocation:"2 Underhill Street, St Lucia, Queensland",
                 startingTime:"12:38", endingTime:"14:28", 
                 avatar:"https://i.gyazo.com/04338e95abcdeafd86c9d5450dbefcea.png"},
             ]

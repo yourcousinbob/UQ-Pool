@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import Modal from "react-native-modal";
-import { BOX, COLORS } from "../stylesheets/theme";
+import { BOX, COLORS, FONT_SIZE } from "../stylesheets/theme";
 import { Image } from "react-native-elements/dist/image/Image";
 import { UserStatus } from "../enums/UserStatus";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,18 +89,18 @@ const RiderRequestModel = (props) => {
                     <View style={styles.driver}>
                         <Image style={styles.driverImage} source={{uri:rider_image}}/> 
                         <Text style={styles.driverName}>{rider_first_name} {rider_last_name}</Text>
-                        <Text style={{}}>Location: {rider_origin}</Text>
-                        <Text style={{}}>Destination: {rider_destination} {rider_last_name}</Text>
+                        <Text style={styles.origin}>Location: {rider_origin}</Text>
+                        <Text style={styles.destination}>Destination: {rider_destination}</Text>
 
                     </View>
                     <View style={styles.options}>
                         <TouchableOpacity style={styles.button}
                         onPress={() => acceptRider(sid, origin, destination, rider_id, rider_origin, rider_destination, dispatch)}>
-                            <Text style={{}}>Accept</Text>
+                            <Text style={styles.optionsText}>Accept</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button}
                         onPress={() => rejectRider(sid, rider_id, dispatch)}>
-                            <Text style={{}}>Reject</Text>
+                            <Text style={styles.optionsText}>Reject</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -114,20 +114,33 @@ export default RiderRequestModel;
 
 const styles = StyleSheet.create({
 	driver:{
-        height: "50%",
-        width: "100%",
-        flexDirection: "row",
+        bottom: "0%",
+        height: "20%",
+        width: "80%",
+        left: "10%",
     },
 
     driverName:{
+        position:"absolute",
+        top: "20%",
         fontWeight: "bold",
         
     },
 
     driverImage:{
-        position: "relative",
-        height: 80,
-        width: 80,
+        position: "absolute",
+        borderRadius: 40,
+        overflow: 'hidden'
+    },
+
+    origin:{
+        top:"70%",
+        borderRadius: 40,
+        overflow: 'hidden'
+    },
+
+    destination:{
+        top:"100%",
         borderRadius: 40,
         overflow: 'hidden'
     },
@@ -150,8 +163,15 @@ const styles = StyleSheet.create({
 
     options: {
         flexDirection: "row",
+        top: "20%",
+        left:"20%",
         height: "50%",
         width: "100%",
+    },
+
+    optionsText: {
+        fontSize: FONT_SIZE.text,
+        color: "white",
     },
 
     button: {
