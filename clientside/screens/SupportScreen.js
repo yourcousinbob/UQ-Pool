@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {StyleSheet,Text,View, TouchableOpacity, Image, Alert, ImageBackground, FlatList} from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BackButton from '../components/BackButton';
 
 
 export default class Help extends Component {
@@ -33,7 +34,8 @@ export default class Help extends Component {
 
 
       <View style={styles.container}>
-         <View>
+        <BackButton/>
+         <View style = {styles.container2}>
                 <ImageBackground 
                     style={styles.bImage}
                     source={require('../assets/helpBackground.png')}>  
@@ -88,10 +90,17 @@ export default class Help extends Component {
 
 
 const styles = StyleSheet.create({
+  //used to square backButton
   container:{
     flex:1,
-    marginTop:300,
+    marginTop:0,
   },
+  //container for all other elements
+  container2:{
+    flex:1,
+    marginTop:140,
+  },
+
   /* padding between card and edge of screen */
   list: {
     paddingHorizontal: 6,

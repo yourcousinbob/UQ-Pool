@@ -24,34 +24,55 @@ class SocketConnection {
     }
 
     recievePayload(message) {
-        this.socket.on(message, (body) => {
-            let data = JSON.parse(body)
+        return new Promise( resolve => {
+            this.socket.on(message, (body) => {
+                let data = JSON.parse(body)
 
-            switch(message){
+                switch(message){
 
-            case "login":
-                console.log(data.log)
+                    case "login":
+                        console.log(data.log)
+                        break
 
-            case "logout":
-                console.log(data.msg)
+                    case "logout":
+                        console.log(data.msg)
+                        break
 
-            case "location":
+                    case "location":
+                        break
 
-            case "get":
-                console.log(data.drivers)
+                    case "get":
+                        resolve(data)
+                        break
 
-            case "cancel":
+                    case "cancel":
+                        break
 
-            case "accept":
+                    case "accept":
+                        break
 
-            case "reject":
+                    case "reject":
+                        break
 
-            case "add":
-                console.log(data.msg)
+                    case "add":
+                        console.log(data.msg)
+                        break
+                    
+                    case "ask":
+                        resolve(data)
+                        break;
+                    case "removeDriver":
+                        console.log(data.msg)
+                        break
+                    case "join":
+                        resolve(data)
+                        break
 
-            case "removeDriver":
-                console.log(data.msg)
-            }
+                    case "sendMessage":
+                        resolve(data)
+                        break
+                }
+            })
         });
     } 
 

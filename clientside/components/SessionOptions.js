@@ -39,52 +39,14 @@ const options = [
   {
     id: "rider",
     title: "Be a rider",
-    onPress: () => console.log("be a rider"),
-    // onPress: () => getDrivers(sid, origin, destination, dispatch,
+    button: DriverListModalButton,
   },
   {
     id: "driver",
     title: "Be a driver",
-    onPress: () => console.log("be a driver"),
+    button: BecomeDriverModalButton,
   },
 ];
-
-//testing
-async function getDrivers(sid, location, destination, dispatch) {
-    console.log(sid);
-    console.log(location);
-    console.log(destination);
-    connection = SocketConnection.getConnection();
-    let data = ({
-        sid: sid,
-        location: location.description,
-        destination: destination.description
-    });
-    connection.sendPayload('request', data);
-    driver_list = connection.recievePayload('request');
-    dispatch(setStatus(UserStatus.WaitingForDriver));
-};
-
-//testing
-// driver_id, destination, location, registration, capacity
-async function addDriver(sid, location, destination, registration, capacity, dispatch) {
-  console.log(sid);
-  console.log(location);
-  console.log(destination);
-  console.log(registration);
-  console.log(capacity);
-  connection = SocketConnection.getConnection();
-  let data = ({
-      sid: sid,
-      location: location.description,
-      destination: destination.description,
-      registration: registration,
-      capacity: capacity
-  });
-  connection.sendPayload('add', data);
-  driver_list = connection.recievePayload('add');
-  dispatch(setStatus(UserStatus.WaitingForRider));
-};
 
 const SessionOptions = () => {
   Location.installWebGeolocationPolyfill();
@@ -173,18 +135,10 @@ const SessionOptions = () => {
           horizontal
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[box.base, styles.sessionButtons]}
-                onPress={item.onPress}
-                >
-              <View>
-                <Text style={styles.sessionButtonsText}>{item.title}</Text>
-              </View>
-            </TouchableOpacity>
+            <item.button/>
           )}
         />
       </View>
-      <DriverListModalButton/>
-      <BecomeDriverModalButton/>
     </View>
   );
 };

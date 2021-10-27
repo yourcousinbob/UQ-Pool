@@ -1,12 +1,13 @@
-DROP TABLE activeDriver;
-DROP TABLE destination;
-DROP TABLE history;
-DROP TABLE rating;
-DROP TABLE route;
-DROP TABLE vehicles;
-DROP TABLE userRewards;
-DROP TABLE rewards;
-DROP TABLE user;
+DROP TABLE IF EXISTS activeDriver;
+DROP TABLE IF EXISTS destination;
+DROP TABLE IF EXISTS history;
+DROP TABLE IF EXISTS rating;
+DROP TABLE IF EXISTS route;
+DROP TABLE IF EXISTS vehicles;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS rewards;
+DROP TABLE IF EXISTS userRewards;
+DROP TABLE IF EXISTS timeTable;
 
 CREATE TABLE user (
 sid varchar(8) NOT NULL UNIQUE,
@@ -72,7 +73,6 @@ FOREIGN KEY (route_id) REFERENCES route(route_id) ON DELETE CASCADE);
 CREATE TABLE rewards (
 reward_id varchar(10) NOT NULL UNIQUE,
 cost varchar(10),
-vendor varchar(100),
 description varchar(100),
 image varchar(100));
 
@@ -83,6 +83,14 @@ quantity varchar(10),
 FOREIGN KEY (sid) REFERENCES rewards(reward_id) ON DELETE CASCADE,
 FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
+CREATE TABLE timeTable (
+sid varchar(8) NOT NULL,
+tid INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+location varchar(100) NOT NULL,
+name varchar(30) NOT NULL,
+start DATETIME,
+end DATETIME,
+FOREIGN KEY (sid) REFERENCES user(sid) ON DELETE CASCADE);
 
 INSERT INTO user (sid, first_name, last_name, email, password, auth_token, phone, bio, image, tokens) VALUES(
 43211157,

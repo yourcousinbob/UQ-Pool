@@ -7,6 +7,9 @@ import HomeScreenNavigator from "./HomeScreenNavigator";
 /* Screens */
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
+import ChatScreen from "../screens/ChatScreen";
+import RateTripScreen from '../screens/RateTripScreen';
+
 
 export default function AuthNavigator() {
 	const Stack = createNativeStackNavigator();
@@ -31,6 +34,16 @@ export default function AuthNavigator() {
 					<Stack.Screen
 						name="Root"
 						component={HomeScreenNavigator}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="Chat"
+						component={ChatScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="Rate"
+						component={RateTripScreen}
 						options={{ headerShown: false }}
 					/>
 				</>

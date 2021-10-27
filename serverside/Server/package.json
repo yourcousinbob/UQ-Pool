@@ -1,4 +1,9 @@
 {
+  "main": "index.mjs",
+    "scripts": {
+      "start": "node index.mjs"
+    },
+
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
