@@ -35,7 +35,7 @@ export default class Help extends Component {
 
       <View style={styles.container}>
         <BackButton/>
-         <View>
+         <View style = {styles.container2}>
                 <ImageBackground 
                     style={styles.bImage}
                     source={require('../assets/helpBackground.png')}>  
@@ -90,10 +90,17 @@ export default class Help extends Component {
 
 
 const styles = StyleSheet.create({
+  //used to square backButton
   container:{
     flex:1,
-    marginTop:300,
+    marginTop:0,
   },
+  //container for all other elements
+  container2:{
+    flex:1,
+    marginTop:140,
+  },
+
   /* padding between card and edge of screen */
   list: {
     paddingHorizontal: 6,

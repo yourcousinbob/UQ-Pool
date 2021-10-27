@@ -102,55 +102,72 @@ export class LoginScreen extends Component {
   render() {
 
     return (
-        <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
-            <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
-                <View style={{height: "55%", width: "100%", padding: 20}}>
-                    <Image
-                        style={{
-                            resizeMode: 'contain',
-                            height: "90%",
-                            width: "100%"
-                        }}
-                        source={
-                            require('../assets/loginPicture.png')
-                        }
-                    />
-                </View>
-               
-                <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
-                    <ValidatedTextInput
-                        style={styles.input}
-                        onChangeText={sid => {this.setState({sid})}}
-                        placeholder="Student ID"
-                        value={this.state.sid}
-                        //pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
-                        //pattern={'^(s|uq)\d{7}$'}
-                        pattern={'^[0-9]{8}$'}
-                        onValidation={validSid => this.setState({validSid})}
-                    />
-                    
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={password => {this.setState({password})}}
-                        placeholder="Password"
-                        value={this.state.password}
-                        secureTextEntry={true}
-                    />
-                    <TouchableOpacity 
-                        onPress={() => this.loginUser()}
-                        style={styles.button}
-                    >
-                        <Text
-                            style={styles.buttonText}
-                        >
-	    		Login
-                        </Text>
-                    </TouchableOpacity>
-                    <RegistrationButton/>
-                    </View>
-             </View>
-        </View>
-    );
+			<View style={{ backgroundColor: COLORS.primary, height: "100%" }}>
+				<View
+					style={{ display: "flex", flexDirection: "column", paddingTop: 50 }}
+				>
+					<View style={{ height: "40%", width: "100%", padding: 20 }}>
+						<Image
+							style={{
+								resizeMode: "contain",
+								height: "100%",
+								width: "100%",
+							}}
+							source={require("../assets/stacked_logo.png")}
+						/>
+					</View>
+
+					<View
+						style={{
+							height: "60%",
+							width: "100%",
+							backgroundColor: "white",
+							borderTopStartRadius: 20,
+							borderTopEndRadius: 20,
+							paddingVertical: 25,
+						}}
+					>
+						<Image
+							style={{
+								resizeMode: "contain",
+								height: "30%",
+								width: "100%",
+							}}
+							source={require("../assets/UQ_Auth.png")}
+						/>
+						<ValidatedTextInput
+							style={styles.input}
+							onChangeText={(sid) => {
+								this.setState({ sid });
+							}}
+							placeholder='UQ Username'
+							value={this.state.sid}
+							//pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
+							//pattern={'^(s|uq)\d{7}$'}
+							pattern={"^[0-9]{8}$"}
+							onValidation={(validSid) => this.setState({ validSid })}
+						/>
+
+						<TextInput
+							style={styles.input}
+							onChangeText={(password) => {
+								this.setState({ password });
+							}}
+							placeholder='Password'
+							value={this.state.password}
+							secureTextEntry={true}
+						/>
+						<TouchableOpacity
+							onPress={() => this.loginUser()}
+							style={styles.button}
+						>
+							<Text style={styles.buttonText}>Login</Text>
+						</TouchableOpacity>
+						<RegistrationButton />
+					</View>
+				</View>
+			</View>
+		);
 }};
 
 const mapDispatchToProps = (dispatch) => {

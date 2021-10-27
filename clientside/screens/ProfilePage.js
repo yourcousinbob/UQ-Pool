@@ -5,10 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import { selectFirst, selectLast } from '../slices/userSlice';
 import BackButton from '../components/BackButton';
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function ProfilePage() {
-
-
+  
   const data = [
         {id:1, title: "Member Since         ", Text:"2021"},
         {id:2, title: "UQ Degree               ", Text:"Bachelor of Science"} ,
@@ -17,26 +18,17 @@ export default function ProfilePage() {
   
   const name = useSelector(selectFirst) + " " + useSelector(selectLast);
   
-
-  
-  const Redeem = () => {
-    Alert.alert('Success', 'Hi')
-    /**/
-    
-  }
-
-  
   return (
-    <View style={styles.container}>
-			<BackButton />
-        <View>
+    <SafeAreaView style={styles.container}>
+        <BackButton/>
+        <View style={styles.container2}>
               <ImageBackground 
                   style={styles.bImage}
                   source={require('../assets/riderBack.png')}>  
                       <Text style={styles.nameTitle}>{name}</Text>
               </ImageBackground>
 
-    
+            
             <TouchableOpacity style={styles.phoneButton} onPress={()=>{alert("you clicked me")}}>
               <Image source={require("../assets/phone.png")}/>
             </TouchableOpacity>
@@ -52,7 +44,7 @@ export default function ProfilePage() {
 
       
       
-      <FlatList style={styles.list}
+      <FlatList style={styles.list, styles.container3}
         data={data}
         contentContainerStyle={styles.listContainer}
         numColumns={1}
@@ -76,6 +68,7 @@ export default function ProfilePage() {
                 <View>
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.itemBody}>{item.Text}</Text>
+                  
                 </View>
               </View>
               
@@ -88,17 +81,32 @@ export default function ProfilePage() {
             </View>
           )
         }}/>
-    </View>
+    </SafeAreaView>
+
+    
 
   );
-  
 }
 
 
 const styles = StyleSheet.create({
+  //had to change margin to 0 to accommodate backButton
   container:{
     flex:1,
-    marginTop:350,
+    marginTop:0,
+    position:'relative', top:1
+  },
+
+  //bIMG, and other assets
+  container2:{
+    flex:1,
+    position:'absolute', top:400
+  },
+
+  //lists container
+  container3:{
+    flex:1,
+    position:'relative', top:250, left:45
   },
   /* padding between card and edge of screen */
   list: {
@@ -106,7 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor:"#f3f2f2",
   },
   listContainer:{
-    alignItems:'center'
+    alignItems:'center',
+    position:'absolute',top:100
   },
   
   /****** item box design**********/
@@ -152,6 +161,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     justifyContent:'center',
     position:'absolute',bottom:190,left:50,
+    flex:1
     
 },
 
@@ -162,20 +172,8 @@ nameTitle:{
     lineHeight:100,
     fontWeight: "bold",
     textAlign:'center',
-    marginTop:280
+    marginTop:280,
 },
-
-/* uncommented as not needed anymore
-helpButton:{
-    backgroundColor: "purple",
-        borderRadius: 5, 
-        height: 50,
-        width: 100,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position:'relative',left:150, bottom:60,
-}, */
 
 phoneButton:{
   width: 40,
@@ -199,7 +197,29 @@ ratingText:{
   fontWeight:'bold',
   position:'absolute', left:190, top:-97
 
-}
+},
+
+backContainer:{
+    position: "absolute",
+		top: -270,
+		left: 0,
+		zIndex: 9999,
+},
+
+back:{
+    width: 40,
+		height: 40,
+		borderRadius: 50 / 2,
+		margin: 20,
+		backgroundColor: "white",
+		justifyContent: "center",
+		alignItems: "center",
+		shadowOffset: { height: 3 },
+		shadowOpacity: 0.4,
+		shadowRadius: 8,
+		shadowColor: "gray",
+		elevation: 5,
+},
 
 
 });  
