@@ -28,11 +28,11 @@ Project Uses Directions, Places, Geocoding and Distance Matrix APIs enabled.
 
 ## How to run ##
 ### Front End ###
-cd into the UQ-Pool/clientside directory and run ```yarn install``` to install any dependencies.
-cd into the UQ-Pool/clientside directory and run ```yarn start``` from your terminal and scan the QR code on your phone.
+cd into the UQ-Pool/clientside directory and run ```yarn install``` to install any dependencies.<br />
+cd into the UQ-Pool/clientside directory and run ```yarn start``` from your terminal and scan the QR code on your phone.<br />
 ### Back End ###
-cd into the UQ-Pool/serverside/Server directory and run ```yarn install``` to install any dependencies.
-cd into the UQ-Pool/serverside/Server directory and run ```node index.mjs```
+cd into the UQ-Pool/serverside/Server directory and run ```yarn install``` to install any dependencies.<br />
+cd into the UQ-Pool/serverside/Server directory and run ```node index.mjs```. <br />
 leave the server running. (Note it is currently setup to access ports for an
 external server ports 7777 you will have to change to run locally.)
 
