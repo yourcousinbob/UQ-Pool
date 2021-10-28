@@ -1,197 +1,213 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+	StyleSheet,
+	View,
+	Image,
+	SafeAreaView,
+	Text,
+	TextInput,
+	TouchableOpacity,
+} from "react-native";
 import { COLORS, BOX } from "../stylesheets/theme";
 import ValidatedTextInput from "../components/ValidatedTextInput";
-import { connect } from "react-redux";
+import {
+	useDispatch,
+	MapDispatchToProps,
+	connect,
+	useSelector,
+} from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { setAuthentication, setFirst, setLast, setEmail, setPhone, setSID, setTokens } from "../slices/userSlice";
+import userSlice, {
+	selectAuthentication,
+	setAuthentication,
+	setFirst,
+	setLast,
+	setEmail,
+	setPhone,
+	setSID,
+	setTokens,
+} from "../slices/userSlice";
 import SocketConnection from "../socket.js";
 import { LoginFailureAlert } from "../components/alerts/LoginAlert";
 
-/**
- * Registration button actions
- */
 function RegistrationButton() {
-    const navigation = useNavigation();
-    return (
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("RegistrationScreen")}
-        style={styles.button}
-    >
-        <Text
-            style={styles.buttonText}
-        >
-            Sign Up
-        </Text>
-    </TouchableOpacity>
-    );
+	const navigation = useNavigation();
+
+	return (
+		<TouchableOpacity
+			onPress={() => navigation.navigate("RegistrationScreen")}
+			style={styles.button}
+		>
+			<Text style={styles.buttonText}>Sign Up</Text>
+		</TouchableOpacity>
+	);
 }
 
-/**
- * App's login screen 
- */
 export class LoginScreen extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			sid: "",
+			password: "",
+			validSid: false,
+			token: null,
+			socket: null,
+		};
+	}
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            sid: "",
-            password: "",
-            validSid: false,
-            token: null,
-            socket: null
-        };
-    }
-
-    /* This section should check that registration was previously successful from the user slice.
+	/* This section should check that registration was previously successful from the user slice.
     If so, don't render and just go straight to initial page
     else render    
     */
-    componentDidMount() {}
 
-    //actions of logging in
-    //checking if all fields are correct
-    async loginUser() {
-        // Check that all fields are valid
-        if (!(this.state.validSid)) {
-            console.log("Invalid Student ID Format");
-            return
-        }
+	componentDidMount() {}
 
-        try {
-            const response = await fetch('https://uqpool.xyz:7777/login', {
-                method: 'POST',
-                headers: {
-                    accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ // not sure if we need the stringify tbh
-                    sid: this.state.sid,
-                    password: this.state.password
-                })
-            });
- 
-            const json = await response.json();
+	async loginUser() {
+		// Check that all fields are valid
+		if (!this.state.validSid) {
+			console.log("Invalid Student ID Format");
+			return;
+		}
 
-            if (json.msg =="Successful Login") {      
-                //store login details from server
-                this.props.setAuthentication(json.auth_token);
-                this.props.setLast(json.last_name);
-                this.props.setEmail(json.email);
-                this.props.setPhone(json.phone);
-                this.props.setFirst(json.first_name);
-                this.props.setSID(json.sid);
-                this.props.setTokens(json.tokens)
-                connection = SocketConnection.getConnection()
-                connection.sendPayload('login', {sid: json.sid})
-                connection.recievePayload('login', () => {})
-                
-            } else {
-                console.log(json.msg);
-                LoginFailureAlert()
-                // Switch to the initial state of the app
-            }
+		try {
+			const response = await fetch("https://uqpool.xyz:7777/login", {
+				method: "POST",
+				headers: {
+					accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					// not sure if we need the stringify tbh
+					sid: this.state.sid,
+					password: this.state.password,
+				}),
+			});
 
-            //error handling
-        } 
-        catch (error) {
-            console.log("Caught Error")
-            console.log(error);  
-        } 
-        finally {
-            // Just in case this is required
-        }
-    }
+			const json = await response.json();
 
-//render frontend elements
-    render() {
+			if (json.msg == "Successful Login") {
+				//store login details from server
+				this.props.setAuthentication(json.auth_token);
+				this.props.setLast(json.last_name);
+				this.props.setEmail(json.email);
+				this.props.setPhone(json.phone);
+				this.props.setFirst(json.first_name);
+				this.props.setSID(json.sid);
+				this.props.setTokens(json.tokens);
+				connection = SocketConnection.getConnection();
+				connection.sendPayload("login", { sid: json.sid });
+				connection.recievePayload("login", () => {});
+			} else {
+				console.log(json.msg);
+				LoginFailureAlert();
+				// Switch to the initial state of the app
+			}
+		} catch (error) {
+			console.log("Caught Error");
+			console.log(error);
+		} finally {
+			// Just in case this is required
+		}
+	}
 
-        return (
-            <View style={{backgroundColor: COLORS.primary,height: "100%"}}>
-                <View style={{display:'flex', flexDirection: 'column', paddingTop: 50}}>
-                    <View style={{height: "55%", width: "100%", padding: 20}}>
-                        <Image
-                            style={{
-                                resizeMode: 'contain',
-                                height: "90%",
-                                width: "100%"
-                            }}
-                            source={
-                                require('../assets/loginPicture.png')
-                            }
-                        />
-                    </View>
-                    <View style={{height: "45%", width: "100%", backgroundColor: "white", borderTopStartRadius: 20,  borderTopEndRadius: 20, paddingVertical: 25}}>
-                        <ValidatedTextInput
-                            style={styles.input}
-                            onChangeText={sid => {this.setState({sid})}}
-                            placeholder="Student ID"
-                            value={this.state.sid}
-                            //pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
-                            //pattern={'^(s|uq)\d{7}$'}
-                            pattern={'^[0-9]{8}$'}
-                            onValidation={validSid => this.setState({validSid})}
-                        />
-                    
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={password => {this.setState({password})}}
-                            placeholder="Password"
-                            value={this.state.password}
-                            secureTextEntry={true}
-                        />
-                        <TouchableOpacity 
-                            onPress={() => this.loginUser()}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>
-	    		            Login
-                            </Text>
-                        </TouchableOpacity>
-                        <RegistrationButton/>
-                    </View>
-                </View>
-            </View>
-        );
-    }};
+	render() {
+		return (
+			<View style={{ backgroundColor: COLORS.primary, height: "100%" }}>
+				<View
+					style={{ display: "flex", flexDirection: "column", paddingTop: 50 }}
+				>
+					<View style={{ height: "40%", width: "100%", padding: 20 }}>
+						<Image
+							style={{
+								resizeMode: "contain",
+								height: "100%",
+								width: "100%",
+							}}
+							source={require("../assets/stacked_logo.png")}
+						/>
+					</View>
 
-//dispatching details
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setAuthentication: (authentication_token) =>
-            dispatch(setAuthentication(authentication_token)),
+					<View
+						style={{
+							height: "60%",
+							width: "100%",
+							backgroundColor: "white",
+							borderTopStartRadius: 20,
+							borderTopEndRadius: 20,
+							paddingVertical: 25,
+						}}
+					>
+						<Image
+							style={{
+								resizeMode: "contain",
+								height: "30%",
+								width: "100%",
+							}}
+							source={require("../assets/UQ_Auth.png")}
+						/>
+						<ValidatedTextInput
+							style={styles.input}
+							onChangeText={(sid) => {
+								this.setState({ sid });
+							}}
+							placeholder='UQ Username'
+							value={this.state.sid}
+							//pattern={'^[a-zA-Z0-9.]+@uq.edu.au|[a-zA-Z0-9.]+@uqconnect.edu.au'}
+							//pattern={'^(s|uq)\d{7}$'}
+							pattern={"^[0-9]{8}$"}
+							onValidation={(validSid) => this.setState({ validSid })}
+						/>
 
-        setSID: (sid) =>
-            dispatch(setSID(sid)),
-
-        setFirst: (first_name) =>
-            dispatch(setFirst(first_name)),
-
-        setLast: (last_name) =>
-            dispatch(setLast(last_name)),
-
-        setPhone: (phone) =>
-            dispatch(setPhone(phone)),
-
-        setEmail: (email) =>
-            dispatch(setEmail(email)),
-
-        setTokens: (tokens) =>
-            dispatch(setTokens(tokens)),
-    };
-};
-
-
-function mapStateToProps(state) {
-    return { 
-        authentication_token: state.user.authentication_token
-    }
+						<TextInput
+							style={styles.input}
+							onChangeText={(password) => {
+								this.setState({ password });
+							}}
+							placeholder='Password'
+							value={this.state.password}
+							secureTextEntry={true}
+						/>
+						<TouchableOpacity
+							onPress={() => this.loginUser()}
+							style={styles.button}
+						>
+							<Text style={styles.buttonText}>Login</Text>
+						</TouchableOpacity>
+						<RegistrationButton />
+					</View>
+				</View>
+			</View>
+		);
+	}
 }
 
-//allows us to import to other pages
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setAuthentication: (authentication_token) =>
+			dispatch(setAuthentication(authentication_token)),
 
-//stylesheet
+		setSID: (sid) => dispatch(setSID(sid)),
+
+		setFirst: (first_name) => dispatch(setFirst(first_name)),
+
+		setLast: (last_name) => dispatch(setLast(last_name)),
+
+		setPhone: (phone) => dispatch(setPhone(phone)),
+
+		setEmail: (email) => dispatch(setEmail(email)),
+
+		setTokens: (tokens) => dispatch(setTokens(tokens)),
+	};
+};
+
+function mapStateToProps(state) {
+	return {
+		authentication_token: state.user.authentication_token,
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+  
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
